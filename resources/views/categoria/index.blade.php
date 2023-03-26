@@ -3,10 +3,34 @@
 @section('title','categorías')
 
 @push('css')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
 @endpush
 
 @section('content')
+
+@if (session('success'))
+<script>
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        didOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+
+    Toast.fire({
+        icon: 'success',
+        title: 'Operación exitosa'
+    })
+</script>
+@endif
+
+
 <div class="container-fluid px-4">
     <h1 class="mt-4 text-center">Categorías</h1>
     <ol class="breadcrumb mb-4">
@@ -15,7 +39,7 @@
     </ol>
 
     <div class="mb-4">
-        <a href="">
+        <a href="{{route('categorias.create')}}">
             <button type="button" class="btn btn-primary">Añadir nuevo registro</button>
         </a>
     </div>
