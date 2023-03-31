@@ -54,31 +54,32 @@
             <table id="datatablesSimple" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Position</th>
-                        <th>Office</th>
-                        <th>Age</th>
-                        <th>Start date</th>
-                        <th>Salary</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
+                    @foreach ($categorias as $categoria)
                     <tr>
-                        <td>Tiger Nixon</td>
-                        <td>System Architect</td>
-                        <td>Edinburgh</td>
-                        <td>61</td>
-                        <td>2011/04/25</td>
-                        <td>$320,800</td>
+                        <td>
+                            {{$categoria->caracteristica->nombre}}
+                        </td>
+                        <td>
+                            {{$categoria->caracteristica->descripcion}}
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+
+                                <form action="{{route('categorias.edit',['categoria'=>$categoria])}}" method="get">
+                                    <button type="submit" class="btn btn-warning">Editar</button>
+                                </form>
+
+                                <button type="button" class="btn btn-danger">Eliminar</button>
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td>Donna Snider</td>
-                        <td>Customer Support</td>
-                        <td>New York</td>
-                        <td>27</td>
-                        <td>2011/01/25</td>
-                        <td>$112,000</td>
-                    </tr>
+                    @endforeach
                 </tbody>
             </table>
         </div>
