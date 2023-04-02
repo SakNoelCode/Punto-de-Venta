@@ -7,7 +7,6 @@ use App\Http\Requests\UpdateCategoriaRequest;
 use App\Models\Caracteristica;
 use App\Models\Categoria;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class categoriaController extends Controller
@@ -17,7 +16,7 @@ class categoriaController extends Controller
      */
     public function index()
     {
-        $categorias = Categoria::with('caracteristica')->latest('updated_at')->get();
+        $categorias = Categoria::with('caracteristica')->latest()->get();
 
         return view('categoria.index', ['categorias' => $categorias]);
     }
@@ -70,10 +69,10 @@ class categoriaController extends Controller
      */
     public function update(UpdateCategoriaRequest $request, Categoria $categoria)
     {
-        Caracteristica::where('id',$categoria->caracteristica->id)
-        ->update($request->validated());
+        Caracteristica::where('id', $categoria->caracteristica->id)
+            ->update($request->validated());
 
-        return redirect()->route('categorias.index')->with('success','Categoría editada');
+        return redirect()->route('categorias.index')->with('success', 'Categoría editada');
     }
 
     /**
@@ -81,6 +80,22 @@ class categoriaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $message = '';
+        $categoria = Categoria::find($id);
+        if ($categoria->caracteristica->estado == 1) {
+            Caracteristica::where('id', $categoria->caracteristica->id)
+                ->update([
+                    'estado' => 0
+                ]);
+            $message = 'Categoría eliminada';
+        } else {
+            Caracteristica::where('id', $categoria->caracteristica->id)
+                ->update([
+                    'estado' => 1
+                ]);
+            $message = 'Categoría restaurada';
+        }
+
+        return redirect()->route('categorias.index')->with('success', $message);
     }
 }
