@@ -3,22 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCaracteristicaRequest;
-use App\Http\Requests\UpdateCategoriaRequest;
+use App\Http\Requests\UpdateMarcaRequest;
 use App\Models\Caracteristica;
-use App\Models\Categoria;
+use App\Models\Marca;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class categoriaController extends Controller
+class marcaController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $categorias = Categoria::with('caracteristica')->latest()->get();
-
-        return view('categoria.index', ['categorias' => $categorias]);
+        $marcas = Marca::with('caracteristica')->latest()->get();
+        return view('marca.index',compact('marcas'));
     }
 
     /**
@@ -26,7 +25,7 @@ class categoriaController extends Controller
      */
     public function create()
     {
-        return view('categoria.create');
+        return view('marca.create');
     }
 
     /**
@@ -37,7 +36,7 @@ class categoriaController extends Controller
         try {
             DB::beginTransaction();
             $caracteristica = Caracteristica::create($request->validated());
-            $caracteristica->categoria()->create([
+            $caracteristica->marca()->create([
                 'caracteristica_id' => $caracteristica->id
             ]);
             DB::commit();
@@ -45,7 +44,7 @@ class categoriaController extends Controller
             DB::rollBack();
         }
 
-        return redirect()->route('categorias.index')->with('success', 'Categoría registrada');
+        return redirect()->route('marcas.index')->with('success', 'Marca registrada');
     }
 
     /**
@@ -59,20 +58,20 @@ class categoriaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Categoria $categoria)
+    public function edit(Marca $marca)
     {
-        return view('categoria.edit', ['categoria' => $categoria]);
+        return view('marca.edit',compact('marca'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategoriaRequest $request, Categoria $categoria)
+    public function update(UpdateMarcaRequest $request, Marca $marca)
     {
-        Caracteristica::where('id', $categoria->caracteristica->id)
+        Caracteristica::where('id', $marca->caracteristica->id)
             ->update($request->validated());
 
-        return redirect()->route('categorias.index')->with('success', 'Categoría editada');
+        return redirect()->route('marcas.index')->with('success', 'Marca editada');
     }
 
     /**
@@ -81,21 +80,21 @@ class categoriaController extends Controller
     public function destroy(string $id)
     {
         $message = '';
-        $categoria = Categoria::find($id);
-        if ($categoria->caracteristica->estado == 1) {
-            Caracteristica::where('id', $categoria->caracteristica->id)
+        $marca = Marca::find($id);
+        if ($marca->caracteristica->estado == 1) {
+            Caracteristica::where('id', $marca->caracteristica->id)
                 ->update([
                     'estado' => 0
                 ]);
-            $message = 'Categoría eliminada';
+            $message = 'Marca eliminada';
         } else {
-            Caracteristica::where('id', $categoria->caracteristica->id)
+            Caracteristica::where('id', $marca->caracteristica->id)
                 ->update([
                     'estado' => 1
                 ]);
-            $message = 'Categoría restaurada';
+            $message = 'Marca restaurada';
         }
 
-        return redirect()->route('categorias.index')->with('success', $message);
+        return redirect()->route('marcas.index')->with('success', $message);
     }
 }

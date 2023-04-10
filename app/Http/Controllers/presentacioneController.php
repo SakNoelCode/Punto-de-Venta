@@ -3,22 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCaracteristicaRequest;
-use App\Http\Requests\UpdateCategoriaRequest;
+use App\Http\Requests\UpdatePresentacioneRequest;
 use App\Models\Caracteristica;
-use App\Models\Categoria;
+use App\Models\Presentacione;
 use Exception;
 use Illuminate\Support\Facades\DB;
 
-class categoriaController extends Controller
+class presentacioneController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $categorias = Categoria::with('caracteristica')->latest()->get();
-
-        return view('categoria.index', ['categorias' => $categorias]);
+        $presentaciones = Presentacione::with('caracteristica')->latest()->get();
+        return view('presentacione.index', compact('presentaciones'));
     }
 
     /**
@@ -26,7 +25,7 @@ class categoriaController extends Controller
      */
     public function create()
     {
-        return view('categoria.create');
+        return view('presentacione.create');
     }
 
     /**
@@ -37,7 +36,7 @@ class categoriaController extends Controller
         try {
             DB::beginTransaction();
             $caracteristica = Caracteristica::create($request->validated());
-            $caracteristica->categoria()->create([
+            $caracteristica->presentacione()->create([
                 'caracteristica_id' => $caracteristica->id
             ]);
             DB::commit();
@@ -45,7 +44,7 @@ class categoriaController extends Controller
             DB::rollBack();
         }
 
-        return redirect()->route('categorias.index')->with('success', 'Categoría registrada');
+        return redirect()->route('presentaciones.index')->with('success', 'Presentación registrada');
     }
 
     /**
@@ -59,20 +58,20 @@ class categoriaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Categoria $categoria)
+    public function edit(Presentacione $presentacione)
     {
-        return view('categoria.edit', ['categoria' => $categoria]);
+        return view('presentacione.edit',compact('presentacione'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategoriaRequest $request, Categoria $categoria)
+    public function update(UpdatePresentacioneRequest $request, Presentacione $presentacione)
     {
-        Caracteristica::where('id', $categoria->caracteristica->id)
+        Caracteristica::where('id', $presentacione->caracteristica->id)
             ->update($request->validated());
 
-        return redirect()->route('categorias.index')->with('success', 'Categoría editada');
+        return redirect()->route('presentaciones.index')->with('success', 'Presentación editada');
     }
 
     /**
@@ -81,21 +80,21 @@ class categoriaController extends Controller
     public function destroy(string $id)
     {
         $message = '';
-        $categoria = Categoria::find($id);
-        if ($categoria->caracteristica->estado == 1) {
-            Caracteristica::where('id', $categoria->caracteristica->id)
+        $presentacione = Presentacione::find($id);
+        if ($presentacione->caracteristica->estado == 1) {
+            Caracteristica::where('id', $presentacione->caracteristica->id)
                 ->update([
                     'estado' => 0
                 ]);
-            $message = 'Categoría eliminada';
+            $message = 'Presentación eliminada';
         } else {
-            Caracteristica::where('id', $categoria->caracteristica->id)
+            Caracteristica::where('id', $presentacione->caracteristica->id)
                 ->update([
                     'estado' => 1
                 ]);
-            $message = 'Categoría restaurada';
+            $message = 'Presentación restaurada';
         }
 
-        return redirect()->route('categorias.index')->with('success', $message);
+        return redirect()->route('presentaciones.index')->with('success', $message);
     }
 }
