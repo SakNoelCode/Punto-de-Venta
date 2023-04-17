@@ -55,7 +55,7 @@ class ProductoController extends Controller
             //Tabla producto
             $producto = new Producto();
             if ($request->hasFile('img_path')) {
-                $name = $producto->hanbleUploadImage($request->file('img_path'));
+                $name = $producto->handleUploadImage($request->file('img_path'));
             } else {
                 $name = null;
             }
