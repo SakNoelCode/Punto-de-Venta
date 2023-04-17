@@ -9,25 +9,49 @@ class Producto extends Model
 {
     use HasFactory;
 
-    public function compras(){
+    protected $fillable = [
+        'codigo',
+        'nombre',
+        'descripcion',
+        'fecha_vencimiento',
+        'marca_id',
+        'presentacione_id',
+        'img_path'
+    ];
+
+    public function compras()
+    {
         return $this->belongsToMany(Compra::class)->withTimestamps()
-        ->withPivot('cantidad','precio_compra','precio_venta');
+            ->withPivot('cantidad', 'precio_compra', 'precio_venta');
     }
 
-    public function ventas(){
+    public function ventas()
+    {
         return $this->belongsToMany(Venta::class)->withTimestamps()
-        ->withPivot('cantidad','precio_venta','descuento');
+            ->withPivot('cantidad', 'precio_venta', 'descuento');
     }
 
-    public function categorias(){
+    public function categorias()
+    {
         return $this->belongsToMany(Categoria::class)->withTimestamps();
     }
 
-    public function marca(){
+    public function marca()
+    {
         return $this->belongsTo(Marca::class);
     }
-    
-    public function presentacione(){
+
+    public function presentacione()
+    {
         return $this->belongsTo(Presentacione::class);
+    }
+
+    public function hanbleUploadImage($image)
+    {
+        $file = $image;
+        $name = time() . $file->getClientOriginalName();
+        $file->move(public_path() . '/img/productos/', $name);
+
+        return $name;
     }
 }

@@ -66,6 +66,10 @@
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-bullhorn"></i></div>
                     Marcas
                 </a>
+                <a class="nav-link" href="{{ route('productos.index') }}">
+                    <div class="sb-nav-link-icon"><i class="fa-brands fa-shopify"></i></div>
+                    Productos
+                </a>
             </div>
         </div>
         <div class="sb-sidenav-footer">
