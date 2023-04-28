@@ -18,7 +18,9 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        return view('producto.index');
+        $productos = Producto::with(['categorias.caracteristica','marca.caracteristica','presentacione.caracteristica'])->latest()->get();
+    
+        return view('producto.index',compact('productos'));
     }
 
     /**
@@ -75,15 +77,14 @@ class ProductoController extends Controller
             //Tabla categoría producto
             $categorias = $request->get('categorias');
             $producto->categorias()->attach($categorias);
-           
 
-            DB::commit();            
+
+            DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
         }
 
         return redirect()->route('productos.index')->with('success', 'Producto registrado');
-
     }
 
     /**
