@@ -103,7 +103,11 @@
                         </td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <button type="button" class="btn btn-warning">Editar</button>
+
+                                <form action="{{route('productos.edit',['producto' => $item])}}" method="get">
+                                    <button type="submit" class="btn btn-warning">Editar</button>
+                                </form>
+
 
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#verModal-{{$item->id}}">Ver</button>
 
@@ -130,14 +134,14 @@
                                     <div class="row mb-3">
                                         <label><span class="fw-bolder">Stock: </span>{{$item->stock}}</label>
                                     </div>
-                                    <div  class="row mb-3">
+                                    <div class="row mb-3">
                                         <label class="fw-bolder">Imagen:</label>
                                         <div>
                                             @if ($item->img_path != null)
-                                                <img src="{{ Storage::url('public/productos/'.$item->img_path) }}" alt="{{$item->nombre}}" class="img-fluid img-thumbnail border border-4 rounded">
+                                            <img src="{{ Storage::url('public/productos/'.$item->img_path) }}" alt="{{$item->nombre}}" class="img-fluid img-thumbnail border border-4 rounded">
                                             @else
-                                                <img src="" alt="{{$item->nombre}}">
-                                            @endif 
+                                            <img src="" alt="{{$item->nombre}}">
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

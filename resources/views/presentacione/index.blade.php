@@ -11,7 +11,6 @@
 
 @if (session('success'))
 <script>
-
     let message = "{{ session('success') }}";
     const Toast = Swal.mixin({
         toast: true,
@@ -71,9 +70,9 @@
                         </td>
                         <td>
                             @if ($item->caracteristica->estado == 1)
-                                <span class="fw-bolder p-1 rounded bg-success text-white">Activo</span>
+                            <span class="fw-bolder p-1 rounded bg-success text-white">Activo</span>
                             @else
-                                <span class="fw-bolder p-1 rounded bg-danger text-white">Eliminado</span>
+                            <span class="fw-bolder p-1 rounded bg-danger text-white">Eliminado</span>
                             @endif
                         </td>
                         <td>
@@ -88,7 +87,7 @@
                                 @else
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Restaurar</button>
                                 @endif
-                                
+
                             </div>
                         </td>
                     </tr>
