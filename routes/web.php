@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\categoriaController;
+use App\Http\Controllers\clienteController;
 use App\Http\Controllers\marcaController;
 use App\Http\Controllers\presentacioneController;
 use App\Http\Controllers\ProductoController;
@@ -27,7 +28,8 @@ Route::resources([
     'categorias' => categoriaController::class,
     'presentaciones' => presentacioneController::class,
     'marcas' => marcaController::class,
-    'productos' => ProductoController::class
+    'productos' => ProductoController::class,
+    'clientes' => clienteController::class
 ]);
 
 Route::get('/login', function () {
