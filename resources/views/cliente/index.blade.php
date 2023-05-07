@@ -11,7 +11,6 @@
 
 @if (session('success'))
 <script>
-
     let message = "{{ session('success') }}";
     const Toast = Swal.mixin({
         toast: true,
@@ -54,9 +53,62 @@
         </div>
         <div class="card-body">
             <table id="datatablesSimple" class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Dirección</th>
+                        <th>Documento</th>
+                        <th>Tipo de persona</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($clientes as $item)
+                    <tr>
+                        <td>
+                            {{$item->persona->razon_social}}
+                        </td>
+                        <td>
+                            {{$item->persona->direccion}}
+                        </td>
+                        <td>
+                            <p class="fw-semibold mb-1">{{$item->persona->documento->tipo_documento}}</p>
+                            <p class="text-muted mb-0">{{$item->persona->numero_documento}}</p>
+                        </td>
+                        <td>
+                            {{$item->persona->tipo_persona}}
+                        </td>
+                        <td>
+                            @if ($item->persona->estado == 1)
+                            <span class="badge rounded-pill text-bg-success d-inline">activo</span>
+                            @else
+                            <span class="badge rounded-pill text-bg-danger d-inline">eliminado</span>
+                            @endif
+                        </td>
+                        <td>
+                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+
+                                <form action="{{route('clientes.edit',['cliente'=>$item])}}" method="get">
+                                    <button type="submit" class="btn btn-warning">Editar</button>
+                                </form>
+
+                                @if ($item->persona->estado == 1)
+                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-">Eliminar</button>
+                                @else
+                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-">Restaurar</button>
+                                @endif
+
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
             </table>
         </div>
     </div>
+
+    
 
 </div>
 @endsection

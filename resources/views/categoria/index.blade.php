@@ -73,9 +73,9 @@
                         </td>
                         <td>
                             @if ($categoria->caracteristica->estado == 1)
-                                <span class="fw-bolder p-1 rounded bg-success text-white">Activo</span>
+                            <span class="badge rounded-pill text-bg-success d-inline">activo</span>
                             @else
-                                <span class="fw-bolder p-1 rounded bg-danger text-white">Eliminado</span>
+                            <span class="badge rounded-pill text-bg-danger d-inline">eliminado</span>
                             @endif
                         </td>
                         <td>

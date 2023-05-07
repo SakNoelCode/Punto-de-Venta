@@ -88,17 +88,9 @@
                         </td>
                         <td>
                             @if ($item->estado == 1)
-                            <div class="container">
-                                <div class="row">
-                                    <span class="fw-bolder m-1 rounded-pill p-1 bg-success text-white text-center">ACTIVO</span>
-                                </div>
-                            </div>
+                            <span class="badge rounded-pill text-bg-success d-inline">activo</span>
                             @else
-                            <div class="container">
-                                <div class="row">
-                                    <span class="fw-bolder m-1 rounded-pill p-1 bg-danger text-white text-center">ELIMINADO</span>
-                                </div>
-                            </div>
+                            <span class="badge rounded-pill text-bg-danger d-inline">eliminado</span>
                             @endif
                         </td>
                         <td>
