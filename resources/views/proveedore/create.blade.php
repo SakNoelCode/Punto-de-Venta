@@ -1,6 +1,6 @@
 @extends('template')
 
-@section('title','Crear cliente')
+@section('title','Crear proveedor')
 
 @push('css')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -13,21 +13,21 @@
 
 @section('content')
 <div class="container-fluid px-4">
-    <h1 class="mt-4 text-center">Crear Cliente</h1>
+    <h1 class="mt-4 text-center">Crear Proveedor</h1>
     <ol class="breadcrumb mb-4">
         <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('clientes.index')}}">Clientes</a></li>
-        <li class="breadcrumb-item active">Crear cliente</li>
+        <li class="breadcrumb-item"><a href="{{ route('proveedores.index')}}">Proveedor</a></li>
+        <li class="breadcrumb-item active">Crear proveedor</li>
     </ol>
 
     <div class="container w-100 border border-3 border-primary rounded p-4 mt-3">
-        <form action="{{ route('clientes.store') }}" method="post">
+        <form action="{{ route('proveedores.store') }}" method="post">
             @csrf
             <div class="row g-3">
 
                 <!----Tipo de persona----->
                 <div class="col-md-6 mb-2">
-                    <label for="tipo_persona" class="form-label">Tipo de cliente:</label>
+                    <label for="tipo_persona" class="form-label">Tipo de proveedor:</label>
                     <select class="form-select" name="tipo_persona" id="tipo_persona">
                         <option value="" selected disabled>Seleccione una opción</option>
                         <option value="natural" {{ old('tipo_persona') == 'natural' ? 'selected' : '' }}>Persona natural</option>
