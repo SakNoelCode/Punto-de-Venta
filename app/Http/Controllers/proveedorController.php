@@ -8,7 +8,6 @@ use App\Models\Documento;
 use App\Models\Persona;
 use App\Models\Proveedore;
 use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class proveedorController extends Controller
