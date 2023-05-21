@@ -9,6 +9,15 @@ class Compra extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'fecha_hora',
+        'impuesto',
+        'numero_comprobante',
+        'total',
+        'comprobante_id',
+        'proveedore_id'
+    ];
+
     public function proveedore(){
         return $this->belongsTo(Proveedore::class);
     }
