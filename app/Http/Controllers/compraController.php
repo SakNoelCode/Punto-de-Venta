@@ -7,7 +7,6 @@ use App\Models\Compra;
 use App\Models\Comprobante;
 use App\Models\Producto;
 use App\Models\Proveedore;
-use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +18,12 @@ class compraController extends Controller
      */
     public function index()
     {
-        return view('compra.index');
+        $compras = Compra::with('comprobante','proveedore.persona')
+        ->where('estado',1)
+        ->latest()
+        ->get(); 
+
+        return view('compra.index',compact('compras'));
     }
 
     /**
