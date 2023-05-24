@@ -82,7 +82,14 @@
                         </td>
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                <button type="button" class="btn btn-success">Ver</button>
+
+                                <form action="{{route('compras.show', ['compra'=>$item]) }}" method="get">
+                                    <button type="submit" class="btn btn-success">
+                                        Ver
+                                    </button>
+                                </form>
+
+
                                 <button type="button" class="btn btn-danger">Eliminar</button>
                             </div>
                         </td>
