@@ -7,6 +7,7 @@ use App\Http\Controllers\marcaController;
 use App\Http\Controllers\presentacioneController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\proveedorController;
+use App\Http\Controllers\ventaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,7 +34,8 @@ Route::resources([
     'productos' => ProductoController::class,
     'clientes' => clienteController::class,
     'proveedores' => proveedorController::class,
-    'compras' => compraController::class
+    'compras' => compraController::class,
+    'ventas' => ventaController::class
 ]);
 
 Route::get('/login', function () {
