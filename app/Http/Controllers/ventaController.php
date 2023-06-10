@@ -18,7 +18,13 @@ class ventaController extends Controller
      */
     public function index()
     {
-        //
+        $ventas = Venta::with(['comprobante','cliente.persona','user'])
+        ->where('estado',1)
+        ->latest()
+        ->get();
+
+        return view('venta.index',compact('ventas'));
+
     }
 
     /**
