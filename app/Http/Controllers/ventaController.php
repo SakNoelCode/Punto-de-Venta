@@ -24,7 +24,6 @@ class ventaController extends Controller
         ->get();
 
         return view('venta.index',compact('ventas'));
-
     }
 
     /**
@@ -114,9 +113,9 @@ class ventaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Venta $venta)
     {
-        //
+        return view('venta.show',compact('venta'));
     }
 
     /**
