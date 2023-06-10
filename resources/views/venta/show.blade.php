@@ -193,7 +193,22 @@
 
         $('#th-suma').html(cont);
         $('#th-igv').html(impuesto);
-        $('#th-total').html(cont + parseFloat(impuesto));
+        $('#th-total').html( round(cont + parseFloat(impuesto)));
     }
+
+    function round(num, decimales = 2) {
+        var signo = (num >= 0 ? 1 : -1);
+        num = num * signo;
+        if (decimales === 0) //con 0 decimales
+            return signo * Math.round(num);
+        // round(x * 10 ^ decimales)
+        num = num.toString().split('e');
+        num = Math.round(+(num[0] + 'e' + (num[1] ? (+num[1] + decimales) : decimales)));
+        // x * 10 ^ (-decimales)
+        num = num.toString().split('e');
+        return signo * (num[0] + 'e' + (num[1] ? (+num[1] - decimales) : -decimales));
+    }
+    //Fuente: https://es.stackoverflow.com/questions/48958/redondear-a-dos-decimales-cuando-sea-necesario
+
 </script>
 @endpush

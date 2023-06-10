@@ -139,6 +139,11 @@ class ventaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Venta::where('id',$id)
+        ->update([
+            'estado' => 0
+        ]);
+
+        return redirect()->route('ventas.index')->with('success','Venta eliminada');
     }
 }
