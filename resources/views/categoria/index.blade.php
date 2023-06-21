@@ -11,7 +11,6 @@
 
 @if (session('success'))
 <script>
-
     let message = "{{ session('success') }}";
     const Toast = Swal.mixin({
         toast: true,
@@ -40,12 +39,13 @@
         <li class="breadcrumb-item active">Categorías</li>
     </ol>
 
+    @can('crear-categoria')
     <div class="mb-4">
         <a href="{{route('categorias.create')}}">
             <button type="button" class="btn btn-primary">Añadir nuevo registro</button>
         </a>
     </div>
-
+    @endcan
 
     <div class="card mb-4">
         <div class="card-header">
@@ -81,16 +81,21 @@
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
 
+                                @can('editar-categoria')
                                 <form action="{{route('categorias.edit',['categoria'=>$categoria])}}" method="get">
                                     <button type="submit" class="btn btn-warning">Editar</button>
                                 </form>
+                                @endcan
 
+                                @can('eliminar-categoria')
                                 @if ($categoria->caracteristica->estado == 1)
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$categoria->id}}">Eliminar</button>
                                 @else
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$categoria->id}}">Restaurar</button>
                                 @endif
-                                
+                                @endcan
+
+
                             </div>
                         </td>
                     </tr>

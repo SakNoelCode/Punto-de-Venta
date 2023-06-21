@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\DB;
 
 class proveedorController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:ver-proveedore|crear-proveedore|editar-proveedore|eliminar-proveedore', ['only' => ['index']]);
+        $this->middleware('permission:crear-proveedore', ['only' => ['create', 'store']]);
+        $this->middleware('permission:editar-proveedore', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:eliminar-proveedore', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      */

@@ -39,12 +39,13 @@
         <li class="breadcrumb-item active">Clientes</li>
     </ol>
 
+    @can('crear-cliente')
     <div class="mb-4">
         <a href="{{route('clientes.create')}}">
             <button type="button" class="btn btn-primary">Añadir nuevo registro</button>
         </a>
     </div>
-
+    @endcan
 
     <div class="card mb-4">
         <div class="card-header">
@@ -89,15 +90,19 @@
                         <td>
                             <div class="btn-group" role="group" aria-label="Basic mixed styles example">
 
+                                @can('editar-cliente')
                                 <form action="{{route('clientes.edit',['cliente'=>$item])}}" method="get">
                                     <button type="submit" class="btn btn-warning">Editar</button>
                                 </form>
+                                @endcan
 
+                                @can('eliminar-cliente')
                                 @if ($item->persona->estado == 1)
                                 <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Eliminar</button>
                                 @else
                                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Restaurar</button>
                                 @endif
+                                @endcan
 
                             </div>
                         </td>
@@ -131,7 +136,7 @@
         </div>
     </div>
 
-    
+
 
 </div>
 @endsection

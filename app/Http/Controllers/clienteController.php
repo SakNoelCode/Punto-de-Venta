@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\DB;
 
 class clienteController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:ver-cliente|crear-cliente|editar-cliente|eliminar-cliente', ['only' => ['index']]);
+        $this->middleware('permission:crear-cliente', ['only' => ['create', 'store']]);
+        $this->middleware('permission:editar-cliente', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:eliminar-cliente', ['only' => ['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      */
@@ -65,7 +72,7 @@ class clienteController extends Controller
     {
         $cliente->load('persona.documento');
         $documentos = Documento::all();
-        return view('cliente.edit',compact('cliente','documentos'));
+        return view('cliente.edit', compact('cliente', 'documentos'));
     }
 
     /**
@@ -73,19 +80,18 @@ class clienteController extends Controller
      */
     public function update(UpdateClienteRequest $request, Cliente $cliente)
     {
-        try{
+        try {
             DB::beginTransaction();
 
-            Persona::where('id',$cliente->persona->id)
-            ->update($request->validated());
+            Persona::where('id', $cliente->persona->id)
+                ->update($request->validated());
 
             DB::commit();
-        }catch(Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
         }
 
-        return redirect()->route('clientes.index')->with('success','Cliente editado');
-
+        return redirect()->route('clientes.index')->with('success', 'Cliente editado');
     }
 
     /**

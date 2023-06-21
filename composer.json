@@ -6,10 +6,11 @@
     "license": "MIT",
     "require": {
         "php": "^8.1.0",
-        "guzzlehttp/guzzle": "^7.2",
+        "guzzlehttp/guzzle": "^7.7",
         "laravel/framework": "^10.0",
-        "laravel/sanctum": "^3.2",
-        "laravel/tinker": "^2.7"
+        "laravel/sanctum": "^3.2",  
+        "laravel/tinker": "^2.7",
+        "spatie/laravel-permission": "^5.10"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
