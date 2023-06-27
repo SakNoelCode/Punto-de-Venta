@@ -9,6 +9,7 @@ use App\Http\Controllers\logoutController;
 use App\Http\Controllers\marcaController;
 use App\Http\Controllers\presentacioneController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\profileController;
 use App\Http\Controllers\proveedorController;
 use App\Http\Controllers\roleController;
 use App\Http\Controllers\userController;
@@ -37,7 +38,8 @@ Route::resources([
     'compras' => compraController::class,
     'ventas' => ventaController::class,
     'users' => userController::class,
-    'roles' => roleController::class
+    'roles' => roleController::class,
+    'profile' => profileController::class
 ]);
 
 Route::get('/login',[loginController::class,'index'])->name('login');
