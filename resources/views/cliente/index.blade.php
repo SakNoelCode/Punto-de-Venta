@@ -53,86 +53,88 @@
             Tabla clientes
         </div>
         <div class="card-body">
-            <table id="datatablesSimple" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Dirección</th>
-                        <th>Documento</th>
-                        <th>Tipo de persona</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($clientes as $item)
-                    <tr>
-                        <td>
-                            {{$item->persona->razon_social}}
-                        </td>
-                        <td>
-                            {{$item->persona->direccion}}
-                        </td>
-                        <td>
-                            <p class="fw-semibold mb-1">{{$item->persona->documento->tipo_documento}}</p>
-                            <p class="text-muted mb-0">{{$item->persona->numero_documento}}</p>
-                        </td>
-                        <td>
-                            {{$item->persona->tipo_persona}}
-                        </td>
-                        <td>
-                            @if ($item->persona->estado == 1)
-                            <span class="badge rounded-pill text-bg-success d-inline">activo</span>
-                            @else
-                            <span class="badge rounded-pill text-bg-danger d-inline">eliminado</span>
-                            @endif
-                        </td>
-                        <td>
-                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-
-                                @can('editar-cliente')
-                                <form action="{{route('clientes.edit',['cliente'=>$item])}}" method="get">
-                                    <button type="submit" class="btn btn-warning">Editar</button>
-                                </form>
-                                @endcan
-
-                                @can('eliminar-cliente')
+            <div class="table-responsive">
+                <table id="datatablesSimple" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Dirección</th>
+                            <th>Documento</th>
+                            <th>Tipo de persona</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($clientes as $item)
+                        <tr>
+                            <td>
+                                {{$item->persona->razon_social}}
+                            </td>
+                            <td>
+                                {{$item->persona->direccion}}
+                            </td>
+                            <td>
+                                <p class="fw-semibold mb-1">{{$item->persona->documento->tipo_documento}}</p>
+                                <p class="text-muted mb-0">{{$item->persona->numero_documento}}</p>
+                            </td>
+                            <td>
+                                {{$item->persona->tipo_persona}}
+                            </td>
+                            <td>
                                 @if ($item->persona->estado == 1)
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Eliminar</button>
+                                <span class="badge rounded-pill text-bg-success d-inline">activo</span>
                                 @else
-                                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Restaurar</button>
+                                <span class="badge rounded-pill text-bg-danger d-inline">eliminado</span>
                                 @endif
-                                @endcan
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
 
-                            </div>
-                        </td>
-                    </tr>
-
-                    <!-- Modal de confirmación-->
-                    <div class="modal fade" id="confirmModal-{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Mensaje de confirmación</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    {{ $item->persona->estado == 1 ? '¿Seguro que quieres eliminar el cliente?' : '¿Seguro que quieres restaurar el cliente?' }}
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <form action="{{ route('clientes.destroy',['cliente'=>$item->persona->id]) }}" method="post">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger">Confirmar</button>
+                                    @can('editar-cliente')
+                                    <form action="{{route('clientes.edit',['cliente'=>$item])}}" method="get">
+                                        <button type="submit" class="btn btn-warning">Editar</button>
                                     </form>
+                                    @endcan
+
+                                    @can('eliminar-cliente')
+                                    @if ($item->persona->estado == 1)
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Eliminar</button>
+                                    @else
+                                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Restaurar</button>
+                                    @endif
+                                    @endcan
+
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Modal de confirmación-->
+                        <div class="modal fade" id="confirmModal-{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Mensaje de confirmación</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {{ $item->persona->estado == 1 ? '¿Seguro que quieres eliminar el cliente?' : '¿Seguro que quieres restaurar el cliente?' }}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <form action="{{ route('clientes.destroy',['cliente'=>$item->persona->id]) }}" method="post">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger">Confirmar</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    @endforeach
-                </tbody>
-            </table>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 

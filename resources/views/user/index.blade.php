@@ -54,65 +54,67 @@
             Tabla de usuarios
         </div>
         <div class="card-body">
-            <table id="datatablesSimple" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Rol</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($users as $item)
-                    <tr>
-                        <td>{{$item->name}}</td>
-                        <td>{{$item->email}}</td>
-                        <td>
-                            {{$item->getRoleNames()->first()}}
-                        </td>
-                        <td>
-                            <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+            <div class="table-responsive">
+                <table id="datatablesSimple" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Email</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($users as $item)
+                        <tr>
+                            <td>{{$item->name}}</td>
+                            <td>{{$item->email}}</td>
+                            <td>
+                                {{$item->getRoleNames()->first()}}
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
 
-                                @can('editar-user')
-                                <form action="{{route('users.edit',['user'=>$item])}}" method="get">
-                                    <button type="submit" class="btn btn-warning">Editar</button>
-                                </form>
-                                @endcan
-
-                                @can('eliminar-user')
-                                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Eliminar</button>
-                                @endcan   
-
-                            </div>
-                        </td>
-                    </tr>
-
-                    <!-- Modal de confirmación-->
-                    <div class="modal fade" id="confirmModal-{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Mensaje de confirmación</h1>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    ¿Seguro que quieres eliminar el usuario?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <form action="{{ route('users.destroy',['user'=>$item->id]) }}" method="post">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger">Confirmar</button>
+                                    @can('editar-user')
+                                    <form action="{{route('users.edit',['user'=>$item])}}" method="get">
+                                        <button type="submit" class="btn btn-warning">Editar</button>
                                     </form>
+                                    @endcan
+
+                                    @can('eliminar-user')
+                                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Eliminar</button>
+                                    @endcan
+
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!-- Modal de confirmación-->
+                        <div class="modal fade" id="confirmModal-{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Mensaje de confirmación</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ¿Seguro que quieres eliminar el usuario?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                        <form action="{{ route('users.destroy',['user'=>$item->id]) }}" method="post">
+                                            @method('DELETE')
+                                            @csrf
+                                            <button type="submit" class="btn btn-danger">Confirmar</button>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    @endforeach
-                </tbody>
-            </table>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
