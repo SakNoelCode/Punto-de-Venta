@@ -38,7 +38,7 @@
         <li class="breadcrumb-item active">Usuarios</li>
     </ol>
 
-    @can('create-user')
+    @can('crear-user')
     <div class="mb-4">
         <a href="{{route('users.create')}}">
             <button type="button" class="btn btn-primary">Añadir nuevo usuario</button>

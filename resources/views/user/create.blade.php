@@ -24,10 +24,10 @@
                 <div class="row mb-4 mt-4">
                     <label for="name" class="col-sm-2 col-form-label">Nombres:</label>
                     <div class="col-sm-4">
-                        <input type="text" name="name" id="name" class="form-control" value="{{old('name')}}">
+                        <input autocomplete="off" type="text" name="name" id="name" class="form-control" value="{{old('name')}}" aria-labelledby="nameHelpBlock">
                     </div>
                     <div class="col-sm-4">
-                        <div class="form-text">
+                        <div class="form-text" id="nameHelpBlock">
                             Escriba un solo nombre
                         </div>
                     </div>
@@ -42,10 +42,10 @@
                 <div class="row mb-4">
                     <label for="email" class="col-sm-2 col-form-label">Email:</label>
                     <div class="col-sm-4">
-                        <input type="email" name="email" id="email" class="form-control" value="{{old('email')}}">
+                        <input autocomplete="off" type="email" name="email" id="email" class="form-control" value="{{old('email')}}" aria-labelledby="emailHelpBlock">
                     </div>
                     <div class="col-sm-4">
-                        <div class="form-text">
+                        <div class="form-text" id="emailHelpBlock">
                             Dirección de correo eléctronico
                         </div>
                     </div>
@@ -60,10 +60,10 @@
                 <div class="row mb-4">
                     <label for="password" class="col-sm-2 col-form-label">Contraseña:</label>
                     <div class="col-sm-4">
-                        <input type="password" name="password" id="password" class="form-control">
+                        <input type="password" name="password" id="password" class="form-control" aria-labelledby="passwordHelpBlock">
                     </div>
                     <div class="col-sm-4">
-                        <div class="form-text">
+                        <div class="form-text" id="passwordHelpBlock">
                             Escriba una constraseña segura. Debe incluir números.
                         </div>
                     </div>
@@ -78,10 +78,10 @@
                 <div class="row mb-4">
                     <label for="password_confirm" class="col-sm-2 col-form-label">Confirmar contraseña:</label>
                     <div class="col-sm-4">
-                        <input type="password" name="password_confirm" id="password_confirm" class="form-control">
+                        <input type="password" name="password_confirm" id="password_confirm" class="form-control" aria-labelledby="passwordConfirmHelpBlock">
                     </div>
                     <div class="col-sm-4">
-                        <div class="form-text">
+                        <div class="form-text" id="passwordConfirmHelpBlock">
                             Vuelva a escribir su contraseña.
                         </div>
                     </div>
@@ -96,7 +96,7 @@
                 <div class="row mb-4">
                     <label for="role" class="col-sm-2 col-form-label">Seleccionar rol:</label>
                     <div class="col-sm-4">
-                        <select name="role" id="role" class="form-select">
+                        <select name="role" id="role" class="form-select" aria-labelledby="rolHelpBlock">
                             <option value="" selected disabled>Seleccione:</option>
                             @foreach ($roles as $item)
                                 <option value="{{$item->name}}" @selected(old('role') == $item->name)>{{$item->name}}</option>
@@ -104,7 +104,7 @@
                         </select>
                     </div>
                     <div class="col-sm-4">
-                        <div class="form-text">
+                        <div class="form-text" id="rolHelpBlock">
                             Escoja un rol para el usuario.
                         </div>
                     </div>
