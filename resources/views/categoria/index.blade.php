@@ -47,7 +47,7 @@
     </div>
     @endcan
 
-    <div class="card mb-4">
+    <div class="card">
         <div class="card-header">
             <i class="fas fa-table me-1"></i>
             Tabla categorías
@@ -95,8 +95,6 @@
                                     <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$categoria->id}}">Restaurar</button>
                                     @endif
                                     @endcan
-
-
                                 </div>
                             </td>
                         </tr>

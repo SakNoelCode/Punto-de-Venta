@@ -146,8 +146,8 @@
         </div>
         <div class="card-body table-responsive">
             <table class="table table-striped">
-                <thead class="bg-primary text-white">
-                    <tr>
+                <thead class="bg-primary">
+                    <tr class="align-top">
                         <th class="text-white">Producto</th>
                         <th class="text-white">Cantidad</th>
                         <th class="text-white">Precio de compra</th>

@@ -20,75 +20,79 @@
         <li class="breadcrumb-item active">Crear proveedor</li>
     </ol>
 
-    <div class="container w-100 border border-3 border-primary rounded p-4 mt-3">
-        <form action="{{ route('proveedores.store') }}" method="post">
-            @csrf
-            <div class="row g-3">
+    <div class="card">
+        <div class="card-body">
+            <form action="{{ route('proveedores.store') }}" method="post">
+                @csrf
+                <div class="row g-3">
 
-                <!----Tipo de persona----->
-                <div class="col-md-6 mb-2">
-                    <label for="tipo_persona" class="form-label">Tipo de proveedor:</label>
-                    <select class="form-select" name="tipo_persona" id="tipo_persona">
-                        <option value="" selected disabled>Seleccione una opción</option>
-                        <option value="natural" {{ old('tipo_persona') == 'natural' ? 'selected' : '' }}>Persona natural</option>
-                        <option value="juridica" {{ old('tipo_persona') == 'juridica' ? 'selected' : '' }}>Persona jurídica</option>
-                    </select>
-                    @error('tipo_persona')
-                    <small class="text-danger">{{'*'.$message}}</small>
-                    @enderror
-                </div>
+                    <!----Tipo de persona----->
+                    <div class="col-md-6">
+                        <label for="tipo_persona" class="form-label">Tipo de proveedor:</label>
+                        <select class="form-select" name="tipo_persona" id="tipo_persona">
+                            <option value="" selected disabled>Seleccione una opción</option>
+                            <option value="natural" {{ old('tipo_persona') == 'natural' ? 'selected' : '' }}>Persona natural</option>
+                            <option value="juridica" {{ old('tipo_persona') == 'juridica' ? 'selected' : '' }}>Persona jurídica</option>
+                        </select>
+                        @error('tipo_persona')
+                        <small class="text-danger">{{'*'.$message}}</small>
+                        @enderror
+                    </div>
 
-                <!-------Razón social------->
-                <div class="col-md-12 mb-2" id="box-razon-social">
-                    <label id="label-natural" for="razon_social" class="form-label">Nombres y apellidos:</label>
-                    <label id="label-juridica" for="razon_social" class="form-label">Nombre de la empresa:</label>
+                    <!-------Razón social------->
+                    <div class="col-12" id="box-razon-social">
+                        <label id="label-natural" for="razon_social" class="form-label">Nombres y apellidos:</label>
+                        <label id="label-juridica" for="razon_social" class="form-label">Nombre de la empresa:</label>
 
-                    <input required type="text" name="razon_social" id="razon_social" class="form-control" value="{{old('razon_social')}}">
+                        <input required type="text" name="razon_social" id="razon_social" class="form-control" value="{{old('razon_social')}}">
 
-                    @error('razon_social')
-                    <small class="text-danger">{{'*'.$message}}</small>
-                    @enderror
-                </div>
+                        @error('razon_social')
+                        <small class="text-danger">{{'*'.$message}}</small>
+                        @enderror
+                    </div>
 
-                <!------Dirección---->
-                <div class="col-md-12 mb-2">
-                    <label for="direccion" class="form-label">Dirección:</label>
-                    <input required type="text" name="direccion" id="direccion" class="form-control" value="{{old('direccion')}}">
-                    @error('direccion')
-                    <small class="text-danger">{{'*'.$message}}</small>
-                    @enderror
-                </div>
+                    <!------Dirección---->
+                    <div class="col-12">
+                        <label for="direccion" class="form-label">Dirección:</label>
+                        <input required type="text" name="direccion" id="direccion" class="form-control" value="{{old('direccion')}}">
+                        @error('direccion')
+                        <small class="text-danger">{{'*'.$message}}</small>
+                        @enderror
+                    </div>
 
-                <!--------------Documento------->
-                <div class="col-md-6 mb-2">
-                    <label for="documento_id" class="form-label">Tipo de documento:</label>
-                    <select class="form-select" name="documento_id" id="documento_id">
-                        <option value="" selected disabled>Seleccione una opción</option>
-                        @foreach ($documentos as $item)
+                    <!--------------Documento------->
+                    <div class="col-md-6">
+                        <label for="documento_id" class="form-label">Tipo de documento:</label>
+                        <select class="form-select" name="documento_id" id="documento_id">
+                            <option value="" selected disabled>Seleccione una opción</option>
+                            @foreach ($documentos as $item)
                             <option value="{{$item->id}}" {{ old('documento_id') == $item->id ? 'selected' : '' }}>{{$item->tipo_documento}}</option>
-                        @endforeach
-                    </select>
-                    @error('documento_id')
-                    <small class="text-danger">{{'*'.$message}}</small>
-                    @enderror
+                            @endforeach
+                        </select>
+                        @error('documento_id')
+                        <small class="text-danger">{{'*'.$message}}</small>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="numero_documento" class="form-label">Numero de documento:</label>
+                        <input required type="text" name="numero_documento" id="numero_documento" class="form-control" value="{{old('numero_documento')}}">
+                        @error('numero_documento')
+                        <small class="text-danger">{{'*'.$message}}</small>
+                        @enderror
+                    </div>
+
+
+                    <div class="col-12 text-center">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+
                 </div>
-
-                <div class="col-md-6 mb-2">
-                    <label for="numero_documento" class="form-label">Numero de documento:</label>
-                    <input required type="text" name="numero_documento" id="numero_documento" class="form-control" value="{{old('numero_documento')}}">
-                    @error('numero_documento')
-                    <small class="text-danger">{{'*'.$message}}</small>
-                    @enderror
-                </div>
-
-
-                <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                </div>
-
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
+
+
 </div>
 @endsection
 

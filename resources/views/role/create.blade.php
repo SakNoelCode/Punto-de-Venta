@@ -15,18 +15,20 @@
         <li class="breadcrumb-item active">Crear rol</li>
     </ol>
 
-    <div class="container w-100 border border-3 border-primary rounded p-4 mt-3">
-        <form action="{{ route('roles.store') }}" method="post">
-            @csrf
-            <div class="row g-3">
-
+    <div class="card">
+        <div class="card-header">
+            <p>Nota: Los roles son un conjunto de permisos</p>
+        </div>
+        <div class="card-body">
+            <form action="{{ route('roles.store') }}" method="post">
+                @csrf
                 <!---Nombre de rol---->
-                <div class="row mb-4 mt-4">
-                    <label for="name" class="col-sm-2 col-form-label">Nombre del rol:</label>
-                    <div class="col-sm-4">
+                <div class="row mb-4">
+                    <label for="name" class="col-md-auto col-form-label">Nombre del rol:</label>
+                    <div class="col-md-4">
                         <input autocomplete="off" type="text" name="name" id="name" class="form-control" value="{{old('name')}}">
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-md-4">
                         @error('name')
                         <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
@@ -34,7 +36,7 @@
                 </div>
 
                 <!---Permisos---->
-                <div class="col-12 mb-4">
+                <div class="col-12">
                     <p class="text-muted">Permisos para el rol:</p>
                     @foreach ($permisos as $item)
                     <div class="form-check mb-2">
@@ -47,14 +49,15 @@
                 <small class="text-danger">{{'*'.$message}}</small>
                 @enderror
 
-
                 <div class="col-12 text-center">
                     <button type="submit" class="btn btn-primary">Guardar</button>
                 </div>
 
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
+
+
 </div>
 @endsection
 

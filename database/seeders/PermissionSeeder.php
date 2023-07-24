@@ -13,6 +13,7 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permisos = [
+    
             //categorías
             'ver-categoria',
             'crear-categoria',
@@ -72,6 +73,10 @@ class PermissionSeeder extends Seeder
             'crear-user',
             'editar-user',
             'eliminar-user',
+
+            //Perfil 
+            'ver-perfil',
+            'editar-perfil'
         ];
 
         foreach($permisos as $permiso){

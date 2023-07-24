@@ -15,19 +15,21 @@
         <li class="breadcrumb-item active">Editar rol</li>
     </ol>
 
-    <div class="container w-100 border border-3 border-primary rounded p-4 mt-3">
-        <form action="{{ route('roles.update',['role'=>$role]) }}" method="post">
-            @method('PATCH')
-            @csrf
-            <div class="row g-3">
-
+    <div class="card">
+        <div class="card-header">
+            <p>Nota: Los roles son un conjunto de permisos</p>
+        </div>
+        <div class="card-body">
+            <form action="{{ route('roles.update',['role'=>$role]) }}" method="post">
+                @method('PATCH')
+                @csrf
                 <!---Nombre de rol---->
-                <div class="row mb-4 mt-4">
-                    <label for="name" class="col-sm-2 col-form-label">Nombre del rol:</label>
-                    <div class="col-sm-4">
+                <div class="row mb-4">
+                    <label for="name" class="col-md-auto col-form-label">Nombre del rol:</label>
+                    <div class="col-md-4">
                         <input type="text" name="name" id="name" class="form-control" value="{{old('name',$role->name)}}">
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-md-4">
                         @error('name')
                         <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
@@ -35,17 +37,17 @@
                 </div>
 
                 <!---Permisos---->
-                <div class="col-12 mb-4">
-                    <label for="" class="form-label">Permisos para el rol:</label>
+                <div class="col-12">
+                    <p class="text-muted">Permisos para el rol:</p>
                     @foreach ($permisos as $item)
                     @if ( in_array($item->id, $role->permissions->pluck('id')->toArray() ) )
                     <div class="form-check mb-2">
-                        <input checked type="checkbox" name="permission[]" id="{{$item->id}}" class="form-cehck-input" value="{{$item->id}}">
+                        <input checked type="checkbox" name="permission[]" id="{{$item->id}}" class="form-check-input" value="{{$item->id}}">
                         <label for="{{$item->id}}" class="form-check-label">{{$item->name}}</label>
                     </div>
                     @else
                     <div class="form-check mb-2">
-                        <input type="checkbox" name="permission[]" id="{{$item->id}}" class="form-cehck-input" value="{{$item->id}}">
+                        <input type="checkbox" name="permission[]" id="{{$item->id}}" class="form-check-input" value="{{$item->id}}">
                         <label for="{{$item->id}}" class="form-check-label">{{$item->name}}</label>
                     </div>
                     @endif
@@ -61,8 +63,8 @@
                     <button type="reset" class="btn btn-secondary">Reiniciar</button>
                 </div>
 
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
 
 </div>

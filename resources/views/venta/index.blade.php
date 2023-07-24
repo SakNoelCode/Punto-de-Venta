@@ -5,6 +5,11 @@
 @push('css')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+<style>
+    .row-not-space {
+        width: 110px;
+    }
+</style>
 @endpush
 
 @section('content')
@@ -59,7 +64,7 @@
                             <th>Comprobante</th>
                             <th>Cliente</th>
                             <th>Fecha y hora</th>
-                            <th>Usuario</th>
+                            <th>Vendedor</th>
                             <th>Total</th>
                             <th>Acciones</th>
                         </tr>
@@ -76,10 +81,10 @@
                                 <p class="text-muted mb-0">{{$item->cliente->persona->razon_social}}</p>
                             </td>
                             <td>
-                                {{
-                                \Carbon\Carbon::parse($item->fecha_hora)->format('d-m-Y') .' '.
-                                \Carbon\Carbon::parse($item->fecha_hora)->format('H:i') 
-                            }}
+                                <div class="row-not-space">
+                                    <p class="fw-semibold mb-1"><span class="m-1"><i class="fa-solid fa-calendar-days"></i></span>{{\Carbon\Carbon::parse($item->fecha_hora)->format('d-m-Y')}}</p>
+                                    <p class="fw-semibold mb-0"><span class="m-1"><i class="fa-solid fa-clock"></i></span>{{\Carbon\Carbon::parse($item->fecha_hora)->format('H:i')}}</p>
+                                </div>
                             </td>
                             <td>
                                 {{$item->user->name}}

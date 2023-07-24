@@ -11,6 +11,13 @@ use Illuminate\Support\Facades\Hash;
 
 class profileController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('permission:ver-perfil', ['only' => ['index']]);
+        $this->middleware('permission:editar-perfil', ['only' => ['update']]);
+    }
+
     /**
      * Display a listing of the resource.
      */
