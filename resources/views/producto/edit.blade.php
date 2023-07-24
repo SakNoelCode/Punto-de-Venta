@@ -21,13 +21,13 @@
         <li class="breadcrumb-item active">Editar producto</li>
     </ol>
 
-    <div class="card">
-        <div class="card-body">
-            <form action="{{route('productos.update',['producto'=>$producto])}}" method="post" enctype="multipart/form-data">
-                @method('PATCH')
-                @csrf
-                <div class="row g-4">
+    <div class="card text-bg-light">
+        <form action="{{route('productos.update',['producto'=>$producto])}}" method="post" enctype="multipart/form-data">
+            @method('PATCH')
+            @csrf
+            <div class="card-body">
 
+                <div class="row g-4">
                     <!----Codigo---->
                     <div class="col-md-6">
                         <label for="codigo" class="form-label">Código:</label>
@@ -123,16 +123,14 @@
                         <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
                     </div>
-
-                    <!---Botones----->
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                        <button type="reset" class="btn btn-secondary">Reiniciar</button>
-                    </div>
-
                 </div>
-            </form>
-        </div>
+
+            </div>
+            <div class="card-footer text-center">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <button type="reset" class="btn btn-secondary">Reiniciar</button>
+            </div>
+        </form>
     </div>
 
 

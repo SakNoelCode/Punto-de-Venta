@@ -20,10 +20,10 @@
         <li class="breadcrumb-item active">Crear proveedor</li>
     </ol>
 
-    <div class="card">
-        <div class="card-body">
-            <form action="{{ route('proveedores.store') }}" method="post">
-                @csrf
+    <div class="card text-bg-light">
+        <form action="{{ route('proveedores.store') }}" method="post">
+            @csrf
+            <div class="card-body">
                 <div class="row g-3">
 
                     <!----Tipo de persona----->
@@ -81,15 +81,13 @@
                         <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
                     </div>
-
-
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </div>
-
                 </div>
-            </form>
-        </div>
+
+            </div>
+            <div class="card-footer text-center">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
     </div>
 
 

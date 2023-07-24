@@ -15,14 +15,14 @@
         <li class="breadcrumb-item active">Editar Usuario</li>
     </ol>
 
-    <div class="card">
-        <div class="card-header">
-            <p class="">Nota: Los usuarios son los que pueden ingresar al sistema</p>
-        </div>
-        <div class="card-body">
-            <form action="{{ route('users.update',['user' => $user]) }}" method="post">
-                @method('PATCH')
-                @csrf
+    <div class="card text-bg-light">
+        <form action="{{ route('users.update',['user' => $user]) }}" method="post">
+            @method('PATCH')
+            @csrf
+            <div class="card-header">
+                <p class="">Nota: Los usuarios son los que pueden ingresar al sistema</p>
+            </div>
+            <div class="card-body">
                 <!---Nombre---->
                 <div class="row mb-4">
                     <label for="name" class="col-lg-2 col-form-label">Nombres:</label>
@@ -121,12 +121,11 @@
                     </div>
                 </div>
 
-                <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-primary">Actualizar</button>
-                </div>
-
-            </form>
-        </div>
+            </div>
+            <div class="card-footer text-center">
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+            </div>
+        </form>
     </div>
 </div>
 @endsection

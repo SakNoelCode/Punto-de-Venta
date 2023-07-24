@@ -73,9 +73,9 @@
                             </td>
                             <td>
                                 @if ($item->caracteristica->estado == 1)
-                                <span class="badge rounded-pill text-bg-success d-inline">activo</span>
+                                <span class="badge rounded-pill text-bg-success">activo</span>
                                 @else
-                                <span class="badge rounded-pill text-bg-danger d-inline">eliminado</span>
+                                <span class="badge rounded-pill text-bg-danger">eliminado</span>
                                 @endif
                             </td>
                             <td>

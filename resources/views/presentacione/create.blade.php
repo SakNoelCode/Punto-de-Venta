@@ -20,9 +20,10 @@
     </ol>
 
     <div class="card">
-        <div class="card-body">
-            <form action="{{ route('presentaciones.store') }}" method="post">
-                @csrf
+        <form action="{{ route('presentaciones.store') }}" method="post">
+            @csrf
+            <div class="card-body text-bg-light">
+
                 <div class="row g-4">
 
                     <div class="col-md-6">
@@ -41,15 +42,14 @@
                         @enderror
                     </div>
 
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </div>
-
                 </div>
-            </form>
-        </div>
-    </div>
+            </div>
 
+            <div class="card-footer text-center">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
 
 </div>
 @endsection

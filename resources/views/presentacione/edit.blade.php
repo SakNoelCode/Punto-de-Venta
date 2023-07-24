@@ -20,10 +20,11 @@
     </ol>
 
     <div class="card">
-        <div class="card-body">
-            <form action="{{ route('presentaciones.update',['presentacione'=>$presentacione]) }}" method="post">
-                @method('PATCH')
-                @csrf
+        <form action="{{ route('presentaciones.update',['presentacione'=>$presentacione]) }}" method="post">
+            @method('PATCH')
+            @csrf
+            <div class="card-body">
+
                 <div class="row g-4">
 
                     <div class="col-md-6">
@@ -42,14 +43,14 @@
                         @enderror
                     </div>
 
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-primary">Actualizar</button>
-                        <button type="reset" class="btn btn-secondary">Reiniciar</button>
-                    </div>
-
                 </div>
-            </form>
-        </div>
+
+            </div>
+            <div class="card-footer text-center">
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+                <button type="reset" class="btn btn-secondary">Reiniciar</button>
+            </div>
+        </form>
     </div>
 
 

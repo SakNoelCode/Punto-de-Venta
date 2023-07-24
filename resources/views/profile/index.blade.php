@@ -36,7 +36,7 @@
 
     <div class="card">
         <div class="card-header">
-            <p>Configure y personalize su perfil</p>
+            <p class="lead">Configure y personalize su perfil</p>
         </div>
         <div class="card-body">
             <div class="">

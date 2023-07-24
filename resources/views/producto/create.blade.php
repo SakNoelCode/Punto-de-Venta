@@ -22,9 +22,10 @@
     </ol>
 
     <div class="card">
-        <div class="card-body">
-            <form action="{{ route('productos.store') }}" method="post" enctype="multipart/form-data">
-                @csrf
+        <form action="{{ route('productos.store') }}" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="card-body text-bg-light">
+
                 <div class="row g-4">
 
                     <!----Codigo---->
@@ -111,15 +112,13 @@
                         @enderror
                     </div>
 
-                    <!---Botones----->
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </div>
-
                 </div>
-            </form>
-
-        </div>
+            </div>
+            
+            <div class="card-footer text-center">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
     </div>
 
 

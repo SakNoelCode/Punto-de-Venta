@@ -15,14 +15,15 @@
         <li class="breadcrumb-item active">Editar cliente</li>
     </ol>
 
-    <div class="card">
-        <div class="card-header">
-            <p>Tipo de cliente: <span class="fw-bold">{{ strtoupper($cliente->persona->tipo_persona)}}</span></p>
-        </div>
-        <div class="card-body">
-            <form action="{{ route('clientes.update',['cliente'=>$cliente]) }}" method="post">
-                @method('PATCH')
-                @csrf
+    <div class="card text-bg-light">
+        <form action="{{ route('clientes.update',['cliente'=>$cliente]) }}" method="post">
+            @method('PATCH')
+            @csrf
+            <div class="card-header">
+                <p>Tipo de cliente: <span class="fw-bold">{{ strtoupper($cliente->persona->tipo_persona)}}</span></p>
+            </div>
+            <div class="card-body">
+
                 <div class="row g-3">
 
                     <!-------Razón social------->
@@ -74,16 +75,14 @@
                         @enderror
                     </div>
 
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </div>
-
                 </div>
-            </form>
-        </div>
+
+            </div>
+            <div class="card-footer text-center">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
     </div>
-
-
 </div>
 @endsection
 

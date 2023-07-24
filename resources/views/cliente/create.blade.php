@@ -21,9 +21,10 @@
     </ol>
 
     <div class="card">
-        <div class="card-body">
-            <form action="{{ route('clientes.store') }}" method="post">
-                @csrf
+        <form action="{{ route('clientes.store') }}" method="post">
+            @csrf
+            <div class="card-body text-bg-light">
+
                 <div class="row g-3">
 
                     <!----Tipo de persona----->
@@ -81,15 +82,13 @@
                         <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
                     </div>
-
-
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                    </div>
-
                 </div>
-            </form>
-        </div>
+
+            </div>
+            <div class="card-footer text-center">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
     </div>
 
 

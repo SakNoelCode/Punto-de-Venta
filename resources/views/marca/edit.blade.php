@@ -20,10 +20,11 @@
     </ol>
 
     <div class="card">
-        <div class="card-body">
-            <form action="{{ route('marcas.update',['marca'=>$marca]) }}" method="post">
-                @method('PATCH')
-                @csrf
+        <form action="{{ route('marcas.update',['marca'=>$marca]) }}" method="post">
+            @method('PATCH')
+            @csrf
+            <div class="card-body text-bg-light">
+
                 <div class="row g-4">
 
                     <div class="col-md-6">
@@ -41,18 +42,15 @@
                         <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
                     </div>
-
-                    <div class="col-12 text-center">
-                        <button type="submit" class="btn btn-primary">Actualizar</button>
-                        <button type="reset" class="btn btn-secondary">Reiniciar</button>
-                    </div>
-
                 </div>
-            </form>
-        </div>
+
+            </div>
+            <div class="card-footer text-center">
+                <button type="submit" class="btn btn-primary">Actualizar</button>
+                <button type="reset" class="btn btn-secondary">Reiniciar</button>
+            </div>
+        </form>
     </div>
-
-
 
 </div>
 @endsection
