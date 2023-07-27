@@ -128,23 +128,25 @@
                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
                                     <div class="modal-body">
-                                        <div class="row mb-3">
-                                            <label><span class="fw-bolder">Descripción: </span>{{$item->descripcion}}</label>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label><span class="fw-bolder">Fecha de vencimiento: </span>{{$item->fecha_vencimiento=='' ? 'No tiene' : $item->fecha_vencimiento}}</label>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label><span class="fw-bolder">Stock: </span>{{$item->stock}}</label>
-                                        </div>
-                                        <div class="row mb-3">
-                                            <label class="fw-bolder">Imagen:</label>
-                                            <div>
-                                                @if ($item->img_path != null)
-                                                <img src="{{ Storage::url('public/productos/'.$item->img_path) }}" alt="{{$item->nombre}}" class="img-fluid img-thumbnail border border-4 rounded">
-                                                @else
-                                                <img src="" alt="{{$item->nombre}}">
-                                                @endif
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <p><span class="fw-bolder">Descripción: </span>{{$item->descripcion}}</p>
+                                            </div>
+                                            <div class="col-12">
+                                                <p><span class="fw-bolder">Fecha de vencimiento: </span>{{$item->fecha_vencimiento=='' ? 'No tiene' : $item->fecha_vencimiento}}</p>
+                                            </div>
+                                            <div class="col-12">
+                                                <p><span class="fw-bolder">Stock: </span>{{$item->stock}}</p>
+                                            </div>
+                                            <div class="col-12">
+                                                <p class="fw-bolder">Imagen:</p>
+                                                <div>
+                                                    @if ($item->img_path != null)
+                                                    <img src="{{ Storage::url('public/productos/'.$item->img_path) }}" alt="{{$item->nombre}}" class="img-fluid img-thumbnail border border-4 rounded">
+                                                    @else
+                                                    <img src="" alt="{{$item->nombre}}">
+                                                    @endif
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

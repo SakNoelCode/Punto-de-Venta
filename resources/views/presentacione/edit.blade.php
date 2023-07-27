@@ -19,7 +19,7 @@
         <li class="breadcrumb-item active">Editar presentación</li>
     </ol>
 
-    <div class="card">
+    <div class="card text-bg-light">
         <form action="{{ route('presentaciones.update',['presentacione'=>$presentacione]) }}" method="post">
             @method('PATCH')
             @csrf
