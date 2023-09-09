@@ -11,16 +11,12 @@
 
 @if (session('success'))
 <script>
-    let message = "{{ session('success') }}";
-    Swal.fire({
-        title: message,
-        showClass: {
-            popup: 'animate__animated animate__fadeInDown'
-        },
-        hideClass: {
-            popup: 'animate__animated animate__fadeOutUp'
-        }
-    })
+    document.addEventListener("DOMContentLoaded", function() {
+
+        let message = "{{ session('success') }}";
+        Swal.fire(message);
+
+    });
 </script>
 @endif
 
@@ -40,8 +36,10 @@
                         </div>
                         <div class="col-4">
                             <?php
+
                             use App\Models\Cliente;
-                            $clientes = count(Cliente::all()); 
+
+                            $clientes = count(Cliente::all());
                             ?>
                             <p class="text-center fw-bold fs-4">{{$clientes}}</p>
                         </div>
@@ -64,8 +62,10 @@
                         </div>
                         <div class="col-4">
                             <?php
+
                             use App\Models\Categoria;
-                            $categorias = count(Categoria::all()); 
+
+                            $categorias = count(Categoria::all());
                             ?>
                             <p class="text-center fw-bold fs-4">{{$categorias}}</p>
                         </div>
@@ -88,8 +88,10 @@
                         </div>
                         <div class="col-4">
                             <?php
+
                             use App\Models\Compra;
-                            $compras = count(Compra::all()); 
+
+                            $compras = count(Compra::all());
                             ?>
                             <p class="text-center fw-bold fs-4">{{$compras}}</p>
                         </div>
@@ -112,8 +114,10 @@
                         </div>
                         <div class="col-4">
                             <?php
+
                             use App\Models\Marca;
-                            $marcas = count(Marca::all()); 
+
+                            $marcas = count(Marca::all());
                             ?>
                             <p class="text-center fw-bold fs-4">{{$marcas}}</p>
                         </div>
@@ -136,8 +140,10 @@
                         </div>
                         <div class="col-4">
                             <?php
+
                             use App\Models\Presentacione;
-                            $presentaciones = count(Presentacione::all()); 
+
+                            $presentaciones = count(Presentacione::all());
                             ?>
                             <p class="text-center fw-bold fs-4">{{$presentaciones}}</p>
                         </div>
@@ -160,8 +166,10 @@
                         </div>
                         <div class="col-4">
                             <?php
+
                             use App\Models\Producto;
-                            $productos = count(Producto::all()); 
+
+                            $productos = count(Producto::all());
                             ?>
                             <p class="text-center fw-bold fs-4">{{$productos}}</p>
                         </div>
@@ -184,8 +192,10 @@
                         </div>
                         <div class="col-4">
                             <?php
+
                             use App\Models\Proveedore;
-                            $proveedores = count(Proveedore::all()); 
+
+                            $proveedores = count(Proveedore::all());
                             ?>
                             <p class="text-center fw-bold fs-4">{{$proveedores}}</p>
                         </div>
@@ -208,8 +218,10 @@
                         </div>
                         <div class="col-4">
                             <?php
+
                             use App\Models\User;
-                            $users = count(User::all()); 
+
+                            $users = count(User::all());
                             ?>
                             <p class="text-center fw-bold fs-4">{{$users}}</p>
                         </div>
@@ -221,7 +233,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
     <!--div class="row">
         <div class="col-xl-6">
@@ -736,8 +748,8 @@
 
 @push('js')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>
-<script src="{{ asset('assets/demo/chart-area-demo.js') }}"></script>
-<script src="{{ asset('assets/demo/chart-bar-demo.js') }}"></script>
+<!---script src="{{ asset('assets/demo/chart-area-demo.js') }}"></script--->
+<!---script src="{{ asset('assets/demo/chart-bar-demo.js') }}"></script--->
 <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 <script src="{{ asset('js/datatables-simple-demo.js') }}"></script>
 @endpush
