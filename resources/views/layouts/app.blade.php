@@ -14,7 +14,7 @@
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     @stack('css')
 </head>
-@auth
+
 <body class="sb-nav-fixed">
 
     <x-navigation-header />
@@ -38,11 +38,6 @@
     @stack('js')
 
 </body>
-@endauth
-
-@guest
-    @include('pages.401')
-@endguest
 
 
 </html>

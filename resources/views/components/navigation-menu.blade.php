@@ -142,7 +142,7 @@
                 @can('ver-user')
                 <a class="nav-link" href="{{ route('users.index') }}">
                     <div class="sb-nav-link-icon"><i class="fa-solid fa-user"></i></div>
-                    Ususarios
+                    Usuarios
                 </a>
                 @endcan
 

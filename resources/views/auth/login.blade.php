@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="Inicio de sesión del sistema" />
     <meta name="author" content="SakCode" />
-    <title>Login - SB Admin</title>
+    <title>Sistema de ventas - Login</title>
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 </head>
@@ -35,11 +35,11 @@
                                     <form action="/login" method="post">
                                         @csrf
                                         <div class="form-floating mb-3">
-                                            <input autofocus autocomplete="off" class="form-control" name="email" id="inputEmail" type="email" placeholder="name@example.com" />
+                                            <input autofocus autocomplete="off" value="invitado@gmail.com" class="form-control" name="email" id="inputEmail" type="email" placeholder="name@example.com" />
                                             <label for="inputEmail">Correo eléctronico</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input class="form-control" name="password" id="inputPassword" type="password" placeholder="Password" />
+                                            <input class="form-control" name="password" value="12345678" id="inputPassword" type="password" placeholder="Password" />
                                             <label for="inputPassword">Contraseña</label>
                                         </div>
                                         <!--div class="form-check mb-3">

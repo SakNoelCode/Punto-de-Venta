@@ -1,4 +1,4 @@
-@extends('template')
+@extends('layouts.app')
 
 @section('title','Perfil')
 
@@ -8,27 +8,7 @@
 
 @section('content')
 
-@if (session('success'))
-<script>
-    let message = "{{ session('success') }}";
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 1500,
-        timerProgressBar: true,
-        didOpen: (toast) => {
-            toast.addEventListener('mouseenter', Swal.stopTimer)
-            toast.addEventListener('mouseleave', Swal.resumeTimer)
-        }
-    })
-
-    Toast.fire({
-        icon: 'success',
-        title: message
-    })
-</script>
-@endif
+@include('layouts.partials.alert')
 
 
 <div class="container-fluid">
@@ -62,7 +42,7 @@
                         </div>
                     </div>
                     <div class="col-sm-8">
-                        <input autocomplete="off" type="text" name="name" id="name" class="form-control" value="{{old('name',$user->name)}}">
+                        <input disabled autocomplete="off" type="text" name="name" id="name" class="form-control" value="{{old('name',$user->name)}}">
                     </div>
                 </div>
 
@@ -75,7 +55,7 @@
                         </div>
                     </div>
                     <div class="col-sm-8">
-                        <input autocomplete="off" type="email" name="email" id="email" class="form-control" value="{{old('email',$user->email)}}">
+                        <input disabled autocomplete="off" type="email" name="email" id="email" class="form-control" value="{{old('email',$user->email)}}">
                     </div>
                 </div>
 
@@ -88,12 +68,12 @@
                         </div>
                     </div>
                     <div class="col-sm-8">
-                        <input type="password" name="password" id="password" class="form-control">
+                        <input disabled type="password" name="password" id="password" class="form-control">
                     </div>
                 </div>
 
                 <div class="col text-center">
-                    <input class="btn btn-success" type="submit" value="Guardar cambios">
+                    <input disabled class="btn btn-success" type="submit" value="Guardar cambios">
                 </div>
 
             </form>

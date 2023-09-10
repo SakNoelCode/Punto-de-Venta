@@ -1,4 +1,4 @@
-@extends('template')
+@extends('layouts.app')
 
 @section('title','Ver compra')
 
@@ -11,8 +11,8 @@
         }
     }
 
-    @media (min-width:576px){
-        #icon-form{
+    @media (min-width:576px) {
+        #icon-form {
             display: none;
         }
     }
@@ -129,7 +129,7 @@
                 <div class="col-sm-6">
                     <div class="input-group">
                         <span title="Impuesto" id="icon-form" class="input-group-text"><i class="fa-solid fa-percent"></i></span>
-                        <input disabled type="text" class="form-control" value="{{ $compra->impuesto }}">
+                        <input disabled type="text" id="input-impuesto" class="form-control" value="{{ $compra->impuesto }}">
                     </div>
                 </div>
             </div>
