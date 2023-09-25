@@ -7,6 +7,8 @@ use App\Http\Requests\UpdatePresentacioneRequest;
 use App\Models\Caracteristica;
 use App\Models\Presentacione;
 use Exception;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 
 class presentacioneController extends Controller
@@ -21,7 +23,7 @@ class presentacioneController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $presentaciones = Presentacione::with('caracteristica')->latest()->get();
         return view('presentacione.index', compact('presentaciones'));
@@ -30,7 +32,7 @@ class presentacioneController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         return view('presentacione.create');
     }
@@ -38,7 +40,7 @@ class presentacioneController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCaracteristicaRequest $request)
+    public function store(StoreCaracteristicaRequest $request): RedirectResponse
     {
         try {
             DB::beginTransaction();
@@ -65,15 +67,15 @@ class presentacioneController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Presentacione $presentacione)
+    public function edit(Presentacione $presentacione): View
     {
-        return view('presentacione.edit',compact('presentacione'));
+        return view('presentacione.edit', compact('presentacione'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatePresentacioneRequest $request, Presentacione $presentacione)
+    public function update(UpdatePresentacioneRequest $request, Presentacione $presentacione): RedirectResponse
     {
         Caracteristica::where('id', $presentacione->caracteristica->id)
             ->update($request->validated());
@@ -84,7 +86,7 @@ class presentacioneController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
         $message = '';
         $presentacione = Presentacione::find($id);

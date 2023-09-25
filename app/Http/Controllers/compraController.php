@@ -8,6 +8,8 @@ use App\Models\Comprobante;
 use App\Models\Producto;
 use App\Models\Proveedore;
 use Exception;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -24,35 +26,35 @@ class compraController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
-        $compras = Compra::with('comprobante','proveedore.persona')
-        ->where('estado',1)
-        ->latest()
-        ->get(); 
+        $compras = Compra::with('comprobante', 'proveedore.persona')
+            ->where('estado', 1)
+            ->latest()
+            ->get();
 
-        return view('compra.index',compact('compras'));
+        return view('compra.index', compact('compras'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        $proveedores = Proveedore::whereHas('persona',function($query){
-            $query->where('estado',1);
+        $proveedores = Proveedore::whereHas('persona', function ($query) {
+            $query->where('estado', 1);
         })->get();
         $comprobantes = Comprobante::all();
-        $productos = Producto::where('estado',1)->get();
-        return view('compra.create',compact('proveedores','comprobantes','productos'));
+        $productos = Producto::where('estado', 1)->get();
+        return view('compra.create', compact('proveedores', 'comprobantes', 'productos'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCompraRequest $request)
+    public function store(StoreCompraRequest $request): RedirectResponse
     {
-        try{
+        try {
             DB::beginTransaction();
 
             //Llenar tabla compras
@@ -68,7 +70,7 @@ class compraController extends Controller
             //2.Realizar el llenado
             $siseArray = count($arrayProducto_id);
             $cont = 0;
-            while($cont < $siseArray){
+            while ($cont < $siseArray) {
                 $compra->productos()->syncWithoutDetaching([
                     $arrayProducto_id[$cont] => [
                         'cantidad' => $arrayCantidad[$cont],
@@ -83,29 +85,28 @@ class compraController extends Controller
                 $stockNuevo = intval($arrayCantidad[$cont]);
 
                 DB::table('productos')
-                ->where('id',$producto->id)
-                ->update([
-                    'stock' => $stockActual + $stockNuevo
-                ]);
+                    ->where('id', $producto->id)
+                    ->update([
+                        'stock' => $stockActual + $stockNuevo
+                    ]);
 
                 $cont++;
-
             }
 
             DB::commit();
-        }catch(Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
         }
 
-        return redirect()->route('compras.index')->with('success','compra exitosa');
+        return redirect()->route('compras.index')->with('success', 'compra exitosa');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Compra $compra)
+    public function show(Compra $compra): View
     {
-        return view('compra.show',compact('compra'));
+        return view('compra.show', compact('compra'));
     }
 
     /**
@@ -127,13 +128,13 @@ class compraController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
-        Compra::where('id',$id)
-        ->update([
-            'estado' => 0
-        ]);
+        Compra::where('id', $id)
+            ->update([
+                'estado' => 0
+            ]);
 
-        return redirect()->route('compras.index')->with('success','Compra eliminada');
+        return redirect()->route('compras.index')->with('success', 'Compra eliminada');
     }
 }

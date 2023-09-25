@@ -8,6 +8,8 @@ use App\Models\Comprobante;
 use App\Models\Producto;
 use App\Models\Venta;
 use Exception;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -23,20 +25,20 @@ class ventaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
-        $ventas = Venta::with(['comprobante','cliente.persona','user'])
-        ->where('estado',1)
-        ->latest()
-        ->get();
+        $ventas = Venta::with(['comprobante', 'cliente.persona', 'user'])
+            ->where('estado', 1)
+            ->latest()
+            ->get();
 
-        return view('venta.index',compact('ventas'));
+        return view('venta.index', compact('ventas'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
 
         $subquery = DB::table('compra_producto')
@@ -67,9 +69,9 @@ class ventaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreVentaRequest $request)
+    public function store(StoreVentaRequest $request): RedirectResponse
     {
-        try{
+        try {
             DB::beginTransaction();
 
             //Llenar mi tabla venta
@@ -86,7 +88,7 @@ class ventaController extends Controller
             $siseArray = count($arrayProducto_id);
             $cont = 0;
 
-            while($cont < $siseArray){
+            while ($cont < $siseArray) {
                 $venta->productos()->syncWithoutDetaching([
                     $arrayProducto_id[$cont] => [
                         'cantidad' => $arrayCantidad[$cont],
@@ -101,28 +103,28 @@ class ventaController extends Controller
                 $cantidad = intval($arrayCantidad[$cont]);
 
                 DB::table('productos')
-                ->where('id',$producto->id)
-                ->update([
-                    'stock' => $stockActual - $cantidad
-                ]);
+                    ->where('id', $producto->id)
+                    ->update([
+                        'stock' => $stockActual - $cantidad
+                    ]);
 
                 $cont++;
             }
 
             DB::commit();
-        }catch(Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
         }
 
-        return redirect()->route('ventas.index')->with('success','Venta exitosa');
+        return redirect()->route('ventas.index')->with('success', 'Venta exitosa');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Venta $venta)
+    public function show(Venta $venta): View
     {
-        return view('venta.show',compact('venta'));
+        return view('venta.show', compact('venta'));
     }
 
     /**
@@ -144,13 +146,13 @@ class ventaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
-        Venta::where('id',$id)
-        ->update([
-            'estado' => 0
-        ]);
+        Venta::where('id', $id)
+            ->update([
+                'estado' => 0
+            ]);
 
-        return redirect()->route('ventas.index')->with('success','Venta eliminada');
+        return redirect()->route('ventas.index')->with('success', 'Venta eliminada');
     }
 }

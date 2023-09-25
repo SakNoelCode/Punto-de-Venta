@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateMarcaRequest;
 use App\Models\Caracteristica;
 use App\Models\Marca;
 use Exception;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 
 class marcaController extends Controller
@@ -21,16 +23,16 @@ class marcaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $marcas = Marca::with('caracteristica')->latest()->get();
-        return view('marca.index',compact('marcas'));
+        return view('marca.index', compact('marcas'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         return view('marca.create');
     }
@@ -38,7 +40,7 @@ class marcaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCaracteristicaRequest $request)
+    public function store(StoreCaracteristicaRequest $request): RedirectResponse
     {
         try {
             DB::beginTransaction();
@@ -65,15 +67,15 @@ class marcaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Marca $marca)
+    public function edit(Marca $marca): View
     {
-        return view('marca.edit',compact('marca'));
+        return view('marca.edit', compact('marca'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateMarcaRequest $request, Marca $marca)
+    public function update(UpdateMarcaRequest $request, Marca $marca): RedirectResponse
     {
         Caracteristica::where('id', $marca->caracteristica->id)
             ->update($request->validated());
@@ -84,7 +86,7 @@ class marcaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
         $message = '';
         $marca = Marca::find($id);

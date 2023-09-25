@@ -37,7 +37,7 @@
                     </li>
                 </ul>
 
-                <form class="d-flex" action="{{route('login')}}" method="get">
+                <form class="d-flex" action="{{route('login.index')}}" method="get">
                     <button class="btn btn-primary" type="submit">Iniciar sesión</button>
                 </form>
 
@@ -134,7 +134,7 @@
         <div class="container p-5">
             <h2 class="text-light mb-5">Dale un nuevo enfoque a tu negocio<span class="text-info"> !Es momento de usar la tecnología como aliada¡</span></h2>
             <div class="">
-                <a href="{{route('login') }}" role="button" class="btn btn-primary">Probar ahora</a>
+                <a href="{{route('login.index') }}" role="button" class="btn btn-primary">Probar ahora</a>
             </div>
         </div>
 

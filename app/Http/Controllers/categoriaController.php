@@ -7,6 +7,8 @@ use App\Http\Requests\UpdateCategoriaRequest;
 use App\Models\Caracteristica;
 use App\Models\Categoria;
 use Exception;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 
 class categoriaController extends Controller
@@ -23,7 +25,7 @@ class categoriaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $categorias = Categoria::with('caracteristica')->latest()->get();
 
@@ -33,7 +35,7 @@ class categoriaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         return view('categoria.create');
     }
@@ -41,7 +43,7 @@ class categoriaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCaracteristicaRequest $request)
+    public function store(StoreCaracteristicaRequest $request): RedirectResponse
     {
         try {
             DB::beginTransaction();
@@ -68,7 +70,7 @@ class categoriaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Categoria $categoria)
+    public function edit(Categoria $categoria): view
     {
         return view('categoria.edit', ['categoria' => $categoria]);
     }
@@ -76,7 +78,7 @@ class categoriaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCategoriaRequest $request, Categoria $categoria)
+    public function update(UpdateCategoriaRequest $request, Categoria $categoria): RedirectResponse
     {
         Caracteristica::where('id', $categoria->caracteristica->id)
             ->update($request->validated());
@@ -87,7 +89,7 @@ class categoriaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
         $message = '';
         $categoria = Categoria::find($id);

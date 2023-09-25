@@ -8,18 +8,6 @@
 @endpush
 
 @section('content')
-
-@if (session('success'))
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-
-        let message = "{{ session('success') }}";
-        Swal.fire(message);
-
-    });
-</script>
-@endif
-
 <div class="container-fluid px-4">
     <h1 class="mt-4">Panel</h1>
     <ol class="breadcrumb mb-4">

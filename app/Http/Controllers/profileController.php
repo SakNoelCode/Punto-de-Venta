@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Exception;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +22,7 @@ class profileController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $user = User::find(Auth::user()->id);
         return view('profile.index', compact('user'));
@@ -62,7 +63,7 @@ class profileController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $profile)
+    public function update(Request $request, User $profile): RedirectResponse
     {
         $request->validate([
             'name' => 'required',

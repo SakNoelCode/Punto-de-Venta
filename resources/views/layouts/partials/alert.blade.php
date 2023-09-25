@@ -5,7 +5,7 @@
         toast: true,
         position: 'top-end',
         showConfirmButton: false,
-        timer: 1500,
+        timer: 2000,
         timerProgressBar: true,
         didOpen: (toast) => {
             toast.addEventListener('mouseenter', Swal.stopTimer)
@@ -17,5 +17,16 @@
         icon: 'success',
         title: message
     })
+</script>
+@endif
+
+@if (session('login'))
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        let message = "{{ session('login') }}";
+        Swal.fire(message);
+
+    });
 </script>
 @endif

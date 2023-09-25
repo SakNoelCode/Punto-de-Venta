@@ -8,6 +8,8 @@ use App\Models\Documento;
 use App\Models\Persona;
 use App\Models\Proveedore;
 use Exception;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 
 class proveedorController extends Controller
@@ -22,25 +24,25 @@ class proveedorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(): View
     {
         $proveedores = Proveedore::with('persona.documento')->get();
-        return view('proveedore.index',compact('proveedores'));
+        return view('proveedore.index', compact('proveedores'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
         $documentos = Documento::all();
-        return view('proveedore.create',compact('documentos'));
+        return view('proveedore.create', compact('documentos'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorePersonaRequest $request)
+    public function store(StorePersonaRequest $request): RedirectResponse
     {
         try {
             DB::beginTransaction();
@@ -67,36 +69,36 @@ class proveedorController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Proveedore $proveedore)
+    public function edit(Proveedore $proveedore): View
     {
         $proveedore->load('persona.documento');
         $documentos = Documento::all();
-        return view('proveedore.edit',compact('proveedore','documentos'));
+        return view('proveedore.edit', compact('proveedore', 'documentos'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProveedoreRequest $request, Proveedore $proveedore)
+    public function update(UpdateProveedoreRequest $request, Proveedore $proveedore): RedirectResponse
     {
-        try{
+        try {
             DB::beginTransaction();
 
-            Persona::where('id',$proveedore->persona->id)
-            ->update($request->validated());
+            Persona::where('id', $proveedore->persona->id)
+                ->update($request->validated());
 
             DB::commit();
-        }catch(Exception $e){
+        } catch (Exception $e) {
             DB::rollBack();
         }
 
-        return redirect()->route('proveedores.index')->with('success','Proveedor editado');
+        return redirect()->route('proveedores.index')->with('success', 'Proveedor editado');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id): RedirectResponse
     {
         $message = '';
         $persona = Persona::find($id);

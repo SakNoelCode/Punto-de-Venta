@@ -8,9 +8,6 @@
 
 @section('content')
 
-@include('layouts.partials.alert')
-
-
 <div class="container-fluid">
     <h1 class="mt-4 mb-4 text-center">Configurar perfil</h1>
 
