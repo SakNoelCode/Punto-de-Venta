@@ -4,22 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Caracteristica extends Model
 {
     use HasFactory;
 
-    public function categoria(){
+    public function categoria(): HasOne
+    {
         return $this->hasOne(Categoria::class);
     }
 
-    public function marca(){
+    public function marca(): HasOne
+    {
         return $this->hasOne(Marca::class);
     }
 
-    public function presentacione(){
+    public function presentacione(): HasOne
+    {
         return $this->hasOne(Presentacione::class);
     }
 
-    protected $fillable = ['nombre','descripcion'];
+    protected $fillable = ['nombre', 'descripcion'];
 }

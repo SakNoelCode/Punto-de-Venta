@@ -144,7 +144,7 @@
                                             <p class="fw-bolder">Imagen:</p>
                                             <div>
                                                 @if ($item->img_path != null)
-                                                <img src="{{ Storage::url('public/productos/'.$item->img_path) }}" alt="{{$item->nombre}}" class="img-fluid img-thumbnail border border-4 rounded">
+                                                <img src="{{ asset('storage/productos/'.$item->img_path) }}" alt="{{$item->nombre}}" class="img-fluid img-thumbnail border border-4 rounded">
                                                 @else
                                                 <img src="" alt="{{$item->nombre}}">
                                                 @endif

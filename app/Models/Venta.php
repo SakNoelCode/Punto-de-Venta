@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Venta extends Model
 {
@@ -11,20 +13,24 @@ class Venta extends Model
 
     protected $guarded = ['id'];
 
-    public function cliente(){
+    public function cliente(): BelongsTo
+    {
         return $this->belongsTo(Cliente::class);
     }
 
-    public function user(){
+    public function user(): BelongsTo
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function comprobante(){
+    public function comprobante(): BelongsTo
+    {
         return $this->belongsTo(Comprobante::class);
     }
 
-    public function productos(){
+    public function productos(): BelongsToMany
+    {
         return $this->belongsToMany(Producto::class)->withTimestamps()
-        ->withPivot('cantidad','precio_venta','descuento');
+            ->withPivot('cantidad', 'precio_venta', 'descuento');
     }
 }

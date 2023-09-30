@@ -4,7 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Producto extends Model
 {
@@ -20,29 +21,29 @@ class Producto extends Model
         'img_path'
     ];
 
-    public function compras()
+    public function compras(): BelongsToMany
     {
         return $this->belongsToMany(Compra::class)->withTimestamps()
             ->withPivot('cantidad', 'precio_compra', 'precio_venta');
     }
 
-    public function ventas()
+    public function ventas(): BelongsToMany
     {
         return $this->belongsToMany(Venta::class)->withTimestamps()
             ->withPivot('cantidad', 'precio_venta', 'descuento');
     }
 
-    public function categorias()
+    public function categorias(): BelongsToMany
     {
         return $this->belongsToMany(Categoria::class)->withTimestamps();
     }
 
-    public function marca()
+    public function marca(): BelongsTo
     {
         return $this->belongsTo(Marca::class);
     }
 
-    public function presentacione()
+    public function presentacione(): BelongsTo
     {
         return $this->belongsTo(Presentacione::class);
     }
@@ -52,8 +53,7 @@ class Producto extends Model
         $file = $image;
         $name = time() . $file->getClientOriginalName();
         //$file->move(public_path() . '/img/productos/', $name);
-        Storage::putFileAs('/public/productos/',$file,$name,'public');
-
+        $file->storeAs('productos', $name);
         return $name;
     }
 }
