@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Auth;
 
 class loginController extends Controller
 {
-    public function index(): View
+    public function index(): View|RedirectResponse
     {
         if (Auth::check()) {
             return redirect()->route('panel');

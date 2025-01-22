@@ -48,7 +48,10 @@ class Producto extends Model
         return $this->belongsTo(Presentacione::class);
     }
 
-    public function handleUploadImage($image)
+    /**
+     * Guarda una imagen en el Storage
+     */
+    public function handleUploadImage($image): string
     {
         $file = $image;
         $name = time() . $file->getClientOriginalName();

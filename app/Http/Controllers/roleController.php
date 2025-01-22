@@ -53,7 +53,7 @@ class roleController extends Controller
             $rol = Role::create(['name' => $request->name]);
 
             //Asignar permisos
-            $rol->syncPermissions($request->permission);
+            $rol->syncPermissions(array_map(fn($value) => (int)$value, $request->permission));
 
             DB::commit();
         } catch (Exception $e) {
@@ -101,7 +101,7 @@ class roleController extends Controller
                 ]);
 
             //Actualizar permisos
-            $role->syncPermissions($request->permission);
+            $role->syncPermissions(array_map(fn($value) => (int)$value, $request->permission));
 
             DB::commit();
         } catch (Exception $e) {
