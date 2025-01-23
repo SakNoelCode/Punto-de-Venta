@@ -8,25 +8,23 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('categorias', function (Blueprint $table) {
+        Schema::create('monedas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('caracteristica_id')->unique()->constrained()->cascadeOnDelete();
+            $table->string('estandar_iso', 10);
+            $table->string('nombre_completo');
+            $table->string('simbolo', 3);
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('categorias');
+        Schema::dropIfExists('monedas');
     }
 };

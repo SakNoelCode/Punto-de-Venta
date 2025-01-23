@@ -6,36 +6,32 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Producto extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'codigo',
-        'nombre',
-        'descripcion',
-        'fecha_vencimiento',
-        'marca_id',
-        'presentacione_id',
-        'img_path'
-    ];
+    protected $guarded = ['id'];
 
     public function compras(): BelongsToMany
     {
-        return $this->belongsToMany(Compra::class)->withTimestamps()
-            ->withPivot('cantidad', 'precio_compra', 'precio_venta');
+        return $this->belongsToMany(Compra::class)
+            ->withTimestamps()
+            ->withPivot('cantidad', 'precio_compra', 'fecha_vencimiento');
     }
 
     public function ventas(): BelongsToMany
     {
-        return $this->belongsToMany(Venta::class)->withTimestamps()
-            ->withPivot('cantidad', 'precio_venta', 'descuento');
+        return $this->belongsToMany(Venta::class)
+            ->withTimestamps()
+            ->withPivot('cantidad', 'precio_venta');
     }
 
-    public function categorias(): BelongsToMany
+    public function categoria(): BelongsTo
     {
-        return $this->belongsToMany(Categoria::class)->withTimestamps();
+        return $this->belongsTo(Categoria::class);
     }
 
     public function marca(): BelongsTo
@@ -46,6 +42,16 @@ class Producto extends Model
     public function presentacione(): BelongsTo
     {
         return $this->belongsTo(Presentacione::class);
+    }
+
+    public function inventario(): HasOne
+    {
+        return $this->hasOne(Inventario::class);
+    }
+
+    public function kardex(): HasMany
+    {
+        return $this->hasMany(Kardex::class);
     }
 
     /**

@@ -11,6 +11,8 @@ class Persona extends Model
 {
     use HasFactory;
 
+    protected $guarded = ['id'];
+
     public function documento(): BelongsTo
     {
         return $this->belongsTo(Documento::class);
@@ -25,6 +27,4 @@ class Persona extends Model
     {
         return $this->hasOne(Cliente::class);
     }
-
-    protected $fillable = ['razon_social', 'direccion', 'tipo_persona', 'documento_id', 'numero_documento'];
 }

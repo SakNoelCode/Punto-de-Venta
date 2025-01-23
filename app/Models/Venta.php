@@ -13,6 +13,11 @@ class Venta extends Model
 
     protected $guarded = ['id'];
 
+    public function caja(): BelongsTo
+    {
+        return $this->belongsTo(Caja::class);
+    }
+
     public function cliente(): BelongsTo
     {
         return $this->belongsTo(Cliente::class);
@@ -30,7 +35,8 @@ class Venta extends Model
 
     public function productos(): BelongsToMany
     {
-        return $this->belongsToMany(Producto::class)->withTimestamps()
-            ->withPivot('cantidad', 'precio_venta', 'descuento');
+        return $this->belongsToMany(Producto::class)
+            ->withTimestamps()
+            ->withPivot('cantidad', 'precio_venta');
     }
 }

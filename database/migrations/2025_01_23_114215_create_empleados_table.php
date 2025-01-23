@@ -8,25 +8,23 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('categorias', function (Blueprint $table) {
+        Schema::create('empleados', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('caracteristica_id')->unique()->constrained()->cascadeOnDelete();
+            $table->string('razon_social');
+            $table->string('cargo', 50);
+            $table->string('img_path', 2048)->nullable();
             $table->timestamps();
         });
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
+    public function down(): void
     {
-        Schema::dropIfExists('categorias');
+        Schema::dropIfExists('empleados');
     }
 };

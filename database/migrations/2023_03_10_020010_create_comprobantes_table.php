@@ -15,8 +15,7 @@ return new class extends Migration
     {
         Schema::create('comprobantes', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo_comprobante',50);
-            $table->tinyInteger('estado')->default(1);
+            $table->string('nombre', 50);
             $table->timestamps();
         });
     }

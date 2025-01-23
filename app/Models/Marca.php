@@ -11,6 +11,8 @@ class Marca extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['caracteristica_id'];
+
     public function productos(): HasMany
     {
         return $this->hasMany(Producto::class);
@@ -20,6 +22,5 @@ class Marca extends Model
     {
         return $this->belongsTo(Caracteristica::class);
     }
-
-    protected $fillable = ['caracteristica_id'];
+    
 }
