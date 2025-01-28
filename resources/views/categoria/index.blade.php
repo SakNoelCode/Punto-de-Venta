@@ -11,13 +11,14 @@
 @endpush
 
 @section('content')
- 
+
 <div class="container-fluid px-4">
     <h1 class="mt-4 text-center">Categorías</h1>
-    <ol class="breadcrumb mb-4">
-        <li class="breadcrumb-item"><a href="{{ route('panel') }}">Inicio</a></li>
-        <li class="breadcrumb-item active">Categorías</li>
-    </ol>
+
+    <x-breadcrumb.template>
+        <x-breadcrumb.item :href="route('panel')" content="Inicio" />
+        <x-breadcrumb.item active='true' content="Categorías" />
+    </x-breadcrumb.template>
 
     @can('crear-categoria')
     <div class="mb-4">

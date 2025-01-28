@@ -17,11 +17,11 @@
 
 <body class="sb-nav-fixed">
 
-    <x-navigation-header />
+    @include('layouts.include.navigation-header')
 
     <div id="layoutSidenav">
 
-        <x-navigation-menu />
+        @include('layouts.include.navigation-menu')
 
         <div id="layoutSidenav_content">
 
@@ -31,7 +31,7 @@
                 @yield('content')
             </main>
 
-            <x-footer />
+            @include('layouts.include.footer')
 
         </div>
     </div>

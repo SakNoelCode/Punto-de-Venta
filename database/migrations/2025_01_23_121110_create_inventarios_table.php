@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('inventario', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('producto_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('producto_id')->unique()->constrained()->cascadeOnDelete();
             $table->foreignId('ubicacione_id')->constrained()->cascadeOnDelete();
             $table->unsignedInteger('cantidad');
             $table->unsignedInteger('cantidad_minima')->nullable();
