@@ -54,18 +54,15 @@
                             {{$item->persona->direccion}}
                         </td>
                         <td>
-                            <p class="fw-semibold mb-1">{{$item->persona->documento->tipo_documento}}</p>
+                            <p class="fw-semibold mb-1">{{$item->persona->documento->nombre}}</p>
                             <p class="text-muted mb-0">{{$item->persona->numero_documento}}</p>
                         </td>
                         <td>
-                            {{$item->persona->tipo_persona}}
+                            {{$item->persona->tipo->value}}
                         </td>
                         <td>
-                            @if ($item->persona->estado == 1)
-                            <span class="badge rounded-pill text-bg-success">activo</span>
-                            @else
-                            <span class="badge rounded-pill text-bg-danger">eliminado</span>
-                            @endif
+                            <span class="badge rounded-pill text-bg-{{ $item->persona->estado ? 'success' : 'danger' }}">
+                                {{ $item->persona->estado ? 'Activo' : 'Eliminado'}}</span>
                         </td>
                         <td>
                             <div class="d-flex justify-content-around">

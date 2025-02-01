@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TipoPersonaEnum;
 use App\Http\Requests\StorePersonaRequest;
 use App\Http\Requests\UpdateProveedoreRequest;
 use App\Models\Documento;
@@ -36,7 +37,8 @@ class proveedorController extends Controller
     public function create(): View
     {
         $documentos = Documento::all();
-        return view('proveedore.create', compact('documentos'));
+        $optionsTipoPersona = TipoPersonaEnum::cases();
+        return view('proveedore.create', compact('documentos','optionsTipoPersona'));
     }
 
     /**
@@ -47,9 +49,7 @@ class proveedorController extends Controller
         try {
             DB::beginTransaction();
             $persona = Persona::create($request->validated());
-            $persona->proveedore()->create([
-                'persona_id' => $persona->id
-            ]);
+            $persona->proveedore()->create([]);
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
@@ -82,14 +82,11 @@ class proveedorController extends Controller
     public function update(UpdateProveedoreRequest $request, Proveedore $proveedore): RedirectResponse
     {
         try {
-            DB::beginTransaction();
-
-            Persona::where('id', $proveedore->persona->id)
-                ->update($request->validated());
-
-            DB::commit();
+            
+            $proveedore->persona->update($request->validated());
+           
         } catch (Exception $e) {
-            DB::rollBack();
+           
         }
 
         return redirect()->route('proveedores.index')->with('success', 'Proveedor editado');

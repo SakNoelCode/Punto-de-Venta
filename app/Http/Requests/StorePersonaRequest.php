@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TipoPersonaEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class StorePersonaRequest extends FormRequest
 {
@@ -22,9 +24,11 @@ class StorePersonaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'razon_social' => 'required|max:80',
-            'direccion' => 'required|max:80',
-            'tipo_persona' => 'required|string',
+            'razon_social' => 'required|max:255',
+            'direccion' => 'nullable|max:255',
+            'telefono' => 'nullable|max:15',
+            'tipo' => ['required', new Enum(TipoPersonaEnum::class)],
+            'email' => 'nullable|max:255',
             'documento_id' => 'required|integer|exists:documentos,id',
             'numero_documento' => 'required|max:20|unique:personas,numero_documento'
         ];

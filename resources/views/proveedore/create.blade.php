@@ -28,13 +28,14 @@
 
                     <!----Tipo de persona----->
                     <div class="col-md-6">
-                        <label for="tipo_persona" class="form-label">Tipo de proveedor:</label>
-                        <select class="form-select" name="tipo_persona" id="tipo_persona">
+                        <label for="tipo" class="form-label">Tipo de proveedor:</label>
+                        <select class="form-select" name="tipo" id="tipo">
                             <option value="" selected disabled>Seleccione una opción</option>
-                            <option value="natural" {{ old('tipo_persona') == 'natural' ? 'selected' : '' }}>Persona natural</option>
-                            <option value="juridica" {{ old('tipo_persona') == 'juridica' ? 'selected' : '' }}>Persona jurídica</option>
+                            @foreach ($optionsTipoPersona as $item)
+                            <option value="{{$item->value}}" {{ old('tipo') == $item->value ? 'selected' : '' }}>{{$item->name}}</option>
+                            @endforeach
                         </select>
-                        @error('tipo_persona')
+                        @error('tipo')
                         <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
                     </div>
@@ -54,11 +55,22 @@
                     <!------Dirección---->
                     <div class="col-12">
                         <label for="direccion" class="form-label">Dirección:</label>
-                        <input required type="text" name="direccion" id="direccion" class="form-control" value="{{old('direccion')}}">
+                        <input type="text" name="direccion" id="direccion" class="form-control" value="{{old('direccion')}}">
                         @error('direccion')
                         <small class="text-danger">{{'*'.$message}}</small>
                         @enderror
                     </div>
+
+                    <!------Email---->
+                    <div class="col-md-6">
+                        <x-forms.input id="email" type='email' labelText='Correo eléctronico' />
+                    </div>
+
+                    <!------Telefono---->
+                    <div class="col-md-6">
+                        <x-forms.input id="telefono" type='number' />
+                    </div>
+
 
                     <!--------------Documento------->
                     <div class="col-md-6">
@@ -66,7 +78,7 @@
                         <select class="form-select" name="documento_id" id="documento_id">
                             <option value="" selected disabled>Seleccione una opción</option>
                             @foreach ($documentos as $item)
-                            <option value="{{$item->id}}" {{ old('documento_id') == $item->id ? 'selected' : '' }}>{{$item->tipo_documento}}</option>
+                            <option value="{{$item->id}}" {{ old('documento_id') == $item->id ? 'selected' : '' }}>{{$item->nombre}}</option>
                             @endforeach
                         </select>
                         @error('documento_id')
@@ -97,10 +109,10 @@
 @push('js')
 <script>
     $(document).ready(function() {
-        $('#tipo_persona').on('change', function() {
+        $('#tipo').on('change', function() {
             let selectValue = $(this).val();
             //natural //juridica
-            if (selectValue == 'natural') {
+            if (selectValue == 'NATURAL') {
                 $('#label-juridica').hide();
                 $('#label-natural').show();
             } else {

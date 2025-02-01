@@ -2,7 +2,8 @@
 'labelText' => null,
 'id',
 'required' => false,
-'defaultValue' => null
+'defaultValue' => null,
+'type' => null
 ])
 
 <label for="{{$id}}" class="form-label">
@@ -11,7 +12,7 @@
 </label>
 <input
     {{$required ? 'required' : ''}}
-    type="text"
+    type="{{ $type ? $type : 'text'}}"
     name="{{$id}}"
     id="{{$id}}"
     class="form-control"
