@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\categoriaController;
 use App\Http\Controllers\clienteController;
 use App\Http\Controllers\compraController;
@@ -40,6 +41,7 @@ Route::resource('ventas', ventaController::class)->except('edit', 'update');
 Route::resource('users', userController::class)->except('show');
 Route::resource('roles', roleController::class)->except('show');
 Route::resource('profile', profileController::class)->only('index', 'update');
+Route::resource('activityLog', ActivityLogController::class)->only('index');
 
 Route::get('/login', [loginController::class, 'index'])->name('login.index');
 Route::post('/login', [loginController::class, 'login'])->name('login.login');
