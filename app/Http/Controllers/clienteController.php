@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TipoPersonaEnum;
 use App\Http\Requests\StorePersonaRequest;
 use App\Http\Requests\UpdateClienteRequest;
 use App\Models\Cliente;
 use App\Models\Documento;
 use App\Models\Persona;
-use Exception;
+use App\Services\ActivityLogService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class clienteController extends Controller
 {
@@ -26,7 +29,7 @@ class clienteController extends Controller
      */
     public function index(): View
     {
-        $clientes = Cliente::with('persona.documento')->get();
+        $clientes = Cliente::with('persona.documento')->latest()->get();
         return view('cliente.index', compact('clientes'));
     }
 
@@ -36,7 +39,8 @@ class clienteController extends Controller
     public function create(): View
     {
         $documentos = Documento::all();
-        return view('cliente.create', compact('documentos'));
+        $optionsTipoPersona = TipoPersonaEnum::cases();
+        return view('cliente.create', compact('documentos', 'optionsTipoPersona'));
     }
 
     /**
@@ -47,15 +51,17 @@ class clienteController extends Controller
         try {
             DB::beginTransaction();
             $persona = Persona::create($request->validated());
-            $persona->cliente()->create([
-                'persona_id' => $persona->id
-            ]);
+            $persona->cliente()->create([]);
             DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-        }
 
-        return redirect()->route('clientes.index')->with('success', 'Cliente registrado');
+            ActivityLogService::log('Creacion de cliente', 'Clientes', $request->validated());
+
+            return redirect()->route('clientes.index')->with('success', 'Cliente registrado');
+        } catch (Throwable $e) {
+            DB::rollBack();
+            Log::error('Error al crear al cliente', ['error' => $e->getMessage()]);
+            return redirect()->route('clientes.index')->with('error', 'Ups, algo falló');
+        }
     }
 
     /**
@@ -69,7 +75,7 @@ class clienteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Cliente $cliente) : View
+    public function edit(Cliente $cliente): View
     {
         $cliente->load('persona.documento');
         $documentos = Documento::all();
@@ -79,43 +85,40 @@ class clienteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateClienteRequest $request, Cliente $cliente) : RedirectResponse
+    public function update(UpdateClienteRequest $request, Cliente $cliente): RedirectResponse
     {
         try {
-            DB::beginTransaction();
+            $cliente->persona->update($request->validated());
+            ActivityLogService::log('Edición de cliente', 'Clientes', $request->validated());
 
-            Persona::where('id', $cliente->persona->id)
-                ->update($request->validated());
-
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
+            return redirect()->route('clientes.index')->with('success', 'Cliente editado');
+        } catch (Throwable $e) {
+            Log::error('Error al editar al cliente', ['error' => $e->getMessage()]);
+            return redirect()->route('clientes.index')->with('error', 'Ups, algo falló');
         }
-
-        return redirect()->route('clientes.index')->with('success', 'Cliente editado');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id) : RedirectResponse
+    public function destroy(string $id): RedirectResponse
     {
-        $message = '';
-        $persona = Persona::find($id);
-        if ($persona->estado == 1) {
-            Persona::where('id', $persona->id)
-                ->update([
-                    'estado' => 0
-                ]);
-            $message = 'Cliente eliminado';
-        } else {
-            Persona::where('id', $persona->id)
-                ->update([
-                    'estado' => 1
-                ]);
-            $message = 'Cliente restaurado';
-        }
+        try {
+            $persona = Persona::findOrfail($id);
 
-        return redirect()->route('clientes.index')->with('success', $message);
+            $nuevoEstado = $persona->estado == 1 ? 0 : 1;
+            $persona->update(['estado' => $nuevoEstado]);
+            $message = $nuevoEstado == 1 ? 'Cliente restaurado' : 'Cliente eliminado';
+
+            ActivityLogService::log($message, 'Clientes', [
+                'persona_id' => $id,
+                'estado' => $nuevoEstado
+            ]);
+
+            return redirect()->route('clientes.index')->with('success', $message);
+        } catch (Throwable $e) {
+            Log::error('Error al eliminar/restaurar al cliente', ['error' => $e->getMessage()]);
+            return redirect()->route('clientes.index')->with('error', 'Ups, algo falló');
+        }
     }
 }

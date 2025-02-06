@@ -78,12 +78,10 @@
                             Tipo de documento:</label>
                         <select class="form-select" name="documento_id" id="documento_id">
                             @foreach ($documentos as $item)
-
-                            <option value="{{$item->id}}"
-                                {{ old('documento_id') == $item->id ? 'selected' : '' ||  $proveedore->persona->documento_id == $item->id}}>
-                                {{$item->nombre}}
+                            <option value="{{ $item->id }}"
+                                {{ old('documento_id', $proveedore->persona->documento_id) == $item->id ? 'selected' : '' }}>
+                                {{ $item->nombre }}
                             </option>
-
                             @endforeach
                         </select>
                         @error('documento_id')

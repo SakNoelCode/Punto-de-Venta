@@ -11,38 +11,6 @@
 
                 <x-nav.heading>Modulos</x-nav.heading>
 
-                <!----Compras---->
-                @can('ver-compra')
-                <x-nav.link-collapsed
-                    id="collapseCompras"
-                    icon="fa-solid fa-store"
-                    content="Compras">
-                    @can('ver-compra')
-                    <x-nav.link-collapsed-item :href="route('compras.index')" content="Ver" />
-                    @endcan
-
-                    @can('crear-compra')
-                    <x-nav.link-collapsed-item :href="route('compras.create')" content="Crear" />
-                    @endcan
-                </x-nav.link-collapsed>
-                @endcan
-
-                <!----Ventas---->
-                @can('ver-venta')
-                <x-nav.link-collapsed
-                    id="collapseVentas"
-                    icon="fa-solid fa-cart-shopping"
-                    content="Ventas">
-                    @can('ver-venta')
-                    <x-nav.link-collapsed-item :href="route('ventas.index')" content="Ver" />
-                    @endcan
-
-                    @can('crear-venta')
-                    <x-nav.link-collapsed-item :href="route('ventas.create')" content="Crear" />
-                    @endcan
-                </x-nav.link-collapsed>
-                @endcan
-
                 @can('ver-categoria')
                 <x-nav.nav-link content='Categorías'
                     icon='fa-solid fa-tag'
@@ -77,6 +45,38 @@
                 <x-nav.nav-link content='Proveedores'
                     icon='fa-solid fa-user-group'
                     :href="route('proveedores.index')" />
+                @endcan
+
+                <!----Compras---->
+                @can('ver-compra')
+                <x-nav.link-collapsed
+                    id="collapseCompras"
+                    icon="fa-solid fa-store"
+                    content="Compras">
+                    @can('ver-compra')
+                    <x-nav.link-collapsed-item :href="route('compras.index')" content="Ver" />
+                    @endcan
+
+                    @can('crear-compra')
+                    <x-nav.link-collapsed-item :href="route('compras.create')" content="Crear" />
+                    @endcan
+                </x-nav.link-collapsed>
+                @endcan
+
+                <!----Ventas---->
+                @can('ver-venta')
+                <x-nav.link-collapsed
+                    id="collapseVentas"
+                    icon="fa-solid fa-cart-shopping"
+                    content="Ventas">
+                    @can('ver-venta')
+                    <x-nav.link-collapsed-item :href="route('ventas.index')" content="Ver" />
+                    @endcan
+
+                    @can('crear-venta')
+                    <x-nav.link-collapsed-item :href="route('ventas.create')" content="Crear" />
+                    @endcan
+                </x-nav.link-collapsed>
                 @endcan
 
                 @hasrole('administrador')
