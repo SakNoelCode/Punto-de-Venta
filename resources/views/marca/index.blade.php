@@ -52,11 +52,8 @@
                             {{$item->caracteristica->descripcion}}
                         </td>
                         <td>
-                            @if ($item->caracteristica->estado == 1)
-                            <span class="badge rounded-pill text-bg-success">activo</span>
-                            @else
-                            <span class="badge rounded-pill text-bg-danger">eliminado</span>
-                            @endif
+                            <span class="badge rounded-pill text-bg-{{ $item->caracteristica->estado ? 'success' : 'danger' }}">
+                                {{ $item->caracteristica->estado ? 'Activo' : 'Eliminado'}}</span>
                         </td>
                         <td>
                             <div class="d-flex justify-content-around">

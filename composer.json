@@ -8,8 +8,9 @@
         "php": "^8.2.0",
         "guzzlehttp/guzzle": "^7.7",
         "laravel/framework": "^11.0",
-        "laravel/sanctum": "^4.0",  
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.7",
+        "picqer/php-barcode-generator": "^3.2",
         "spatie/laravel-permission": "^6.0"
     },
     "require-dev": {

@@ -33,7 +33,7 @@ Route::get('/', [homeController::class, 'index'])->name('panel');
 Route::resource('categorias', categoriaController::class)->except('show');
 Route::resource('presentaciones', presentacioneController::class)->except('show');
 Route::resource('marcas', marcaController::class)->except('show');
-Route::resource('productos', ProductoController::class)->except('show');
+Route::resource('productos', ProductoController::class)->except('show', 'destroy');
 Route::resource('clientes', clienteController::class)->except('show');
 Route::resource('proveedores', proveedorController::class)->except('show');
 Route::resource('compras', compraController::class)->except('edit', 'update');

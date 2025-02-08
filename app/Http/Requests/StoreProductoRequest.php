@@ -22,14 +22,13 @@ class StoreProductoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'codigo' => 'required|unique:productos,codigo|max:50',
-            'nombre' => 'required|unique:productos,nombre|max:80',
+            'codigo' => 'nullable|unique:productos,codigo|max:50',
+            'nombre' => 'required|unique:productos,nombre|max:255',
             'descripcion' => 'nullable|max:255',
-            'fecha_vencimiento' => 'nullable|date',
             'img_path' => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
-            'marca_id' => 'required|integer|exists:marcas,id',
+            'marca_id' => 'nullable|integer|exists:marcas,id',
             'presentacione_id' => 'required|integer|exists:presentaciones,id',
-            'categorias' => 'required'
+            'categoria_id' => 'nullable|integer|exists:categorias,id'
         ];
     }
 
@@ -37,14 +36,15 @@ class StoreProductoRequest extends FormRequest
     {
         return [
             'marca_id' => 'marca',
-            'presentacione_id' => 'presentación'
+            'presentacione_id' => 'presentación',
+            'categoria_id' => 'categoría'
         ];
     }
 
     public function messages()
     {
         return [
-            'codigo.required' => 'Se necesita un campo código'
+           // 'codigo.required' => 'Se necesita un campo código'
         ];
     }
 }
