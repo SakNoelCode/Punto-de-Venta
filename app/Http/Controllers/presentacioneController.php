@@ -6,10 +6,12 @@ use App\Http\Requests\StoreCaracteristicaRequest;
 use App\Http\Requests\UpdatePresentacioneRequest;
 use App\Models\Caracteristica;
 use App\Models\Presentacione;
-use Exception;
+use App\Services\ActivityLogService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class presentacioneController extends Controller
 {
@@ -45,15 +47,16 @@ class presentacioneController extends Controller
         try {
             DB::beginTransaction();
             $caracteristica = Caracteristica::create($request->validated());
-            $caracteristica->presentacione()->create([
-                'caracteristica_id' => $caracteristica->id
-            ]);
+            $caracteristica->presentacione()->create(['sigla' => $request->sigla]);
             DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-        }
+            ActivityLogService::log('Creación de presentación', 'Presentaciones', $request->validated());
 
-        return redirect()->route('presentaciones.index')->with('success', 'Presentación registrada');
+            return redirect()->route('presentaciones.index')->with('success', 'Presentación registrada');
+        } catch (Throwable $e) {
+            DB::rollBack();
+            Log::error("Error al crear la presentacion", ['error' => $e->getMessage()]);
+            return redirect()->route('presentaciones.index')->with('error', 'Ups algo falló');
+        }
     }
 
     /**
@@ -77,10 +80,18 @@ class presentacioneController extends Controller
      */
     public function update(UpdatePresentacioneRequest $request, Presentacione $presentacione): RedirectResponse
     {
-        Caracteristica::where('id', $presentacione->caracteristica->id)
-            ->update($request->validated());
+        try {
+            $presentacione->caracteristica->update($request->validated());
+            $presentacione->update($request->validated());
 
-        return redirect()->route('presentaciones.index')->with('success', 'Presentación editada');
+            ActivityLogService::log('Edición de presentación', 'Presentaciones', $request->validated());
+
+            return redirect()->route('presentaciones.index')->with('success', 'Presentación editada');
+        } catch (Throwable $e) {
+            Log::error("Error al editar la presentacion", ['error' => $e->getMessage()]);
+
+            return redirect()->route('presentaciones.index')->with('error', 'Ups, algo falló');
+        }
     }
 
     /**
@@ -88,22 +99,24 @@ class presentacioneController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
-        $message = '';
-        $presentacione = Presentacione::find($id);
-        if ($presentacione->caracteristica->estado == 1) {
-            Caracteristica::where('id', $presentacione->caracteristica->id)
-                ->update([
-                    'estado' => 0
-                ]);
-            $message = 'Presentación eliminada';
-        } else {
-            Caracteristica::where('id', $presentacione->caracteristica->id)
-                ->update([
-                    'estado' => 1
-                ]);
-            $message = 'Presentación restaurada';
-        }
+        try {
+            $presentacione = Presentacione::find($id);
 
-        return redirect()->route('presentaciones.index')->with('success', $message);
+            $nuevoEstado = $presentacione->caracteristica->estado == 1 ? 0 : 1;
+            $presentacione->caracteristica->update(['estado' => $nuevoEstado]);
+            $message = $nuevoEstado == 1 ? 'Presentación restaurado' : 'Presentación eliminada';
+
+            ActivityLogService::log($message, 'Presentaciones', [
+                'presentacione_id' => $id,
+                'estado' => $nuevoEstado
+            ]);
+
+            return redirect()->route('presentaciones.index')->with('success', $message);
+        } catch (Throwable $e) {
+
+            Log::error('Error al eliminar/restaurar la presentación', ['error' => $e->getMessage()]);
+
+            return redirect()->route('presentaciones.index')->with('error', 'Ups, algo falló');
+        }
     }
 }

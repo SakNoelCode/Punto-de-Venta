@@ -35,6 +35,10 @@
                         @enderror
                     </div>
 
+                    <div class="col-md-6">
+                        <x-forms.input id="sigla" required='true' :defaultValue='$presentacione->sigla' />
+                    </div>
+
                     <div class="col-12">
                         <label for="descripcion" class="form-label">Descripción:</label>
                         <textarea name="descripcion" id="descripcion" rows="3" class="form-control">{{old('descripcion',$presentacione->caracteristica->descripcion)}}</textarea>

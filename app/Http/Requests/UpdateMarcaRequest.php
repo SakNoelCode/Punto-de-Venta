@@ -25,7 +25,7 @@ class UpdateMarcaRequest extends FormRequest
         $caracteristicaId = $marca->caracteristica->id;
 
         return [
-            'nombre' => 'required|max:60|unique:caracteristicas,nombre,'.$caracteristicaId,
+            'nombre' => 'required|max:255|unique:caracteristicas,nombre,'.$caracteristicaId,
             'descripcion' => 'nullable|max:255'
         ];
     }

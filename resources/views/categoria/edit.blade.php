@@ -32,7 +32,7 @@
 
             <div class="col-12">
                 <x-forms.textarea id="descripcion"
-                    defaultValue='$categoria->caracteristica->descripcion' />
+                    :defaultValue='$categoria->caracteristica->descripcion' />
             </div>
 
         </div>

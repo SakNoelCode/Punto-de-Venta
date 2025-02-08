@@ -25,7 +25,8 @@ class UpdatePresentacioneRequest extends FormRequest
         $caracteristicaId = $presentacione->caracteristica->id;
 
         return [
-            'nombre' => 'required|max:60|unique:caracteristicas,nombre,'.$caracteristicaId,
+            'nombre' => 'required|max:255|unique:caracteristicas,nombre,' . $caracteristicaId,
+            'sigla' => 'required|max:5',
             'descripcion' => 'nullable|max:255'
         ];
     }
