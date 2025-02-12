@@ -35,6 +35,10 @@
                     :href="route('productos.index')" />
                 @endcan
 
+                <x-nav.nav-link content='Inventario'
+                    icon='fa-solid fa-book'
+                    :href="route('inventario.index')" />
+
                 @can('ver-cliente')
                 <x-nav.nav-link content='Clientes'
                     icon='fa-solid fa-users'

@@ -5,6 +5,7 @@ use App\Http\Controllers\categoriaController;
 use App\Http\Controllers\clienteController;
 use App\Http\Controllers\compraController;
 use App\Http\Controllers\homeController;
+use App\Http\Controllers\InventarioControlller;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\logoutController;
 use App\Http\Controllers\marcaController;
@@ -42,6 +43,7 @@ Route::resource('users', userController::class)->except('show');
 Route::resource('roles', roleController::class)->except('show');
 Route::resource('profile', profileController::class)->only('index', 'update');
 Route::resource('activityLog', ActivityLogController::class)->only('index');
+Route::resource('inventario', InventarioControlller::class)->only('index', 'create', 'store');
 
 Route::get('/login', [loginController::class, 'index'])->name('login.index');
 Route::post('/login', [loginController::class, 'login'])->name('login.login');
