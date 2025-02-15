@@ -39,6 +39,10 @@
                     icon='fa-solid fa-book'
                     :href="route('inventario.index')" />
 
+                <x-nav.nav-link content='Kardex'
+                    icon='fa-solid fa-file'
+                    :href="route('kardex.index')" />
+
                 @can('ver-cliente')
                 <x-nav.nav-link content='Clientes'
                     icon='fa-solid fa-users'

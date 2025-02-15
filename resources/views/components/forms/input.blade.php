@@ -13,6 +13,9 @@
 <input
     {{$required ? 'required' : ''}}
     type="{{ $type ? $type : 'text'}}"
+    @if ($type == 'number')
+        step="0.1"
+    @endif
     name="{{$id}}"
     id="{{$id}}"
     class="form-control"

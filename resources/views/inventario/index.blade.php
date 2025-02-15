@@ -40,6 +40,7 @@
                         <th>Producto</th>
                         <th>Stock</th>
                         <th>Ubicación</th>
+                        <th>Fecha de Vencimiento</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -54,6 +55,9 @@
                         </td>
                         <td>
                             {{$item->ubicacione->nombre}}
+                        </td>
+                        <td>
+                            {{$item->fecha_vencimiento_format ?? $item->fecha_vencimiento_format}}
                         </td>
                         <td>
 

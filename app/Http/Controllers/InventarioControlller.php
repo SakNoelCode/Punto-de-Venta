@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TipoTransaccionEnum;
 use App\Http\Requests\StoreInventarioRequest;
 use App\Models\Inventario;
+use App\Models\Kardex;
 use App\Models\Producto;
 use App\Models\Ubicacione;
 use App\Services\ActivityLogService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -41,13 +44,17 @@ class InventarioControlller extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreInventarioRequest $request): RedirectResponse
+    public function store(StoreInventarioRequest $request, Kardex $kardex): RedirectResponse
     {
+        DB::beginTransaction();
         try {
             Inventario::create($request->validated());
+            $kardex->crearRegistro($request->validated(), TipoTransaccionEnum::Apertura);
+            DB::commit();
             ActivityLogService::log('Inicialiación de producto', 'Productos', $request->validated());
             return redirect()->route('productos.index')->with('success', 'Producto inicializado');
         } catch (Throwable $e) {
+            DB::rollBack();
             Log::error('Error al inicializar el producto', ['error' => $e->getMessage()]);
             return redirect()->route('productos.index')->with('error', 'Ups, algo falló');
         }

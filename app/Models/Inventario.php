@@ -14,6 +14,10 @@ class Inventario extends Model
 
     protected $table = 'inventario';
 
+    protected $casts = [
+        'fecha_vencimiento' => 'date',
+    ];
+
     public function ubicacione(): BelongsTo
     {
         return $this->belongsTo(Ubicacione::class);
@@ -22,5 +26,10 @@ class Inventario extends Model
     public function producto(): BelongsTo
     {
         return $this->belongsTo(Producto::class);
+    }
+
+    public function getFechaVencimientoFormatAttribute(): string
+    {
+        return $this->fecha_vencimiento ? $this->fecha_vencimiento->format('d/m/Y') : '';
     }
 }
