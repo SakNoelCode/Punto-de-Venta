@@ -91,6 +91,14 @@
                 <x-nav.heading>Otros</x-nav.heading>
                 @endhasrole
 
+                <x-nav.nav-link content='Empresa'
+                    icon='fa-solid fa-city'
+                    :href="route('empresa.index')" />
+
+                <x-nav.nav-link content='Empleados'
+                    icon='fa-solid fa-users'
+                    :href="route('empleados.index')" />
+
                 @can('ver-user')
                 <x-nav.nav-link content='Usuarios'
                     icon='fa-solid fa-user'

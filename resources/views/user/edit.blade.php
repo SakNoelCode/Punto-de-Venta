@@ -3,7 +3,6 @@
 @section('title','Editar usuario')
 
 @push('css')
-
 @endpush
 
 @section('content')
@@ -23,11 +22,17 @@
                 <p class="">Nota: Los usuarios son los que pueden ingresar al sistema</p>
             </div>
             <div class="card-body">
+
                 <!---Nombre---->
                 <div class="row mb-4">
-                    <label for="name" class="col-lg-2 col-form-label">Nombres:</label>
+                    <label for="name" class="col-lg-2 col-form-label">
+                        Nombres:</label>
                     <div class="col-lg-4">
-                        <input type="text" name="name" id="name" class="form-control" value="{{old('name',$user->name)}}">
+                        <input type="text"
+                            name="name"
+                            id="name"
+                            class="form-control"
+                            value="{{old('name',$user->name)}}">
                     </div>
                     <div class="col-lg-4">
                         <div class="form-text">
@@ -43,9 +48,14 @@
 
                 <!---Email---->
                 <div class="row mb-4">
-                    <label for="email" class="col-lg-2 col-form-label">Email:</label>
+                    <label for="email" class="col-lg-2 col-form-label">
+                        Email:</label>
                     <div class="col-lg-4">
-                        <input type="email" name="email" id="email" class="form-control" value="{{old('email',$user->email)}}">
+                        <input type="email"
+                            name="email"
+                            id="email"
+                            class="form-control"
+                            value="{{old('email',$user->email)}}">
                     </div>
                     <div class="col-lg-4">
                         <div class="form-text">
@@ -61,9 +71,13 @@
 
                 <!---Password---->
                 <div class="row mb-4">
-                    <label for="password" class="col-lg-2 col-form-label">Contraseña:</label>
+                    <label for="password" class="col-lg-2 col-form-label">
+                        Contraseña:</label>
                     <div class="col-lg-4">
-                        <input type="password" name="password" id="password" class="form-control">
+                        <input type="password"
+                            name="password"
+                            id="password"
+                            class="form-control">
                     </div>
                     <div class="col-lg-4">
                         <div class="form-text">
@@ -79,9 +93,13 @@
 
                 <!---Confirm_Password---->
                 <div class="row mb-4">
-                    <label for="password_confirm" class="col-lg-2 col-form-label">Confirmar:</label>
+                    <label for="password_confirm" class="col-lg-2 col-form-label">
+                        Confirmar:</label>
                     <div class="col-lg-4">
-                        <input type="password" name="password_confirm" id="password_confirm" class="form-control">
+                        <input type="password"
+                            name="password_confirm"
+                            id="password_confirm"
+                            class="form-control">
                     </div>
                     <div class="col-lg-4">
                         <div class="form-text">
@@ -97,15 +115,16 @@
 
                 <!---Roles---->
                 <div class="row mb-4">
-                    <label for="role" class="col-lg-2 col-form-label">Seleccionar rol:</label>
+                    <label for="role" class="col-lg-2 col-form-label">
+                        Seleccionar rol:</label>
                     <div class="col-lg-4">
                         <select name="role" id="role" class="form-select">
                             @foreach ($roles as $item)
-                            @if ( in_array($item->name,$user->roles->pluck('name')->toArray()) )
-                            <option selected value="{{$item->name}}" @selected(old('role')==$item->name)>{{$item->name}}</option>
-                            @else
-                            <option value="{{$item->name}}" @selected(old('role')==$item->name)>{{$item->name}}</option>
-                            @endif
+                            <option
+                                value="{{$item->name}}"
+                                @selected(in_array($item->name, $user->roles->pluck('name')->toArray()) || old('role') == $item->name)>
+                                {{$item->name}}
+                            </option>
                             @endforeach
                         </select>
                     </div>

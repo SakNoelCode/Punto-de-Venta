@@ -19,5 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PermissionSeeder::class);
         $this->call(UserSeeder::class);
         $this->call(UbicacioneSeeder::class);
+        $this->call(MonedaSeeder::class);
+        $this->call(EmpresaSeeder::class);
     }
 }

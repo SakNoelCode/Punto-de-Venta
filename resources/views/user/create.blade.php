@@ -23,6 +23,34 @@
             </div>
             <div class="card-body">
 
+                <!-----Empleado  .------>
+                <div class="row mb-4">
+                    <label for="empleado_id" class="col-lg-2 col-form-label">
+                        Empleado:</label>
+                    <div class="col-lg-4">
+                        <select name="empleado_id" id="empleado_id"
+                            class="form-select">
+                            <option value="" selected disabled>Seleccione:</option>
+                            @foreach ($empleados as $item)
+                            <option value="{{$item->id}}"
+                                {{ old('empleado_id') == $item->id ? 'selected': '' }}>
+                                {{$item->razon_social}}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="form-text" id="nameHelpBlock">
+                            Escoja en empleado
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        @error('empleado_id')
+                        <small class="text-danger">{{'*'.$message}}</small>
+                        @enderror
+                    </div>
+                </div>
+
                 <!---Nombre---->
                 <div class="row mb-4">
                     <label for="name" class="col-lg-2 col-form-label">Nombres:</label>
@@ -100,9 +128,12 @@
                     <label for="role" class="col-lg-2 col-form-label">Rol:</label>
                     <div class="col-lg-4">
                         <select name="role" id="role" class="form-select" aria-labelledby="rolHelpBlock">
-                            <option value="" selected disabled>Seleccione:</option>
+                            <option value="" selected disabled>
+                                Seleccione:</option>
                             @foreach ($roles as $item)
-                            <option value="{{$item->name}}" @selected(old('role')==$item->name)>{{$item->name}}</option>
+                            <option value="{{$item->name}}" @selected(old('role')==$item->name)>
+                                {{$item->name}}
+                            </option>
                             @endforeach
                         </select>
                     </div>

@@ -1,10 +1,11 @@
 @props([
 'action',
 'method',
-'patch' => false
+'patch' => false,
+'file' => false
 ])
 <div class="card text-bg-light">
-    <form action="{{ $action }}" method="{{ $method }}">
+    <form action="{{ $action }}" method="{{ $method }}" @if($file) enctype="multipart/form-data" @endif>
 
         @if ($patch)
         @method('PATCH')

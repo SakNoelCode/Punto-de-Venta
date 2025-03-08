@@ -4,6 +4,8 @@ use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\categoriaController;
 use App\Http\Controllers\clienteController;
 use App\Http\Controllers\compraController;
+use App\Http\Controllers\EmpleadoController;
+use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\InventarioControlller;
 use App\Http\Controllers\KardexController;
@@ -46,6 +48,8 @@ Route::resource('profile', profileController::class)->only('index', 'update');
 Route::resource('activityLog', ActivityLogController::class)->only('index');
 Route::resource('inventario', InventarioControlller::class)->only('index', 'create', 'store');
 Route::resource('kardex', KardexController::class)->only('index');
+Route::resource('empresa', EmpresaController::class)->only('index', 'update');
+Route::resource('empleados', EmpleadoController::class)->except('show');
 
 Route::get('/login', [loginController::class, 'index'])->name('login.index');
 Route::post('/login', [loginController::class, 'login'])->name('login.login');

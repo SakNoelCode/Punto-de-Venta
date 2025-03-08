@@ -4,14 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Empleado;
 use App\Models\User;
-use Exception;
+use App\Services\ActivityLogService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Spatie\Permission\Models\Role;
+use Throwable;
 
 class userController extends Controller
 {
@@ -27,7 +30,12 @@ class userController extends Controller
      */
     public function index(): View
     {
-        $users = User::all();
+        $users = User::whereDoesntHave('roles', function ($query) {
+            $query->where('name', 'administrador');
+        })
+            ->latest()
+            ->get();
+
         return view('user.index', compact('users'));
     }
 
@@ -36,8 +44,9 @@ class userController extends Controller
      */
     public function create(): View
     {
-        $roles = Role::all();
-        return view('user.create', compact('roles'));
+        $roles = Role::where('name', '!=', 'administrador')->get();
+        $empleados = Empleado::all();
+        return view('user.create', compact('roles', 'empleados'));
     }
 
     /**
@@ -45,26 +54,20 @@ class userController extends Controller
      */
     public function store(StoreUserRequest $request): RedirectResponse
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
-
-            //Encriptar contraseña
-            $fieldHash = Hash::make($request->password);
-            //Modificar el valor de password en nuestro request
-            $request->merge(['password' => $fieldHash]);
-
-            //Crear usuario
+            $request->merge(['password' =>  Hash::make($request->password)]);
             $user = User::create($request->all());
-
-            //Asignar su rol
             $user->assignRole($request->role);
 
             DB::commit();
-        } catch (Exception $e) {
+            ActivityLogService::log('Creación de usuario', 'Usuarios', $request->validated());
+            return redirect()->route('users.index')->with('success', 'Usuario registrado');
+        } catch (Throwable $e) {
             DB::rollBack();
+            Log::error('Error al crear el usuario', ['error' => $e->getMessage()]);
+            return redirect()->route('users.index')->with('error', 'Ups, algo falló');
         }
-
-        return redirect()->route('users.index')->with('success', 'usuario registrado');
     }
 
     /**
@@ -80,7 +83,7 @@ class userController extends Controller
      */
     public function edit(User $user): View
     {
-        $roles = Role::all();
+        $roles = Role::where('name', '!=', 'administrador')->get();
         return view('user.edit', compact('user', 'roles'));
     }
 
@@ -89,28 +92,26 @@ class userController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
 
             /*Comprobar el password y aplicar el Hash*/
             if (empty($request->password)) {
                 $request = Arr::except($request, array('password'));
             } else {
-                $fieldHash = Hash::make($request->password);
-                $request->merge(['password' => $fieldHash]);
+                $request->merge(['password' => Hash::make($request->password)]);
             }
-
             $user->update($request->all());
-
-            /**Actualizar rol */
             $user->syncRoles([$request->role]);
 
             DB::commit();
-        } catch (Exception $e) {
+            ActivityLogService::log('Edición de usuario', 'Usuarios', $request->validated());
+            return redirect()->route('users.index')->with('success', 'Usuario editado');
+        } catch (Throwable $e) {
             DB::rollBack();
+            Log::error('Error al editar el usuario', ['error' => $e->getMessage()]);
+            return redirect()->route('users.index')->with('error', 'Ups, algo falló');
         }
-
-        return redirect()->route('users.index')->with('success', 'Usuario editado');
     }
 
     /**
@@ -118,15 +119,22 @@ class userController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
-        $user = User::find($id);
+        try {
+            $user = User::findOrfail($id);
 
-        //Eliminar rol
-        $rolUser = $user->getRoleNames()->first();
-        $user->removeRole($rolUser);
+            $nuevoEstado = $user->estado == 1 ? 0 : 1;
+            $user->update(['estado' => $nuevoEstado]);
+            $message = $nuevoEstado == 1 ? 'Usuario activado' : 'Usuario desactivado';
 
-        //Eliminar usuario
-        $user->delete();
+            ActivityLogService::log($message, 'Usuario', [
+                'user_id' => $id,
+                'estado' => $nuevoEstado
+            ]);
 
-        return redirect()->route('users.index')->with('success', 'Usuario eliminado');
+            return redirect()->route('users.index')->with('success', $message);
+        } catch (Throwable $e) {
+            Log::error('Error al eliminar/restaurar al usuario', ['error' => $e->getMessage()]);
+            return redirect()->route('users.index')->with('error', 'Ups, algo falló');
+        }
     }
 }
