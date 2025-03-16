@@ -14,6 +14,7 @@ use App\Services\ActivityLogService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Throwable;
@@ -25,7 +26,7 @@ class compraController extends Controller
         $this->middleware('permission:ver-compra|crear-compra|mostrar-compra|eliminar-compra', ['only' => ['index']]);
         $this->middleware('permission:crear-compra', ['only' => ['create', 'store']]);
         $this->middleware('permission:mostrar-compra', ['only' => ['show']]);
-        $this->middleware('permission:eliminar-compra', ['only' => ['destroy']]);
+        //$this->middleware('permission:eliminar-compra', ['only' => ['destroy']]);
     }
 
     /**
@@ -34,7 +35,7 @@ class compraController extends Controller
     public function index(): View
     {
         $compras = Compra::with('comprobante', 'proveedore.persona')
-           // ->where('estado', 1)
+            ->where('user_id', Auth::id())
             ->latest()
             ->get();
 
@@ -126,7 +127,8 @@ class compraController extends Controller
      */
     public function show(Compra $compra): View
     {
-        return view('compra.show', compact('compra'));
+        $empresa = Empresa::first();
+        return view('compra.show', compact('compra', 'empresa'));
     }
 
     /**
@@ -148,13 +150,14 @@ class compraController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(string $id)
     {
+        /*
         Compra::where('id', $id)
             ->update([
                 'estado' => 0
             ]);
 
-        return redirect()->route('compras.index')->with('success', 'Compra eliminada');
+        return redirect()->route('compras.index')->with('success', 'Compra eliminada');*/
     }
 }

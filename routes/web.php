@@ -40,7 +40,7 @@ Route::resource('marcas', marcaController::class)->except('show');
 Route::resource('productos', ProductoController::class)->except('show', 'destroy');
 Route::resource('clientes', clienteController::class)->except('show');
 Route::resource('proveedores', proveedorController::class)->except('show');
-Route::resource('compras', compraController::class)->except('edit', 'update');
+Route::resource('compras', compraController::class)->except('edit', 'update', 'destroy');
 Route::resource('ventas', ventaController::class)->except('edit', 'update');
 Route::resource('users', userController::class)->except('show');
 Route::resource('roles', roleController::class)->except('show');

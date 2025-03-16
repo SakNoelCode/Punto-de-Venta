@@ -207,7 +207,7 @@
                                         <tr>
                                             <th colspan="5">Sumas</th>
                                             <th colspan="2">
-                                                <input type="hidden" name="subtotal" value="0" id="inputSubTotal">
+                                                <input type="hidden" name="subtotal" value="0" id="inputSubtotal">
                                                 <span id="sumas">0</span>
                                                 <span>{{$empresa->moneda->simbolo}}</span>
                                             </th>

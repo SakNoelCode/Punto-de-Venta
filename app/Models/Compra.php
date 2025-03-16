@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\MetodoPagoEnum;
 use App\Observers\CompraObserver;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -45,15 +46,31 @@ class Compra extends Model
     }
 
     /**
+     * Obtener solo la fecha
+     * @return string
+     */
+    public function getFechaAttribute(): string
+    {
+        return Carbon::parse($this->fecha_hora)->format('d-m-Y');
+    }
+
+    /**
+     * Obtener solo la hora
+     * @return string
+     */
+    public function getHoraAttribute(): string
+    {
+        return Carbon::parse($this->fecha_hora)->format('H:i');
+    }
+
+    /**
      * Guardar el archivo en el servidor.
      */
     public function handleUploadFile(UploadedFile $file): string
     {
         // Crear un nombre único
         $name = uniqid() . '.' . $file->getClientOriginalExtension();
-
         $path = 'storage/' . $file->storeAs('compras', $name);
-
         return $path;
     }
 }

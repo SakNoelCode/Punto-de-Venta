@@ -4,19 +4,6 @@
 
 @push('css')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-<style>
-    @media (max-width:575px) {
-        #hide-group {
-            display: none;
-        }
-    }
-
-    @media (min-width:576px) {
-        #icon-form {
-            display: none;
-        }
-    }
-</style>
 @endpush
 
 @section('content')
@@ -37,103 +24,16 @@
         </div>
 
         <div class="card-body">
-
-            <!---Tipo comprobante--->
-            <div class="row mb-4">
-                <div class="col-sm-6">
-                    <div class="input-group" id="hide-group">
-                        <span class="input-group-text"><i class="fa-solid fa-file"></i></span>
-                        <input disabled type="text" class="form-control" value="Tipo de comprobante: ">
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="input-group">
-                        <span title="Tipo de comprobante" id="icon-form" class="input-group-text"><i class="fa-solid fa-file"></i></span>
-                        <input disabled type="text" class="form-control" value="{{$compra->comprobante->tipo_comprobante}}">
-                    </div>
-                </div>
-            </div>
-
-            <!---Numero comprobante--->
-            <div class="row mb-4">
-                <div class="col-sm-6">
-                    <div class="input-group" id="hide-group">
-                        <span class="input-group-text"><i class="fa-solid fa-hashtag"></i></span>
-                        <input disabled type="text" class="form-control" value="Número de comprobante: ">
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="input-group">
-                        <span title="Número de comprobante" id="icon-form" class="input-group-text"><i class="fa-solid fa-hashtag"></i></span>
-                        <input disabled type="text" class="form-control" value="{{$compra->numero_comprobante}}">
-                    </div>
-                </div>
-            </div>
-
-            <!---Proveedor--->
-            <div class="row mb-4">
-                <div class="col-sm-6">
-                    <div class="input-group" id="hide-group">
-                        <span class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
-                        <input disabled type="text" class="form-control" value="Proveedor: ">
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="input-group">
-                        <span title="Proveedor" id="icon-form" class="input-group-text"><i class="fa-solid fa-user-tie"></i></span>
-                        <input disabled type="text" class="form-control" value="{{$compra->proveedore->persona->razon_social}}">
-                    </div>
-                </div>
-            </div>
-
-            <!---Fecha--->
-            <div class="row mb-4">
-                <div class="col-sm-6">
-                    <div class="input-group" id="hide-group">
-                        <span class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-                        <input disabled type="text" class="form-control" value="Fecha: ">
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="input-group">
-                        <span title="Fecha" id="icon-form" class="input-group-text"><i class="fa-solid fa-calendar-days"></i></span>
-                        <input disabled type="text" class="form-control" value="{{ \Carbon\Carbon::parse($compra->fecha_hora)->format('d-m-Y') }}">
-                    </div>
-                </div>
-            </div>
-
-            <!---Hora-->
-            <div class="row mb-4">
-                <div class="col-sm-6">
-                    <div class="input-group" id="hide-group">
-                        <span class="input-group-text"><i class="fa-solid fa-clock"></i></span>
-                        <input disabled type="text" class="form-control" value="Hora: ">
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="input-group">
-                        <span title="Hora" id="icon-form" class="input-group-text"><i class="fa-solid fa-clock"></i></span>
-                        <input disabled type="text" class="form-control" value="{{ \Carbon\Carbon::parse($compra->fecha_hora)->format('H:i') }}">
-                    </div>
-                </div>
-            </div>
-
-            <!---Impuesto--->
-            <div class="row">
-                <div class="col-sm-6">
-                    <div class="input-group" id="hide-group">
-                        <span class="input-group-text"><i class="fa-solid fa-percent"></i></span>
-                        <input disabled type="text" class="form-control" value="Impuesto: ">
-                    </div>
-                </div>
-                <div class="col-sm-6">
-                    <div class="input-group">
-                        <span title="Impuesto" id="icon-form" class="input-group-text"><i class="fa-solid fa-percent"></i></span>
-                        <input disabled type="text" id="input-impuesto" class="form-control" value="{{ $compra->impuesto }}">
-                    </div>
-                </div>
-            </div>
-
+            <h6 class="card-subtitle mb-3 text-body-secondary">
+                Comprobante: {{$compra->comprobante->nombre}} ({{$compra->numero_comprobante}})</h6>
+            <h6 class="card-subtitle mb-3 text-body-secondary">
+                Proveedor: {{$compra->proveedore->persona->razon_social}}</h6>
+            <h6 class="card-subtitle mb-3 text-body-secondary">
+                Usuario: {{$compra->user->name}}</h6>
+            <h6 class="card-subtitle mb-3 text-body-secondary">
+                Método de pago: {{$compra->metodo_pago}}</h6>
+            <h6 class="card-subtitle mb-3 text-body-secondary">
+                Fecha y hora: {{$compra->fecha}} - {{$compra->hora}}</h6>
         </div>
     </div>
 
@@ -149,9 +49,10 @@
                 <thead class="bg-primary">
                     <tr class="align-top">
                         <th class="text-white">Producto</th>
+                        <th class="text-white">Presentación</th>
                         <th class="text-white">Cantidad</th>
                         <th class="text-white">Precio de compra</th>
-                        <th class="text-white">Precio de venta</th>
+                        <th class="text-white">Fecha de vencimiento</th>
                         <th class="text-white">Subtotal</th>
                     </tr>
                 </thead>
@@ -162,13 +63,16 @@
                             {{$item->nombre}}
                         </td>
                         <td>
+                            {{$item->presentacione->sigla}}
+                        </td>
+                        <td>
                             {{$item->pivot->cantidad}}
                         </td>
                         <td>
                             {{$item->pivot->precio_compra}}
                         </td>
                         <td>
-                            {{$item->pivot->precio_venta}}
+                            {{$item->pivot->fecha_vencimiento}}
                         </td>
                         <td class="td-subtotal">
                             {{($item->pivot->cantidad) * ($item->pivot->precio_compra)}}
@@ -178,19 +82,22 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th colspan="5"></th>
+                        <th colspan="6"></th>
                     </tr>
                     <tr>
-                        <th colspan="4">Sumas:</th>
-                        <th id="th-suma"></th>
+                        <th colspan="5">Sumas:</th>
+                        <th>
+                            <span id="th-suma"></span>
+                            <span>{{$empresa->moneda->simbolo}}</span>
+                        </th>
                     </tr>
                     <tr>
-                        <th colspan="4">IGV:</th>
-                        <th id="th-igv"></th>
+                        <th colspan="5">{{$empresa->abreviatura_impuesto}}:</th>
+                        <th>{{$compra->impuesto}} {{$empresa->moneda->simbolo}}</th>
                     </tr>
                     <tr>
-                        <th colspan="4">Total:</th>
-                        <th id="th-total"></th>
+                        <th colspan="5">Total:</th>
+                        <th>{{$compra->total}} {{$empresa->moneda->simbolo}}</th>
                     </tr>
                 </tfoot>
             </table>
@@ -205,7 +112,6 @@
     //Variables
     let filasSubtotal = document.getElementsByClassName('td-subtotal');
     let cont = 0;
-    let impuesto = $('#input-impuesto').val();
 
     $(document).ready(function() {
         calcularValores();
@@ -217,22 +123,6 @@
         }
 
         $('#th-suma').html(cont);
-        $('#th-igv').html(impuesto);
-        $('#th-total').html(round(cont + parseFloat(impuesto)));
     }
-
-    function round(num, decimales = 2) {
-        var signo = (num >= 0 ? 1 : -1);
-        num = num * signo;
-        if (decimales === 0) //con 0 decimales
-            return signo * Math.round(num);
-        // round(x * 10 ^ decimales)
-        num = num.toString().split('e');
-        num = Math.round(+(num[0] + 'e' + (num[1] ? (+num[1] + decimales) : decimales)));
-        // x * 10 ^ (-decimales)
-        num = num.toString().split('e');
-        return signo * (num[0] + 'e' + (num[1] ? (+num[1] - decimales) : -decimales));
-    }
-    //Fuente: https://es.stackoverflow.com/questions/48958/redondear-a-dos-decimales-cuando-sea-necesario
 </script>
 @endpush

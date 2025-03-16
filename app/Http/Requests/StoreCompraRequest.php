@@ -26,7 +26,7 @@ class StoreCompraRequest extends FormRequest
         return [
             'proveedore_id' => 'required|exists:proveedores,id',
             'comprobante_id' => 'required|exists:comprobantes,id',
-            'numero_comprobante' => 'required|unique:compras,numero_comprobante|max:255',
+            'numero_comprobante' => 'unique:compras,numero_comprobante|max:255',
             'file_comprobante' => 'nullable|file|mimes:pdf|max:2048',
             'metodo_pago' => ['required', new Enum(MetodoPagoEnum::class)],
             'fecha_hora' => 'required|date|date_format:Y-m-d\TH:i',
