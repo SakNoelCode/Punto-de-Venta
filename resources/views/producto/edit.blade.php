@@ -174,7 +174,7 @@
 
                         <img id="img-default"
                             class="img-fluid"
-                            src="{{ asset($producto->img_path) ?? asset('assets/img/paisaje.png') }}"
+                            src="{{ $producto->img_path ? asset($producto->img_path) : asset('assets/img/paisaje.png') }}"
                             alt="Imagen por defecto">
 
                         <img src="" alt="Ha cargado un archivo no compatible"

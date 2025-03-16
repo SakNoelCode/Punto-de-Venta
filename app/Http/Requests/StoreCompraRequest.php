@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\MetodoPagoEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreCompraRequest extends FormRequest
 {
@@ -25,9 +27,12 @@ class StoreCompraRequest extends FormRequest
             'proveedore_id' => 'required|exists:proveedores,id',
             'comprobante_id' => 'required|exists:comprobantes,id',
             'numero_comprobante' => 'required|unique:compras,numero_comprobante|max:255',
-            'impuesto' => 'required',
-            'fecha_hora' => 'required',
-            'total' => 'required'
+            'file_comprobante' => 'nullable|file|mimes:pdf|max:2048',
+            'metodo_pago' => ['required', new Enum(MetodoPagoEnum::class)],
+            'fecha_hora' => 'required|date|date_format:Y-m-d\TH:i',
+            'subtotal' => 'required|min:1',
+            'impuesto' => 'required|min:0',
+            'total' => 'required|min:1'
         ];
     }
 }

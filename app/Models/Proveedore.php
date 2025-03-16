@@ -22,4 +22,12 @@ class Proveedore extends Model
     {
         return $this->hasMany(Compra::class);
     }
+
+    /**
+     * Obtener la razon social, tipo y número de documento del proveedor
+     */
+    public function getNombreDocumentoAttribute(): string
+    {
+        return $this->persona->razon_social . ' - ' . $this->persona->documento->nombre . ': ' . $this->persona->numero_documento;
+    }
 }

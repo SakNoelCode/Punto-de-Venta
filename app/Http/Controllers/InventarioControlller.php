@@ -48,8 +48,8 @@ class InventarioControlller extends Controller
     {
         DB::beginTransaction();
         try {
-            Inventario::create($request->validated());
             $kardex->crearRegistro($request->validated(), TipoTransaccionEnum::Apertura);
+            Inventario::create($request->validated());
             DB::commit();
             ActivityLogService::log('Inicialiación de producto', 'Productos', $request->validated());
             return redirect()->route('productos.index')->with('success', 'Producto inicializado');

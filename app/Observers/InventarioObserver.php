@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Inventario;
+use App\Models\Kardex;
 use App\Models\Producto;
 
 class InventarioObserver
@@ -12,7 +13,11 @@ class InventarioObserver
      */
     public function created(Inventario $inventario): void
     {
-        //
+        //Cada vez que se cree un producto, el producto asociado se inicializa
+        Producto::where('id', $inventario->producto_id)
+            ->update([
+                'estado' => 1,  //CAMBIO AQUI
+            ]);
     }
 
     /**
@@ -25,9 +30,11 @@ class InventarioObserver
 
     public function saved(Inventario $inventario): void
     {
-        $producto = Producto::where('id',$inventario->producto_id)->first();
+        $producto = Producto::findOrfail($inventario->producto_id);
+        $kardex = new Kardex();
+
         $producto->update([
-            'estado' => 1
+            'precio' => $kardex->calcularPrecioVenta($producto->id)
         ]);
     }
 
