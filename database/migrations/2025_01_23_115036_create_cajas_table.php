@@ -17,7 +17,7 @@ return new class extends Migration
             $table->dateTime('fecha_hora_apertura');
             $table->dateTime('fecha_hora_cierre')->nullable();
             $table->decimal('saldo_inicial');
-            $table->decimal('saldoFinal')->nullable();
+            $table->decimal('saldo_final')->nullable();
             $table->boolean('estado')->default(true);
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

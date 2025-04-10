@@ -131,12 +131,11 @@
                                         <div class="col-12">
                                             <p class="fw-bolder">Imagen:</p>
                                             <div>
-                                                @if ($item->img_path != null)
-                                                <img src="{{ asset($item->img_path) }}"
-                                                    alt="{{$item->nombre}}"
+                                                @if (!empty($item->img_path))
+                                                <img src="{{ asset($item->img_path) }}" alt="{{ $item->nombre }}"
                                                     class="img-fluid img-thumbnail border border-4 rounded">
                                                 @else
-                                                <img src="" alt="{{$item->nombre}}">
+                                                <p>Sin imagen</p>
                                                 @endif
                                             </div>
                                         </div>

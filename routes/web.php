@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ActivityLogController;
+use App\Http\Controllers\CajaController;
 use App\Http\Controllers\categoriaController;
 use App\Http\Controllers\clienteController;
 use App\Http\Controllers\compraController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\KardexController;
 use App\Http\Controllers\loginController;
 use App\Http\Controllers\logoutController;
 use App\Http\Controllers\marcaController;
+use App\Http\Controllers\MovimientoController;
 use App\Http\Controllers\presentacioneController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\profileController;
@@ -50,6 +52,8 @@ Route::resource('inventario', InventarioControlller::class)->only('index', 'crea
 Route::resource('kardex', KardexController::class)->only('index');
 Route::resource('empresa', EmpresaController::class)->only('index', 'update');
 Route::resource('empleados', EmpleadoController::class)->except('show');
+Route::resource('cajas', CajaController::class)->except('edit', 'update', 'show');
+Route::resource('movimientos', MovimientoController::class);
 
 Route::get('/login', [loginController::class, 'index'])->name('login.index');
 Route::post('/login', [loginController::class, 'login'])->name('login.login');

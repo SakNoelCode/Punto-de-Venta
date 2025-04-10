@@ -55,6 +55,10 @@
                     :href="route('proveedores.index')" />
                 @endcan
 
+                <x-nav.nav-link content='Cajas'
+                    icon='fa-solid fa-money-bill'
+                    :href="route('cajas.index')" />
+
                 <!----Compras---->
                 @can('ver-compra')
                 <x-nav.link-collapsed
@@ -70,6 +74,8 @@
                     @endcan
                 </x-nav.link-collapsed>
                 @endcan
+
+
 
                 <!----Ventas---->
                 @can('ver-venta')
