@@ -53,7 +53,7 @@ Route::resource('kardex', KardexController::class)->only('index');
 Route::resource('empresa', EmpresaController::class)->only('index', 'update');
 Route::resource('empleados', EmpleadoController::class)->except('show');
 Route::resource('cajas', CajaController::class)->except('edit', 'update', 'show');
-Route::resource('movimientos', MovimientoController::class);
+Route::resource('movimientos', MovimientoController::class)->except('show', 'edit', 'update', 'destroy');
 
 Route::get('/login', [loginController::class, 'index'])->name('login.index');
 Route::post('/login', [loginController::class, 'login'])->name('login.login');

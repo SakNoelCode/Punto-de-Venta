@@ -39,7 +39,24 @@
                 Saldo final: {{$caja->saldo_final}}</h6>
             @endif
 
+            <hr>
+            @if ($caja->estado == 1)
+            <a href="{{route('ventas.create')}}">
+                <button type="button" class="btn btn-primary">Nueva venta</button>
+            </a>
+
+            <a href="{{route('movimientos.create',['caja_id' => $caja->id])}}">
+                <button type="button" class="btn btn-success">Nuevo retiro</button>
+            </a>
+
+            <button type="button" class="btn btn-danger"
+                data-bs-toggle="modal" data-bs-target="#confirmModal-{{$caja->id}}">
+                Cerrar</button>
+            @endif
+
+
         </div>
+
     </div>
 
     <div class="card">
@@ -72,14 +89,40 @@
                         <td>
                             {{$item->metodo_pago->value}}
                         </td>
-                        <td>
-                            {{$item->saldo_final}}
-                        </td>
                     </tr>
                     @endforeach
                 </tbody>
             </table>
 
+        </div>
+    </div>
+
+    <!-- Modal para cerra la caja-->
+    <div class="modal fade" id="confirmModal-{{$caja->id}}" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5">
+                        Mensaje de confirmación</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ¿Seguro que quieres cerrar la caja?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        Cancelar</button>
+
+                    <form action="{{route('cajas.destroy',['caja' => $caja->id])}}" method="post">
+                        @method('DELETE')
+                        @csrf
+                        <button type="submit" class="btn btn-danger">
+                            Confirmar</button>
+                    </form>
+
+                </div>
+            </div>
         </div>
     </div>
 

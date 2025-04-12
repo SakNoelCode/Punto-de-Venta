@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'permission' => \Spatie\Permission\Middleware\PermissionMiddleware::class,
         'role_or_permission' => \Spatie\Permission\Middleware\RoleOrPermissionMiddleware::class,
 
-        'check_producto_inicializado' => \App\Http\Middleware\CheckProductoInicializado::class
+        'check_producto_inicializado' => \App\Http\Middleware\CheckProductoInicializado::class,
+        'check_movimiento_caja_user' => \App\Http\Middleware\CheckMovimientoCajaUserMiddleware::class
     ];
 }
