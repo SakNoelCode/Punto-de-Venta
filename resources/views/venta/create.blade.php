@@ -23,8 +23,69 @@
     <div class="container-lg mt-4">
         <div class="row gy-4">
 
+            <!-----Venta---->
+            <div class="col-12">
+                <div class="text-white bg-success p-1 text-center">
+                    Datos generales
+                </div>
+                <div class="p-3 border border-3 border-success">
+                    <div class="row g-4">
+
+                        <!--Cliente-->
+                        <div class="col-12">
+                            <label for="cliente_id" class="form-label">
+                                Cliente:</label>
+                            <select name="cliente_id" id="cliente_id"
+                                class="form-control selectpicker show-tick"
+                                data-live-search="true" title="Selecciona"
+                                data-size='2'>
+                                @foreach ($clientes as $item)
+                                <option value="{{$item->id}}">{{$item->nombre_documento}}</option>
+                                @endforeach
+                            </select>
+                            @error('cliente_id')
+                            <small class="text-danger">{{ '*'.$message }}</small>
+                            @enderror
+                        </div>
+
+                        <!--Tipo de comprobante-->
+                        <div class="col-md-6">
+                            <label for="comprobante_id" class="form-label">
+                                Comprobante:</label>
+                            <select name="comprobante_id" id="comprobante_id"
+                                class="form-control selectpicker"
+                                title="Selecciona">
+                                @foreach ($comprobantes as $item)
+                                <option value="{{$item->id}}">{{$item->nombre}}</option>
+                                @endforeach
+                            </select>
+                            @error('comprobante_id')
+                            <small class="text-danger">{{ '*'.$message }}</small>
+                            @enderror
+                        </div>
+
+                        <!--Método de pago-->
+                        <div class="col-md-6">
+                            <label for="metodo_pago" class="form-label">
+                                Método de pago:</label>
+                            <select required name="metodo_pago"
+                                id="metodo_pago"
+                                class="form-control selectpicker"
+                                title="Selecciona">
+                                @foreach ($optionsMetodoPago as $item)
+                                <option value="{{$item->value}}">{{$item->name}}</option>
+                                @endforeach
+                            </select>
+                            @error('metodo_pago')
+                            <small class="text-danger">{{ '*'.$message }}</small>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!------venta producto---->
-            <div class="col-xl-8">
+            <div class="col-12">
                 <div class="text-white bg-primary p-1 text-center">
                     Detalles de la venta
                 </div>
@@ -33,9 +94,14 @@
 
                         <!-----Producto---->
                         <div class="col-12">
-                            <select name="producto_id" id="producto_id" class="form-control selectpicker" data-live-search="true" data-size="1" title="Busque un producto aquí">
+                            <select id="producto_id"
+                                class="form-control selectpicker"
+                                data-live-search="true" data-size="1"
+                                title="Busque un producto aquí">
                                 @foreach ($productos as $item)
-                                <option value="{{$item->id}}-{{$item->stock}}-{{$item->precio_venta}}">{{$item->codigo.' '.$item->nombre}}</option>
+                                <option value="{{$item->id}}-{{$item->cantidad}}-{{$item->precio}}-{{$item->nombre}}-{{$item->sigla}}">
+                                    {{'Código: '. $item->codigo.' - '. $item->nombre.' - '.$item->sigla}}
+                                </option>
                                 @endforeach
                             </select>
                         </div>
@@ -44,35 +110,43 @@
                         <div class="d-flex justify-content-end">
                             <div class="col-12 col-sm-6">
                                 <div class="row">
-                                    <label for="stock" class="col-form-label col-4">Stock:</label>
+                                    <label for="stock" class="col-form-label col-4">
+                                        En stock:</label>
                                     <div class="col-8">
-                                        <input disabled id="stock" type="text" class="form-control">
+                                        <input disabled id="stock"
+                                            type="text" class="form-control">
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-----Precio de venta---->
-                        <div class="col-sm-4">
-                            <label for="precio_venta" class="form-label">Precio de venta:</label>
-                            <input disabled type="number" name="precio_venta" id="precio_venta" class="form-control" step="0.1">
+                        <!-----Precio -->
+                        <div class="d-flex justify-content-end">
+                            <div class="col-12 col-sm-6">
+                                <div class="row">
+                                    <label for="precio" class="col-form-label col-4">
+                                        Precio:</label>
+                                    <div class="col-8">
+                                        <input disabled id="precio"
+                                            type="number" class="form-control"
+                                            step="any">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <!-----Cantidad---->
-                        <div class="col-sm-4">
-                            <label for="cantidad" class="form-label">Cantidad:</label>
-                            <input type="number" name="cantidad" id="cantidad" class="form-control">
-                        </div>
-
-                        <!----Descuento---->
-                        <div class="col-sm-4">
-                            <label for="descuento" class="form-label">Descuento:</label>
-                            <input type="number" name="descuento" id="descuento" class="form-control">
+                        <div class="col-md-6">
+                            <label for="cantidad" class="form-label">
+                                Cantidad:</label>
+                            <input type="number" id="cantidad"
+                                class="form-control">
                         </div>
 
                         <!-----botón para agregar--->
                         <div class="col-12 text-end">
-                            <button id="btn_agregar" class="btn btn-primary" type="button">Agregar</button>
+                            <button id="btn_agregar" class="btn btn-primary" type="button">
+                                Agregar</button>
                         </div>
 
                         <!-----Tabla para el detalle de la venta--->
@@ -81,11 +155,10 @@
                                 <table id="tabla_detalle" class="table table-hover">
                                     <thead class="bg-primary">
                                         <tr>
-                                            <th class="text-white">#</th>
                                             <th class="text-white">Producto</th>
+                                            <th class="text-white">Presentación</th>
                                             <th class="text-white">Cantidad</th>
-                                            <th class="text-white">Precio venta</th>
-                                            <th class="text-white">Descuento</th>
+                                            <th class="text-white">Precio</th>
                                             <th class="text-white">Subtotal</th>
                                             <th></th>
                                         </tr>
@@ -98,24 +171,38 @@
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
                                         </tr>
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <th></th>
                                             <th colspan="4">Sumas</th>
-                                            <th colspan="2"><span id="sumas">0</span></th>
+                                            <th colspan="2">
+                                                <input type="hidden" name="subtotal"
+                                                    value="0"
+                                                    id="inputSubtotal">
+                                                <span id="sumas">0</span>
+                                                <span>{{$empresa->moneda->simbolo}}</span>
+                                            </th>
                                         </tr>
                                         <tr>
-                                            <th></th>
-                                            <th colspan="4">IGV %</th>
-                                            <th colspan="2"><span id="igv">0</span></th>
+                                            <th colspan="4">
+                                                {{$empresa->abreviatura_impuesto}} ({{$empresa->porcentaje_impuesto}})%
+                                            </th>
+                                            <th colspan="2">
+                                                <input type="hidden" name="impuesto"
+                                                    id="inputImpuesto"
+                                                    value="0">
+                                                <span id="igv">0</span>
+                                                <span>{{$empresa->moneda->simbolo}}</span>
+                                            </th>
                                         </tr>
                                         <tr>
-                                            <th></th>
                                             <th colspan="4">Total</th>
-                                            <th colspan="2"> <input type="hidden" name="total" value="0" id="inputTotal"> <span id="total">0</span></th>
+                                            <th colspan="2">
+                                                <input type="hidden" name="total" value="0" id="inputTotal">
+                                                <span id="total">0</span>
+                                                <span>{{$empresa->moneda->simbolo}}</span>
+                                            </th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -124,7 +211,10 @@
 
                         <!--Boton para cancelar venta--->
                         <div class="col-12">
-                            <button id="cancelar" type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <button id="cancelar" type="button"
+                                class="btn btn-danger"
+                                data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
                                 Cancelar venta
                             </button>
                         </div>
@@ -133,81 +223,41 @@
                 </div>
             </div>
 
-            <!-----Venta---->
-            <div class="col-xl-4">
-                <div class="text-white bg-success p-1 text-center">
-                    Datos generales
+            <!----Finalizar venta-->
+            <div class="col-12">
+                <div class="text-white bg-primary p-1 text-center">
+                    Finalizar venta
                 </div>
-                <div class="p-3 border border-3 border-success">
+
+                <div class="p-3 border border-3 border-primary">
+
                     <div class="row gy-4">
-                        <!--Cliente-->
-                        <div class="col-12">
-                            <label for="cliente_id" class="form-label">Cliente:</label>
-                            <select name="cliente_id" id="cliente_id" class="form-control selectpicker show-tick" data-live-search="true" title="Selecciona" data-size='2'>
-                                @foreach ($clientes as $item)
-                                <option value="{{$item->id}}">{{$item->persona->razon_social}}</option>
-                                @endforeach
-                            </select>
-                            @error('cliente_id')
-                            <small class="text-danger">{{ '*'.$message }}</small>
-                            @enderror
+
+                        <div class="col-md-6">
+                            <label for="dinero_recibido" class="form-label">
+                                Ingrese dinero recibido:</label>
+                            <input type="number" id="dinero_recibido"
+                                name="monto_recibido" class="form-control"
+                                step="any">
                         </div>
 
-                        <!--Tipo de comprobante-->
-                        <div class="col-12">
-                            <label for="comprobante_id" class="form-label">Comprobante:</label>
-                            <select name="comprobante_id" id="comprobante_id" class="form-control selectpicker" title="Selecciona">
-                                @foreach ($comprobantes as $item)
-                                <option value="{{$item->id}}">{{$item->tipo_comprobante}}</option>
-                                @endforeach
-                            </select>
-                            @error('comprobante_id')
-                            <small class="text-danger">{{ '*'.$message }}</small>
-                            @enderror
+                        <div class="col-md-6">
+                            <label for="vuelto" class="form-label">
+                                Vuelto:</label>
+                            <input disabled type="number" name="vuelto_entregado"
+                                id="vuelto" class="form-control" step="any">
                         </div>
-
-                        <!--Numero de comprobante-->
-                        <div class="col-12">
-                            <label for="numero_comprobante" class="form-label">Numero de comprobante:</label>
-                            <input required type="text" name="numero_comprobante" id="numero_comprobante" class="form-control">
-                            @error('numero_comprobante')
-                            <small class="text-danger">{{ '*'.$message }}</small>
-                            @enderror
-                        </div>
-
-                        <!--Impuesto---->
-                        <div class="col-sm-6">
-                            <label for="impuesto" class="form-label">Impuesto(IGV):</label>
-                            <input readonly type="text" name="impuesto" id="impuesto" class="form-control border-success">
-                            @error('impuesto')
-                            <small class="text-danger">{{ '*'.$message }}</small>
-                            @enderror
-                        </div>
-
-                        <!--Fecha--->
-                        <div class="col-sm-6">
-                            <label for="fecha" class="form-label">Fecha:</label>
-                            <input readonly type="date" name="fecha" id="fecha" class="form-control border-success" value="<?php echo date("Y-m-d") ?>">
-                            <?php
-
-                            use Carbon\Carbon;
-
-                            $fecha_hora = Carbon::now()->toDateTimeString();
-                            ?>
-                            <input type="hidden" name="fecha_hora" value="{{$fecha_hora}}">
-                        </div>
-
-                        <!----User--->
-                        <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
 
                         <!--Botones--->
                         <div class="col-12 text-center">
-                            <button type="submit" class="btn btn-success" id="guardar">Realizar venta</button>
+                            <button type="submit" class="btn btn-success" id="guardar">
+                                Realizar venta</button>
                         </div>
-
                     </div>
                 </div>
+
             </div>
+
         </div>
     </div>
 
@@ -251,7 +301,17 @@
 
         disableButtons();
 
-        $('#impuesto').val(impuesto + '%');
+        $('#dinero_recibido').on('input', function() {
+            let dineroRecibido = parseFloat($(this).val());
+
+            if (!isNaN(dineroRecibido) && dineroRecibido >= total && total > 0) {
+                let vuelto = dineroRecibido - total;
+                $('#vuelto').val(vuelto.toFixed(2));
+            } else {
+                $('#vuelto').val(''); 
+            }
+        });
+
     });
 
     //Variables
@@ -260,68 +320,76 @@
     let sumas = 0;
     let igv = 0;
     let total = 0;
+    let arrayIdProductos = [];
 
     //Constantes
-    const impuesto = 18;
+    const impuesto = @json($empresa-> porcentaje_impuesto);
 
     function mostrarValores() {
         let dataProducto = document.getElementById('producto_id').value.split('-');
         $('#stock').val(dataProducto[1]);
-        $('#precio_venta').val(dataProducto[2]);
+        $('#precio').val(dataProducto[2]);
     }
 
     function agregarProducto() {
         let dataProducto = document.getElementById('producto_id').value.split('-');
         //Obtener valores de los campos
         let idProducto = dataProducto[0];
-        let nameProducto = $('#producto_id option:selected').text();
+        let nameProducto = dataProducto[3];
+        let presentacioneProducto = dataProducto[4];
         let cantidad = $('#cantidad').val();
-        let precioVenta = $('#precio_venta').val();
-        let descuento = $('#descuento').val();
+        let precioVenta = $('#precio').val();
         let stock = $('#stock').val();
-
-        if (descuento == '') {
-            descuento = 0;
-        }
 
         //Validaciones 
         //1.Para que los campos no esten vacíos
         if (idProducto != '' && cantidad != '') {
 
             //2. Para que los valores ingresados sean los correctos
-            if (parseInt(cantidad) > 0 && (cantidad % 1 == 0) && parseFloat(descuento) >= 0) {
+            if (parseInt(cantidad) > 0 && (cantidad % 1 == 0)) {
 
                 //3. Para que la cantidad no supere el stock
                 if (parseInt(cantidad) <= parseInt(stock)) {
-                    //Calcular valores
-                    subtotal[cont] = round(cantidad * precioVenta - descuento);
-                    sumas += subtotal[cont];
-                    igv = round(sumas / 100 * impuesto);
-                    total = round(sumas + igv);
 
-                    //Crear la fila
-                    let fila = '<tr id="fila' + cont + '">' +
-                        '<th>' + (cont + 1) + '</th>' +
-                        '<td><input type="hidden" name="arrayidproducto[]" value="' + idProducto + '">' + nameProducto + '</td>' +
-                        '<td><input type="hidden" name="arraycantidad[]" value="' + cantidad + '">' + cantidad + '</td>' +
-                        '<td><input type="hidden" name="arrayprecioventa[]" value="' + precioVenta + '">' + precioVenta + '</td>' +
-                        '<td><input type="hidden" name="arraydescuento[]" value="' + descuento + '">' + descuento + '</td>' +
-                        '<td>' + subtotal[cont] + '</td>' +
-                        '<td><button class="btn btn-danger" type="button" onClick="eliminarProducto(' + cont + ')"><i class="fa-solid fa-trash"></i></button></td>' +
-                        '</tr>';
+                    //4.No permitir el ingreso del mismo producto 
+                    if (!arrayIdProductos.includes(idProducto)) {
 
-                    //Acciones después de añadir la fila
-                    $('#tabla_detalle').append(fila);
-                    limpiarCampos();
-                    cont++;
-                    disableButtons();
+                        //Calcular valores
+                        subtotal[cont] = round(cantidad * precioVenta);
+                        sumas = round(sumas + subtotal[cont]);
+                        igv = round(sumas / 100 * impuesto);
+                        total = round(sumas + igv);
 
-                    //Mostrar los campos calculados
-                    $('#sumas').html(sumas);
-                    $('#igv').html(igv);
-                    $('#total').html(total);
-                    $('#impuesto').val(igv);
-                    $('#inputTotal').val(total);
+                        //Crear la fila
+                        let fila = '<tr id="fila' + cont + '">' +
+                            '<td><input type="hidden" name="arrayidproducto[]" value="' + idProducto + '">' + nameProducto + '</td>' +
+                            '<td>' + presentacioneProducto + '</td>' +
+                            '<td><input type="hidden" name="arraycantidad[]" value="' + cantidad + '">' + cantidad + '</td>' +
+                            '<td><input type="hidden" name="arrayprecioventa[]" value="' + precioVenta + '">' + precioVenta + '</td>' +
+                            '<td>' + subtotal[cont] + '</td>' +
+                            '<td><button class="btn btn-danger" type="button" onClick="eliminarProducto(' + cont + ',' + idProducto + ')"><i class="fa-solid fa-trash"></i></button></td>' +
+                            '</tr>';
+
+                        //Acciones después de añadir la fila
+                        $('#tabla_detalle').append(fila);
+                        limpiarCampos();
+                        cont++;
+                        disableButtons();
+
+                        //Mostrar los campos calculados
+                        $('#sumas').html(sumas);
+                        $('#igv').html(igv);
+                        $('#total').html(total);
+                        $('#inputImpuesto').val(igv);
+                        $('#InputTotal').val(total);
+                        $('#InputSubtotal').val(sumas);
+
+                        //Agregar el id del producto al arreglo
+                        arrayIdProductos.push(idProducto);
+                    } else {
+                        showModal('Ya ha ingresado el producto');
+                    }
+
                 } else {
                     showModal('Cantidad incorrecta');
                 }
@@ -336,7 +404,7 @@
 
     }
 
-    function eliminarProducto(indice) {
+    function eliminarProducto(indice, idProducto) {
         //Calcular valores
         sumas -= round(subtotal[indice]);
         igv = round(sumas / 100 * impuesto);
@@ -346,11 +414,16 @@
         $('#sumas').html(sumas);
         $('#igv').html(igv);
         $('#total').html(total);
-        $('#impuesto').val(igv);
+        $('#inputImpuesto').val(igv);
         $('#InputTotal').val(total);
+        $('#InputSubtotal').val(sumas);
 
         //Eliminar el fila de la tabla
         $('#fila' + indice).remove();
+
+        //Eliminar id del arreglo
+        let index = arrayIdProductos.indexOf(idProducto.toString());
+        arrayIdProductos.splice(index, 1);
 
         disableButtons();
     }
@@ -367,7 +440,6 @@
             '<td></td>' +
             '<td></td>' +
             '<td></td>' +
-            '<td></td>' +
             '</tr>';
         $('#tabla_detalle').append(fila);
 
@@ -377,13 +449,15 @@
         sumas = 0;
         igv = 0;
         total = 0;
+        arrayIdProductos = [];
 
         //Mostrar los campos calculados
         $('#sumas').html(sumas);
         $('#igv').html(igv);
         $('#total').html(total);
-        $('#impuesto').val(impuesto + '%');
-        $('#inputTotal').val(total);
+        $('#inputImpuesto').val(igv);
+        $('#InputTotal').val(total);
+        $('#InputSubtotal').val(sumas);
 
         limpiarCampos();
         disableButtons();
@@ -403,8 +477,7 @@
         let select = $('#producto_id');
         select.selectpicker('val', '');
         $('#cantidad').val('');
-        $('#precio_venta').val('');
-        $('#descuento').val('');
+        $('#precio').val('');
         $('#stock').val('');
     }
 

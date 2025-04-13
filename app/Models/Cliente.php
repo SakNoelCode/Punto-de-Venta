@@ -22,5 +22,14 @@ class Cliente extends Model
     {
         return $this->hasMany(Venta::class);
     }
+
+     /**
+     * Obtener la razon social, tipo y número de documento del cliente
+     * @return string
+     */
+    public function getNombreDocumentoAttribute(): string
+    {
+        return $this->persona->razon_social . ' - ' . $this->persona->documento->nombre . ': ' . $this->persona->numero_documento;
+    }
     
 }
