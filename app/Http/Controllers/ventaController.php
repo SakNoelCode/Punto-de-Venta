@@ -3,17 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Enums\MetodoPagoEnum;
+use App\Events\CreateVentaDetalleEvent;
+use App\Events\CreateVentaEvent;
 use App\Http\Requests\StoreVentaRequest;
 use App\Models\Cliente;
 use App\Models\Comprobante;
 use App\Models\Empresa;
 use App\Models\Producto;
 use App\Models\Venta;
-use Exception;
+use App\Services\ActivityLogService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class ventaController extends Controller
 {
@@ -30,7 +34,7 @@ class ventaController extends Controller
     public function index(): View
     {
         $ventas = Venta::with(['comprobante', 'cliente.persona', 'user'])
-            ->where('estado', 1)
+            //->where('estado', 1)
             ->latest()
             ->get();
 
@@ -82,9 +86,8 @@ class ventaController extends Controller
      */
     public function store(StoreVentaRequest $request): RedirectResponse
     {
+        DB::beginTransaction();
         try {
-            DB::beginTransaction();
-
             //Llenar mi tabla venta
             $venta = Venta::create($request->validated());
 
@@ -93,7 +96,6 @@ class ventaController extends Controller
             $arrayProducto_id = $request->get('arrayidproducto');
             $arrayCantidad = $request->get('arraycantidad');
             $arrayPrecioVenta = $request->get('arrayprecioventa');
-            $arrayDescuento = $request->get('arraydescuento');
 
             //2.Realizar el llenado
             $siseArray = count($arrayProducto_id);
@@ -104,30 +106,31 @@ class ventaController extends Controller
                     $arrayProducto_id[$cont] => [
                         'cantidad' => $arrayCantidad[$cont],
                         'precio_venta' => $arrayPrecioVenta[$cont],
-                        'descuento' => $arrayDescuento[$cont]
                     ]
                 ]);
 
-                //Actualizar stock
-                $producto = Producto::find($arrayProducto_id[$cont]);
-                $stockActual = $producto->stock;
-                $cantidad = intval($arrayCantidad[$cont]);
-
-                DB::table('productos')
-                    ->where('id', $producto->id)
-                    ->update([
-                        'stock' => $stockActual - $cantidad
-                    ]);
+                //Despachar evento
+                CreateVentaDetalleEvent::dispatch(
+                    $venta,
+                    $arrayProducto_id[$cont],
+                    $arrayCantidad[$cont],
+                    $arrayPrecioVenta[$cont]
+                );
 
                 $cont++;
             }
 
-            DB::commit();
-        } catch (Exception $e) {
-            DB::rollBack();
-        }
+            //Despachar evento
+            CreateVentaEvent::dispatch($venta);
 
-        return redirect()->route('ventas.index')->with('success', 'Venta exitosa');
+            DB::commit();
+            ActivityLogService::log('Creación de una venta', 'Ventas', $request->validated());
+            return redirect()->route('ventas.index')->with('success', 'Venta exitosa');
+        } catch (Throwable $e) {
+            DB::rollBack();
+            Log::error('Error al crear la venta', ['error' => $e->getMessage()]);
+            return redirect()->route('ventas.index')->with('error', 'Ups, algo falló');
+        }
     }
 
     /**

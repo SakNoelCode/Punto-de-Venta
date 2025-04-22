@@ -244,7 +244,7 @@
                         <div class="col-md-6">
                             <label for="vuelto" class="form-label">
                                 Vuelto:</label>
-                            <input disabled type="number" name="vuelto_entregado"
+                            <input readonly type="number" name="vuelto_entregado"
                                 id="vuelto" class="form-control" step="any">
                         </div>
 
@@ -323,7 +323,7 @@
     let arrayIdProductos = [];
 
     //Constantes
-    const impuesto = @json($empresa-> porcentaje_impuesto);
+    const impuesto = @json($empresa->porcentaje_impuesto);
 
     function mostrarValores() {
         let dataProducto = document.getElementById('producto_id').value.split('-');
@@ -381,8 +381,8 @@
                         $('#igv').html(igv);
                         $('#total').html(total);
                         $('#inputImpuesto').val(igv);
-                        $('#InputTotal').val(total);
-                        $('#InputSubtotal').val(sumas);
+                        $('#inputTotal').val(total);
+                        $('#inputSubtotal').val(sumas);
 
                         //Agregar el id del producto al arreglo
                         arrayIdProductos.push(idProducto);
@@ -415,8 +415,8 @@
         $('#igv').html(igv);
         $('#total').html(total);
         $('#inputImpuesto').val(igv);
-        $('#InputTotal').val(total);
-        $('#InputSubtotal').val(sumas);
+        $('#inputTotal').val(total);
+        $('#inputSubtotal').val(sumas);
 
         //Eliminar el fila de la tabla
         $('#fila' + indice).remove();
@@ -456,8 +456,8 @@
         $('#igv').html(igv);
         $('#total').html(total);
         $('#inputImpuesto').val(igv);
-        $('#InputTotal').val(total);
-        $('#InputSubtotal').val(sumas);
+        $('#inputTotal').val(total);
+        $('#inputSubtotal').val(sumas);
 
         limpiarCampos();
         disableButtons();

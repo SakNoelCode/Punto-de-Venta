@@ -56,6 +56,9 @@ class Kardex extends Model
         if ($tipo == TipoTransaccionEnum::Compra) {
             $entrada = $data['cantidad'];
             $saldo += $entrada;
+        } elseif ($tipo == TipoTransaccionEnum::Venta || $tipo == TipoTransaccionEnum::Ajuste) {
+            $salida = $data['cantidad'];
+            $saldo -= $salida;
         }
 
         try {
@@ -64,7 +67,7 @@ class Kardex extends Model
                 'tipo_transaccion' => $tipo,
                 'descripcion_transaccion' => $this->getDescripcionTransaccion($data, $tipo),
                 'entrada' => $entrada,
-                'salida' => null,
+                'salida' => $salida,
                 'saldo' => $saldo,
                 'costo_unitario' => $data['costo_unitario'],
             ]);
@@ -85,6 +88,12 @@ class Kardex extends Model
                 break;
             case TipoTransaccionEnum::Compra:
                 $descripcion = 'Entrada de producto por la compra n°' . $data['compra_id'];
+                break;
+            case TipoTransaccionEnum::Venta:
+                $descripcion = 'Salida de producto por la venta n°' . $data['venta_id'];
+                break;
+            case TipoTransaccionEnum::Ajuste:
+                $descripcion = 'Ajuste de producto';
                 break;
         }
 

@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use App\Observers\VentaObsever;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
+#[ObservedBy(VentaObsever::class)]
 class Venta extends Model
 {
     use HasFactory;
@@ -38,5 +41,32 @@ class Venta extends Model
         return $this->belongsToMany(Producto::class)
             ->withTimestamps()
             ->withPivot('cantidad', 'precio_venta');
+    }
+
+    /**
+     * Generar el número de venta
+     */
+    public function generarNumeroVenta(int $cajaId, string $tipoComprobante): string
+    {
+        // Determinar el prefijo según el tipo de comprobante
+        $prefijo = strtoupper(substr($tipoComprobante, 0, 1)); // "B" para Boleta, "F" para Factura
+
+        // Obtener la última venta de la caja
+        $ultimaVenta = Venta::where('caja_id', $cajaId)
+            ->latest('id') // Ordenar por la más reciente
+            ->first();
+
+        // Extraer la parte numérica del número de venta o comenzar desde 1
+        $ultimoNumero = $ultimaVenta
+            ? (int) substr($ultimaVenta->numero_comprobante, 7) // "0000001" -> 1
+            : 0;
+
+        // Incrementar el número
+        $nuevoNumero = $ultimoNumero + 1;
+
+        // Formatear el número de venta
+        $numeroVenta = sprintf("%s%03d - %07d", $prefijo, $cajaId, $nuevoNumero);
+
+        return $numeroVenta;
     }
 }

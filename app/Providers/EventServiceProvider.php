@@ -3,8 +3,13 @@
 namespace App\Providers;
 
 use App\Events\CreateCompraDetalleEvent;
+use App\Events\CreateVentaDetalleEvent;
+use App\Events\CreateVentaEvent;
+use App\Listeners\CreateMovimientoVentaCajaListener;
 use App\Listeners\CreateRegistroCompraCardexListener;
+use App\Listeners\CreateRegistroVentaCardexListener;
 use App\Listeners\UpdateInventarioCompraListener;
+use App\Listeners\UpdateInventarioVentaListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -25,6 +30,13 @@ class EventServiceProvider extends ServiceProvider
             CreateRegistroCompraCardexListener::class,
             UpdateInventarioCompraListener::class
         ],
+        CreateVentaDetalleEvent::class => [
+            CreateRegistroVentaCardexListener::class,
+            UpdateInventarioVentaListener::class
+        ],
+        CreateVentaEvent::class => [
+            CreateMovimientoVentaCajaListener::class
+        ]
     ];
 
     /**

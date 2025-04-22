@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\MetodoPagoEnum;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 class StoreVentaRequest extends FormRequest
 {
@@ -22,13 +24,14 @@ class StoreVentaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'fecha_hora' => 'required',
-            'impuesto' => 'required',
-            'numero_comprobante' => 'required|unique:ventas,numero_comprobante|max:255',
-            'total' => 'required|numeric',
             'cliente_id' => 'required|exists:clientes,id',
-            'user_id' => 'required|exists:users,id',
-            'comprobante_id' => 'required|exists:comprobantes,id'
+            'comprobante_id' => 'required|exists:comprobantes,id',
+            'metodo_pago' => ['required', new Enum(MetodoPagoEnum::class)],
+            'subtotal' => 'required|min:1',
+            'impuesto' => 'required|numeric',
+            'total' => 'required|numeric',
+            'monto_recibido' => 'required|numeric|min:1',
+            'vuelto_entregado' => 'required|numeric|min:0'
         ];
     }
 }
