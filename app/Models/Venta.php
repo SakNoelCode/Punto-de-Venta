@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Observers\VentaObsever;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -42,6 +43,25 @@ class Venta extends Model
             ->withTimestamps()
             ->withPivot('cantidad', 'precio_venta');
     }
+
+     /**
+     * Obtener solo la fecha
+     * @return string
+     */
+    public function getFechaAttribute(): string
+    {
+        return Carbon::parse($this->fecha_hora)->format('d-m-Y');
+    }
+
+    /**
+     * Obtener solo la hora
+     * @return string
+     */
+    public function getHoraAttribute(): string
+    {
+        return Carbon::parse($this->fecha_hora)->format('H:i');
+    }
+
 
     /**
      * Generar el número de venta

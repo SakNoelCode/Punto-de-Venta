@@ -15,6 +15,7 @@ use App\Services\ActivityLogService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Throwable;
@@ -26,7 +27,9 @@ class ventaController extends Controller
         $this->middleware('permission:ver-venta|crear-venta|mostrar-venta|eliminar-venta', ['only' => ['index']]);
         $this->middleware('permission:crear-venta', ['only' => ['create', 'store']]);
         $this->middleware('permission:mostrar-venta', ['only' => ['show']]);
-        $this->middleware('permission:eliminar-venta', ['only' => ['destroy']]);
+        //$this->middleware('permission:eliminar-venta', ['only' => ['destroy']]);
+        $this->middleware('check-caja-aperturada-user', ['only' => ['create', 'store']]);
+        $this->middleware('check-show-venta-user', ['only' => ['show']]);
     }
     /**
      * Display a listing of the resource.
@@ -34,7 +37,7 @@ class ventaController extends Controller
     public function index(): View
     {
         $ventas = Venta::with(['comprobante', 'cliente.persona', 'user'])
-            //->where('estado', 1)
+            ->where('user_id', Auth::id())
             ->latest()
             ->get();
 
@@ -125,7 +128,8 @@ class ventaController extends Controller
 
             DB::commit();
             ActivityLogService::log('Creación de una venta', 'Ventas', $request->validated());
-            return redirect()->route('ventas.index')->with('success', 'Venta exitosa');
+            return redirect()->route('movimientos.index', ['caja_id' => $venta->caja_id])
+                ->with('success', 'Venta registrada');
         } catch (Throwable $e) {
             DB::rollBack();
             Log::error('Error al crear la venta', ['error' => $e->getMessage()]);
@@ -138,7 +142,8 @@ class ventaController extends Controller
      */
     public function show(Venta $venta): View
     {
-        return view('venta.show', compact('venta'));
+        $empresa = Empresa::first();
+        return view('venta.show', compact('venta', 'empresa'));
     }
 
     /**
@@ -160,13 +165,13 @@ class ventaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(string $id)
     {
-        Venta::where('id', $id)
+        /* Venta::where('id', $id)
             ->update([
                 'estado' => 0
             ]);
 
-        return redirect()->route('ventas.index')->with('success', 'Venta eliminada');
+        return redirect()->route('ventas.index')->with('success', 'Venta eliminada');*/
     }
 }
