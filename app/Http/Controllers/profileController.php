@@ -7,8 +7,9 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class profileController extends Controller
 {
@@ -24,8 +25,7 @@ class profileController extends Controller
      */
     public function index(): View
     {
-        $user = User::find(Auth::user()->id);
-        return view('profile.index', compact('user'));
+        return view('profile.index');
     }
 
     /**
@@ -75,14 +75,16 @@ class profileController extends Controller
         if (empty($request->password)) {
             $request = Arr::except($request, array('password'));
         } else {
-            $fieldHash = Hash::make($request->password);
-            $request->merge(['password' => $fieldHash]);
+            $request->merge(['password' => Hash::make($request->password)]);
         }
 
-        $profile->update($request->all());
-
-
-        return redirect()->route('profile.index')->with('success', 'Cambios guardados');
+        try {
+            $profile->update($request->all());
+            return redirect()->route('profile.index')->with('success', 'Cambios guardados');
+        } catch (Throwable $e) {
+            Log::error('Error al actualizar perfil', ['error' => $e->getMessage()]);
+            return redirect()->route('profile.index')->with('error', 'Ups, algo fallo');
+        }
     }
 
     /**

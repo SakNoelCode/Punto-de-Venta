@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class CheckShowCompraUser
 {
@@ -19,8 +20,7 @@ class CheckShowCompraUser
         $compra = $request->route('compra');
 
         if ($compra->user_id != Auth::id()) {
-            return redirect()->route('compras.index') // Redirige a otra ruta si no existe
-                ->with('error', 'No es posible acceder');
+            throw new HttpException(401, 'No autorizado');
         }
 
         return $next($request);

@@ -40,7 +40,7 @@
                         </select>
                     </div>
                     <div class="col-lg-4">
-                        <div class="form-text" id="nameHelpBlock">
+                        <div class="form-text">
                             Escoja en empleado
                         </div>
                     </div>
@@ -55,7 +55,9 @@
                 <div class="row mb-4">
                     <label for="name" class="col-lg-2 col-form-label">Nombres:</label>
                     <div class="col-lg-4">
-                        <input autocomplete="off" type="text" name="name" id="name" class="form-control" value="{{old('name')}}" aria-labelledby="nameHelpBlock">
+                        <input autocomplete="off" type="text" name="name"
+                            id="name" class="form-control" value="{{old('name')}}"
+                            aria-labelledby="nameHelpBlock">
                     </div>
                     <div class="col-lg-4">
                         <div class="form-text" id="nameHelpBlock">
@@ -73,7 +75,9 @@
                 <div class="row mb-4">
                     <label for="email" class="col-lg-2 col-form-label">Email:</label>
                     <div class="col-lg-4">
-                        <input autocomplete="off" type="email" name="email" id="email" class="form-control" value="{{old('email')}}" aria-labelledby="emailHelpBlock">
+                        <input autocomplete="off" type="email" name="email"
+                            id="email" class="form-control" value="{{old('email')}}"
+                            aria-labelledby="emailHelpBlock">
                     </div>
                     <div class="col-lg-4">
                         <div class="form-text" id="emailHelpBlock">
@@ -91,7 +95,8 @@
                 <div class="row mb-4">
                     <label for="password" class="col-lg-2 col-form-label">Contraseña:</label>
                     <div class="col-lg-4">
-                        <input type="password" name="password" id="password" class="form-control" aria-labelledby="passwordHelpBlock">
+                        <input type="password" name="password" id="password"
+                            class="form-control" aria-labelledby="passwordHelpBlock">
                     </div>
                     <div class="col-lg-4">
                         <div class="form-text" id="passwordHelpBlock">
@@ -109,7 +114,8 @@
                 <div class="row mb-4">
                     <label for="password_confirm" class="col-lg-2 col-form-label">Confirmar:</label>
                     <div class="col-lg-4">
-                        <input type="password" name="password_confirm" id="password_confirm" class="form-control" aria-labelledby="passwordConfirmHelpBlock">
+                        <input type="password" name="password_confirm" id="password_confirm"
+                            class="form-control" aria-labelledby="passwordConfirmHelpBlock">
                     </div>
                     <div class="col-lg-4">
                         <div class="form-text" id="passwordConfirmHelpBlock">

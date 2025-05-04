@@ -74,9 +74,11 @@
 
         </div>
 
+        @can('update-empresa')
         <x-slot name='footer'>
             <button type="submit" class="btn btn-primary">Actualizar</button>
         </x-slot>
+        @endcan
 
     </x-forms.template>
 

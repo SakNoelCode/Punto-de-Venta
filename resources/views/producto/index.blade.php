@@ -102,6 +102,7 @@
                                 </div>
                                 <div>
                                     <!------Inicializar producto---->
+                                    @can('crear-inventario')
                                     <form action="{{route('inventario.create')}}" method="get">
                                         <input type="hidden" name="producto_id" value="{{$item->id}}">
                                         <button title="Inicializar"
@@ -110,6 +111,7 @@
                                             <i class="fa-solid fa-rotate"></i>
                                         </button>
                                     </form>
+                                    @endcan
                                 </div>
                             </div>
                         </td>

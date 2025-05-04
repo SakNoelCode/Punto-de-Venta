@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class loginController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('check-user-estado', ['only' => ['login']]);
+    }
+
     public function index(): View|RedirectResponse
     {
         if (Auth::check()) {

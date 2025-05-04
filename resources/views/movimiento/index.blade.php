@@ -41,17 +41,24 @@
 
             <hr>
             @if ($caja->estado == 1)
+            @can('crear-venta')
             <a href="{{route('ventas.create')}}">
                 <button type="button" class="btn btn-primary">Nueva venta</button>
             </a>
+            @endcan
 
+            @can('crear-movimiento')
             <a href="{{route('movimientos.create',['caja_id' => $caja->id])}}">
                 <button type="button" class="btn btn-success">Nuevo retiro</button>
             </a>
+            @endcan
 
+            @can('cerrar-caja')
             <button type="button" class="btn btn-danger"
                 data-bs-toggle="modal" data-bs-target="#confirmModal-{{$caja->id}}">
                 Cerrar</button>
+            @endcan
+
             @endif
 
 

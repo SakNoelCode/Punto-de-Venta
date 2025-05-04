@@ -36,35 +36,41 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [homeController::class, 'index'])->name('panel');
 
-Route::resource('categorias', categoriaController::class)->except('show');
-Route::resource('presentaciones', presentacioneController::class)->except('show');
-Route::resource('marcas', marcaController::class)->except('show');
-Route::resource('productos', ProductoController::class)->except('show', 'destroy');
-Route::resource('clientes', clienteController::class)->except('show');
-Route::resource('proveedores', proveedorController::class)->except('show');
-Route::resource('compras', compraController::class)->except('edit', 'update', 'destroy');
-Route::resource('ventas', ventaController::class)->except('edit', 'update', 'destroy');
-Route::resource('users', userController::class)->except('show');
-Route::resource('roles', roleController::class)->except('show');
-Route::resource('profile', profileController::class)->only('index', 'update');
-Route::resource('activityLog', ActivityLogController::class)->only('index');
-Route::resource('inventario', InventarioControlller::class)->only('index', 'create', 'store');
-Route::resource('kardex', KardexController::class)->only('index');
-Route::resource('empresa', EmpresaController::class)->only('index', 'update');
-Route::resource('empleados', EmpleadoController::class)->except('show');
-Route::resource('cajas', CajaController::class)->except('edit', 'update', 'show');
-Route::resource('movimientos', MovimientoController::class)->except('show', 'edit', 'update', 'destroy');
+Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+    Route::resource('categorias', categoriaController::class)->except('show');
+    Route::resource('presentaciones', presentacioneController::class)->except('show');
+    Route::resource('marcas', marcaController::class)->except('show');
+    Route::resource('productos', ProductoController::class)->except('show', 'destroy');
+    Route::resource('clientes', clienteController::class)->except('show');
+    Route::resource('proveedores', proveedorController::class)->except('show');
+    Route::resource('compras', compraController::class)->except('edit', 'update', 'destroy');
+    Route::resource('ventas', ventaController::class)->except('edit', 'update', 'destroy');
+    Route::resource('users', userController::class)->except('show');
+    Route::resource('roles', roleController::class)->except('show');
+    Route::resource('profile', profileController::class)->only('index', 'update');
+    Route::resource('activityLog', ActivityLogController::class)->only('index');
+    Route::resource('inventario', InventarioControlller::class)->only('index', 'create', 'store');
+    Route::resource('kardex', KardexController::class)->only('index');
+    Route::resource('empresa', EmpresaController::class)->only('index', 'update');
+    Route::resource('empleados', EmpleadoController::class)->except('show');
+    Route::resource('cajas', CajaController::class)->except('edit', 'update', 'show');
+    Route::resource('movimientos', MovimientoController::class)->except('show', 'edit', 'update', 'destroy');
+
+    Route::get('/logout', [logoutController::class, 'logout'])->name('logout');
+});
+
+
 
 Route::get('/login', [loginController::class, 'index'])->name('login.index');
 Route::post('/login', [loginController::class, 'login'])->name('login.login');
-Route::get('/logout', [logoutController::class, 'logout'])->name('logout');
+
 
 Route::get('/401', function () {
-    return view('pages.401');
+    return view('errors.401');
 });
 Route::get('/404', function () {
-    return view('pages.404');
+    return view('errors.404');
 });
 Route::get('/500', function () {
-    return view('pages.500');
+    return view('errors.500');
 });

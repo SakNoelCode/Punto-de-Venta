@@ -20,11 +20,14 @@
         <x-breadcrumb.item active='true' content="Cajas" />
     </x-breadcrumb.template>
 
+    @can('aperturar-caja')
     <div class="mb-4">
         <a href="{{route('cajas.create')}}">
             <button type="button" class="btn btn-primary">Aperturar caja</button>
         </a>
     </div>
+    @endcan
+
 
     <div class="card">
         <div class="card-header">
@@ -82,19 +85,22 @@
                         </td>
                         <td>
                             <div class="btn-group" role="group">
-
+                                @can('ver-movimiento')
                                 <form action="{{route('movimientos.index')}}" method="get">
                                     <input type="hidden" name="caja_id" value="{{$item->id}}">
                                     <button type="submit" class="btn btn-success">
                                         Ver
                                     </button>
                                 </form>
+                                @endcan
 
+                                @can('cerrar-caja')
                                 @if ($item->estado == 1)
                                 <button type="button" class="btn btn-danger"
                                     data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">
                                     Cerrar</button>
                                 @endif
+                                @endcan
 
                             </div>
                         </td>

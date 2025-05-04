@@ -13,68 +13,50 @@
 
     <div class="card">
         <div class="card-header">
-            <p class="lead">Configure y personalize su perfil</p>
+            <p class="lead fw-bold">Configure y personalize su perfil</p>
         </div>
-        <div class="card-body">
-            <div class="">
-                @if ($errors->any())
-                @foreach ($errors->all() as $item)
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    {{$item}}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <form action="{{route('profile.update',['profile' => auth()->user() ])}}" method="POST">
+            @method('PATCH')
+            @csrf
+            <div class="card-body">
+                <div class="row g-4">
+
+                    <!---Name--->
+                    <div class="col-12">
+                        <x-forms.input id='name'
+                            required='true'
+                            labelText='Nombre de usuario'
+                            :defaultValue='auth()->user()->name' />
+                    </div>
+
+                    <!----Email--->
+                    <div class="col-12">
+                        <x-forms.input id='email'
+                            required='true'
+                            type='email'
+                            labelText='Correo electrónico'
+                            :defaultValue='auth()->user()->email' />
+                    </div>
+
+                    <!----Password--->
+                    <div class="col-12">
+                        <x-forms.input id='password'
+                            type='password'
+                            labelText='Nueva contraseña' />
+                    </div>
+
                 </div>
-                @endforeach
-                @endif
             </div>
 
-            <form action="{{route('profile.update',['profile' => $user ])}}" method="POST">
-                @method('PATCH')
-                @csrf
-                <!----Nombre---->
-                <div class="row mb-4">
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="fa-solid fa-square-check"></i></span>
-                            <input disabled type="text" class="form-control" value="Nombres">
-                        </div>
-                    </div>
-                    <div class="col-sm-8">
-                        <input disabled autocomplete="off" type="text" name="name" id="name" class="form-control" value="{{old('name',$user->name)}}">
-                    </div>
-                </div>
-
-                <!----Email---->
-                <div class="row mb-4">
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="fa-solid fa-square-check"></i></span>
-                            <input disabled type="text" class="form-control" value="Email">
-                        </div>
-                    </div>
-                    <div class="col-sm-8">
-                        <input disabled autocomplete="off" type="email" name="email" id="email" class="form-control" value="{{old('email',$user->email)}}">
-                    </div>
-                </div>
-
-                <!----Password--->
-                <div class="row mb-4">
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <span class="input-group-text"><i class="fa-solid fa-square-check"></i></span>
-                            <input disabled type="text" class="form-control" value="Contraseña">
-                        </div>
-                    </div>
-                    <div class="col-sm-8">
-                        <input disabled type="password" name="password" id="password" class="form-control">
-                    </div>
-                </div>
-
+            <div class="card-footer">
                 <div class="col text-center">
-                    <input disabled class="btn btn-success" type="submit" value="Guardar cambios">
+                    @can('editar-perfil')
+                    <input class="btn btn-success" type="submit" value="Guardar cambios">
+                    @endcan
                 </div>
+            </div>
 
-            </form>
-        </div>
+        </form>
     </div>
 
 </div>

@@ -2,14 +2,12 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Caja;
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class CheckMovimientoCajaUserMiddleware
+class CheckUserEstado
 {
     /**
      * Handle an incoming request.
@@ -18,10 +16,12 @@ class CheckMovimientoCajaUserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $caja = Caja::findOrfail($request->caja_id);
-        if ($caja->user_id != Auth::id()) {
-            throw new HttpException(401, 'No autorizado');
+        $user = User::where('email', $request->input('email'))->first();
+
+        if ($user && $user->estado != 1) {
+            return redirect()->route('login.index')->withErrors('Usuario no activo');
         }
+
         return $next($request);
     }
 }

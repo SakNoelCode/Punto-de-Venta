@@ -35,13 +35,17 @@
                     :href="route('productos.index')" />
                 @endcan
 
+                @can('ver-inventario')
                 <x-nav.nav-link content='Inventario'
                     icon='fa-solid fa-book'
                     :href="route('inventario.index')" />
+                @endcan
 
+                @can('ver-kardex')
                 <x-nav.nav-link content='Kardex'
                     icon='fa-solid fa-file'
                     :href="route('kardex.index')" />
+                @endcan
 
                 @can('ver-cliente')
                 <x-nav.nav-link content='Clientes'
@@ -55,9 +59,11 @@
                     :href="route('proveedores.index')" />
                 @endcan
 
+                @can('ver-caja')
                 <x-nav.nav-link content='Cajas'
                     icon='fa-solid fa-money-bill'
                     :href="route('cajas.index')" />
+                @endcan
 
                 <!----Compras---->
                 @can('ver-compra')
@@ -97,13 +103,17 @@
                 <x-nav.heading>Otros</x-nav.heading>
                 @endhasrole
 
+                @can('ver-empresa')
                 <x-nav.nav-link content='Empresa'
                     icon='fa-solid fa-city'
                     :href="route('empresa.index')" />
+                @endcan
 
+                @can('ver-empleado')
                 <x-nav.nav-link content='Empleados'
                     icon='fa-solid fa-users'
                     :href="route('empleados.index')" />
+                @endcan
 
                 @can('ver-user')
                 <x-nav.nav-link content='Usuarios'

@@ -73,5 +73,6 @@ class Kernel extends HttpKernel
         'check-caja-aperturada-user' => \App\Http\Middleware\CheckCajaAperturadaUser::class,
         'check-show-venta-user' => \App\Http\Middleware\CheckShowVentaUser::class,
         'check-show-compra-user' => \App\Http\Middleware\CheckShowCompraUser::class,
+        'check-user-estado' => \App\Http\Middleware\CheckUserEstado::class,
     ];
 }

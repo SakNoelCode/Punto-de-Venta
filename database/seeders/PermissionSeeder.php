@@ -13,7 +13,18 @@ class PermissionSeeder extends Seeder
     public function run(): void
     {
         $permisos = [
-    
+
+            //Registro de actividad
+            'ver-registro-actividad',
+
+            //Cajas
+            'ver-caja',
+            'aperturar-caja',
+            'cerrar-caja',
+
+            //Kardex
+            'ver-kardex',
+
             //categorías
             'ver-categoria',
             'crear-categoria',
@@ -30,13 +41,30 @@ class PermissionSeeder extends Seeder
             'ver-compra',
             'crear-compra',
             'mostrar-compra',
-            'eliminar-compra',
+
+            //Empleado
+            'ver-empleado',
+            'crear-empleado',
+            'editar-empleado',
+            'eliminar-empleado',
+
+            //Empresa
+            'ver-empresa',
+            'update-empresa',
+
+            //Inventario
+            'ver-inventario',
+            'crear-inventario',
 
             //Marca
             'ver-marca',
             'crear-marca',
             'editar-marca',
             'eliminar-marca',
+
+            //Movimientos
+            'ver-movimiento',
+            'crear-movimiento',
 
             //Presentacione
             'ver-presentacione',
@@ -48,7 +76,10 @@ class PermissionSeeder extends Seeder
             'ver-producto',
             'crear-producto',
             'editar-producto',
-            'eliminar-producto',
+
+            //Perfil 
+            'ver-perfil',
+            'editar-perfil',
 
             //Proveedore
             'ver-proveedore',
@@ -60,7 +91,6 @@ class PermissionSeeder extends Seeder
             'ver-venta',
             'crear-venta',
             'mostrar-venta',
-            'eliminar-venta',
 
             //Roles
             'ver-role',
@@ -73,13 +103,9 @@ class PermissionSeeder extends Seeder
             'crear-user',
             'editar-user',
             'eliminar-user',
-
-            //Perfil 
-            'ver-perfil',
-            'editar-perfil'
         ];
 
-        foreach($permisos as $permiso){
+        foreach ($permisos as $permiso) {
             Permission::create(['name' => $permiso]);
         }
     }
