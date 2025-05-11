@@ -96,6 +96,12 @@
                                 </form>
                                 @endcan
 
+                                <a type="button" class="btn btn-secondary"
+                                    href="{{ route('export.pdf-comprobante-venta',['id' => Crypt::encrypt($item->id)]) }}"
+                                    target="_blank">
+                                    Exportar
+                                </a>
+
                             </div>
                         </td>
                     </tr>

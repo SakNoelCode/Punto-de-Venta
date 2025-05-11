@@ -7,6 +7,7 @@ use App\Http\Controllers\clienteController;
 use App\Http\Controllers\compraController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\ExportPDFController;
 use App\Http\Controllers\homeController;
 use App\Http\Controllers\InventarioControlller;
 use App\Http\Controllers\KardexController;
@@ -55,6 +56,10 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::resource('empleados', EmpleadoController::class)->except('show');
     Route::resource('cajas', CajaController::class)->except('edit', 'update', 'show');
     Route::resource('movimientos', MovimientoController::class)->except('show', 'edit', 'update', 'destroy');
+
+    //Reportes
+    Route::get('/export-pdf-comprobante-venta/{id}', [ExportPDFController::class, 'exportPdfComprobanteVenta'])
+        ->name('export.pdf-comprobante-venta');
 
     Route::get('/logout', [logoutController::class, 'logout'])->name('logout');
 });
