@@ -6,12 +6,15 @@ use App\Models\Empresa;
 use App\Models\Venta;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Crypt;
 
 class ExportPDFController extends Controller
 {
-
-    public function exportPdfComprobanteVenta(Request $request)
+    /**
+     * Exportar en formato PDF el comprobante de venta
+     */
+    public function exportPdfComprobanteVenta(Request $request): Response
     {
         $id = Crypt::decrypt($request->id);
 

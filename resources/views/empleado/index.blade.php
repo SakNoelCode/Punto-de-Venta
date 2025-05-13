@@ -135,6 +135,21 @@
             </table>
 
         </div>
+        <div class="card-footer">
+            <form action="{{ route('import.excel-empleados') }}"
+                method="post" enctype="multipart/form-data"
+                class="mb-3">
+                @csrf
+                <div class="mb-3">
+                    <label for="file" class="form-label">
+                        Subir archivo:</label>
+                    <input type="file" name="file" id="file"
+                        class="form-control">
+                </div>
+                <button type="submit" class="btn btn-success">
+                    Importar datos</button>
+            </form>
+        </div>
     </div>
 
 </div>

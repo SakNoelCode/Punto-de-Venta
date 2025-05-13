@@ -7,8 +7,10 @@ use App\Http\Controllers\clienteController;
 use App\Http\Controllers\compraController;
 use App\Http\Controllers\EmpleadoController;
 use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\ExportExcelController;
 use App\Http\Controllers\ExportPDFController;
 use App\Http\Controllers\homeController;
+use App\Http\Controllers\ImportExcelController;
 use App\Http\Controllers\InventarioControlller;
 use App\Http\Controllers\KardexController;
 use App\Http\Controllers\loginController;
@@ -60,6 +62,12 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     //Reportes
     Route::get('/export-pdf-comprobante-venta/{id}', [ExportPDFController::class, 'exportPdfComprobanteVenta'])
         ->name('export.pdf-comprobante-venta');
+
+    Route::get('/export-excel-vental-all', [ExportExcelController::class, 'exportExcelVentasAll'])
+        ->name('export.excel-ventas-all');
+
+    Route::post('/importar-excel-empleados', [ImportExcelController::class, 'importExcelEmpleados'])
+        ->name('import.excel-empleados');
 
     Route::get('/logout', [logoutController::class, 'logout'])->name('logout');
 });
