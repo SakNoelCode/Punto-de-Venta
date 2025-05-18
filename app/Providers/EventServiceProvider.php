@@ -8,6 +8,7 @@ use App\Events\CreateVentaEvent;
 use App\Listeners\CreateMovimientoVentaCajaListener;
 use App\Listeners\CreateRegistroCompraCardexListener;
 use App\Listeners\CreateRegistroVentaCardexListener;
+use App\Listeners\EnviarEmailClienteVentaListener;
 use App\Listeners\UpdateInventarioCompraListener;
 use App\Listeners\UpdateInventarioVentaListener;
 use Illuminate\Auth\Events\Registered;
@@ -35,7 +36,8 @@ class EventServiceProvider extends ServiceProvider
             UpdateInventarioVentaListener::class
         ],
         CreateVentaEvent::class => [
-            CreateMovimientoVentaCajaListener::class
+            CreateMovimientoVentaCajaListener::class,
+            EnviarEmailClienteVentaListener::class
         ]
     ];
 

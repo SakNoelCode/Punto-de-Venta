@@ -13,4 +13,4 @@ use Illuminate\Support\Facades\Schedule;
 |
 */
 
-Schedule::command('create-backup-database')->everyFiveSeconds();
+Schedule::command('create-backup-database')->daily();
