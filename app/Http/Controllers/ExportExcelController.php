@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\VentasExport;
-use Maatwebsite\Excel\Facades\Excel;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use App\Jobs\DownloadExcelVentasAllJob;
+use Illuminate\Http\RedirectResponse;
 
 class ExportExcelController extends Controller
 {
     /**
      * Exportar en EXCEL todas las ventas
      */
-    public function exportExcelVentasAll(): BinaryFileResponse
+    public function exportExcelVentasAll(): RedirectResponse
     {
-        return Excel::download(new VentasExport, 'ventas.xlsx');
+        $filename = 'ventas_' . now()->format('Y_m_d_His') . '.xlsx';
+        DownloadExcelVentasAllJob::dispatch($filename);
+
+        return redirect()->route('ventas.index')->with('success', 'Procesando descarga');
     }
 }

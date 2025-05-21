@@ -54,7 +54,7 @@ class ProductoService
      * Guarda una imagen en el Storage
      * 
      */
-    private function handleUploadImage(UploadedFile $image, string $img_path = null): string
+    private function handleUploadImage(UploadedFile $image, $img_path = null): string
     {
         if ($img_path) {
             $relative_path = str_replace('storage/', '', $img_path);
