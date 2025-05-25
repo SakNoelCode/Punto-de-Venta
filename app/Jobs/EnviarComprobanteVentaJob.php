@@ -8,6 +8,8 @@ use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\EnviarComprobanteVentaMail;
+use App\Notifications\EmailComprobanteVentaEnviado;
+use Illuminate\Support\Facades\Notification;
 
 class EnviarComprobanteVentaJob implements ShouldQueue
 {
@@ -41,6 +43,8 @@ class EnviarComprobanteVentaJob implements ShouldQueue
             try {
                 Mail::to($cliente_email)
                     ->send((new EnviarComprobanteVentaMail($venta)));
+
+                Notification::send($venta->user, new EmailComprobanteVentaEnviado($venta->cliente));
             } catch (\Exception $e) {
                 Log::error("Error al enviar comprobante de venta: " . $e->getMessage());
             }

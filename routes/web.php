@@ -24,6 +24,7 @@ use App\Http\Controllers\proveedorController;
 use App\Http\Controllers\roleController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\ventaController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -69,6 +70,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
     Route::post('/importar-excel-empleados', [ImportExcelController::class, 'importExcelEmpleados'])
         ->name('import.excel-empleados');
 
+    Route::post('/notifications/mark-as-read', function () {
+        Auth::user()->unreadNotifications->markAsRead();
+        return response()->json(['success' => true]);
+    })->name('notifications.markAsRead');
+
     Route::get('/logout', [logoutController::class, 'logout'])->name('logout');
 });
 
@@ -76,14 +82,3 @@ Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
 
 Route::get('/login', [loginController::class, 'index'])->name('login.index');
 Route::post('/login', [loginController::class, 'login'])->name('login.login');
-
-
-Route::get('/401', function () {
-    return view('errors.401');
-});
-Route::get('/404', function () {
-    return view('errors.404');
-});
-Route::get('/500', function () {
-    return view('errors.500');
-});

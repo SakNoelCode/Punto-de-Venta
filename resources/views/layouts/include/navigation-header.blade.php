@@ -1,5 +1,7 @@
 <?php
+
 use App\Models\Empresa;
+
 $empresa = Empresa::first();
 ?>
 <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -14,6 +16,31 @@ $empresa = Empresa::first();
             <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
         </div>
     </form>
+    <div class="nav-item dropdown me-3">
+        <a class="nav-link dropdown-toggle" href="#" role="button" id="notificationsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="fas fa-bell"></i>
+            <span class="badge bg-danger rounded-pill">{{ Auth::user()->unreadNotifications->count() }}</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown" style="min-width: 300px;">
+            @forelse (Auth::user()->unreadNotifications->take(5) as $notification)
+            <li>
+                <a href="" class="dropdown-item">
+                    {{ $notification->data['message'] ?? 'Nueva notificación' }}
+                    <br>
+                    <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
+                </a>
+            </li>
+            @empty
+            <li>
+                <span class="dropdown-item text-muted">Sin notificaciones nuevas</span>
+            </li>
+            @endforelse
+            <li>
+                <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item text-center" href="#">Ver todas</a></li>
+        </ul>
+    </div>
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
         <li class="nav-item dropdown">
