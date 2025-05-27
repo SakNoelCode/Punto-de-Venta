@@ -24,7 +24,7 @@ $empresa = Empresa::first();
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationsDropdown" style="min-width: 300px;">
             @forelse (Auth::user()->unreadNotifications->take(5) as $notification)
             <li>
-                <a href="" class="dropdown-item">
+                <a href="#" class="dropdown-item">
                     {{ $notification->data['message'] ?? 'Nueva notificación' }}
                     <br>
                     <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>

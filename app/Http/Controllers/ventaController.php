@@ -12,6 +12,8 @@ use App\Models\Empresa;
 use App\Models\Producto;
 use App\Models\Venta;
 use App\Services\ActivityLogService;
+use App\Services\ComprobanteService;
+use App\Services\EmpresaService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -22,7 +24,9 @@ use Throwable;
 
 class ventaController extends Controller
 {
-    function __construct()
+    protected EmpresaService $empresaService;
+
+    function __construct(EmpresaService $empresaService)
     {
         $this->middleware('permission:ver-venta|crear-venta|mostrar-venta|eliminar-venta', ['only' => ['index']]);
         $this->middleware('permission:crear-venta', ['only' => ['create', 'store']]);
@@ -30,6 +34,7 @@ class ventaController extends Controller
         //$this->middleware('permission:eliminar-venta', ['only' => ['destroy']]);
         $this->middleware('check-caja-aperturada-user', ['only' => ['create', 'store']]);
         $this->middleware('check-show-venta-user', ['only' => ['show']]);
+        $this->empresaService = $empresaService;
     }
     /**
      * Display a listing of the resource.
@@ -47,7 +52,7 @@ class ventaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create(ComprobanteService $comprobanteService): View
     {
 
         $productos = Producto::join('inventario as i', function ($join) {
@@ -71,9 +76,9 @@ class ventaController extends Controller
         $clientes = Cliente::whereHas('persona', function ($query) {
             $query->where('estado', 1);
         })->get();
-        $comprobantes = Comprobante::all();
+        $comprobantes = $comprobanteService->obtenerComprobantes();
         $optionsMetodoPago = MetodoPagoEnum::cases();
-        $empresa = Empresa::first();
+        $empresa = $this->empresaService->obtenerEmpresa();
 
         return view('venta.create', compact(
             'productos',
@@ -142,7 +147,7 @@ class ventaController extends Controller
      */
     public function show(Venta $venta): View
     {
-        $empresa = Empresa::first();
+        $empresa =  $this->empresaService->obtenerEmpresa();
         return view('venta.show', compact('venta', 'empresa'));
     }
 

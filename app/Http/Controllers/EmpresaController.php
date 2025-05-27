@@ -6,6 +6,7 @@ use App\Http\Requests\UpdateEmpresaRequest;
 use App\Models\Empresa;
 use App\Models\Moneda;
 use App\Services\ActivityLogService;
+use App\Services\EmpresaService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -59,11 +60,11 @@ class EmpresaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateEmpresaRequest $request, Empresa $empresa): RedirectResponse
+    public function update(UpdateEmpresaRequest $request, Empresa $empresa, EmpresaService $empresaService): RedirectResponse
     {
         try {
             $empresa->update($request->validated());
-
+            $empresaService->limpiarCacheEmpresa();
             ActivityLogService::log('Edición de empresa', 'Empresa', $request->validated());
             return redirect()->route('empresa.index')->with('success', 'Empresa editada');
         } catch (Throwable $e) {

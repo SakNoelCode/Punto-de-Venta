@@ -11,6 +11,8 @@ use App\Models\Empresa;
 use App\Models\Producto;
 use App\Models\Proveedore;
 use App\Services\ActivityLogService;
+use App\Services\ComprobanteService;
+use App\Services\EmpresaService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -21,13 +23,16 @@ use Throwable;
 
 class compraController extends Controller
 {
-    function __construct()
+    protected EmpresaService $empresaService;
+
+    function __construct(EmpresaService $empresaService)
     {
         $this->middleware('permission:ver-compra|crear-compra|mostrar-compra|eliminar-compra', ['only' => ['index']]);
         $this->middleware('permission:crear-compra', ['only' => ['create', 'store']]);
         $this->middleware('permission:mostrar-compra', ['only' => ['show']]);
         //$this->middleware('permission:eliminar-compra', ['only' => ['destroy']]);
         $this->middleware('check-show-compra-user', ['only' => ['show']]);
+        $this->empresaService = $empresaService;
     }
 
     /**
@@ -46,15 +51,15 @@ class compraController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create(ComprobanteService $comprobanteService): View
     {
         $proveedores = Proveedore::whereHas('persona', function ($query) {
             $query->where('estado', 1);
         })->get();
-        $comprobantes = Comprobante::all();
+        $comprobantes = $comprobanteService->obtenerComprobantes();
         $productos = Producto::where('estado', 1)->get();
         $optionsMetodoPago = MetodoPagoEnum::cases();
-        $empresa = Empresa::first();
+        $empresa = $this->empresaService->obtenerEmpresa();
 
         return view('compra.create', compact(
             'proveedores',
@@ -128,7 +133,7 @@ class compraController extends Controller
      */
     public function show(Compra $compra): View
     {
-        $empresa = Empresa::first();
+        $empresa = $this->empresaService->obtenerEmpresa();
         return view('compra.show', compact('compra', 'empresa'));
     }
 
