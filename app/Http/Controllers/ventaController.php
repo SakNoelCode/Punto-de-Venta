@@ -7,8 +7,6 @@ use App\Events\CreateVentaDetalleEvent;
 use App\Events\CreateVentaEvent;
 use App\Http\Requests\StoreVentaRequest;
 use App\Models\Cliente;
-use App\Models\Comprobante;
-use App\Models\Empresa;
 use App\Models\Producto;
 use App\Models\Venta;
 use App\Services\ActivityLogService;
