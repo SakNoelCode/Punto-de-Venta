@@ -1,0 +1,39 @@
+name: Run PHP Test
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout del repositorio
+      uses: actions/checkout@v2
+
+    - name: Configurar entorno PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.2.6'
+        extensions: mbstring, xml
+        coverage: none
+
+    - name: Instalar Dependencias
+      run: composer install --prefer-dist --no-scripts --no-progress --no-suggest
+
+    - name: Copiar archivo .env.example a .env
+      run: cp .env.example .env
+
+    - name: Generar clave de aplicación
+      run: php artisan key:generate
+
+    - name: Verificar dependencias seguras
+      run: composer require --dev roave/security-advisories:dev-latest --no-update
+
+    - name: Ejecutar Pruebas
+      run: vendor/bin/phpunit --testsuite Feature
+
+
+
