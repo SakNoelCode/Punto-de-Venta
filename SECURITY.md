@@ -1,4 +1,4 @@
-# Security Policy
+# Política de Seguridad
 
 La seguridad es una prioridad para nosotros. Agradecemos a la comunidad por ayudar a proteger este proyecto y a sus usuarios mediante reportes responsables de vulnerabilidades.
 
