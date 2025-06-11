@@ -4,25 +4,42 @@
 
 ---
 
-## 🚀 Cómo empezar
+## Antes de empezar
 
-1. Haz un **fork** de este repositorio.
+1. **Buscar un problema o crear uno** - Verificar si el cambio que se desea implementar ya se ha discutido.
+2. **Verificar las solicitudes de incorporación de cambios existentes** - Verificar que nadie esté trabajando en ello.
+   
+## Cómo empezar
 
-2. Crea una **nueva rama** con un nombre descriptivo:
+1. Haz un **fork** de este repositorio (desde la rama develop).
+2. Clona tu fork y ejecútalo localmente (consulta el archivo **README.md** para más detalles).
+3. Crea una **nueva rama** para tus cambios:
  ```bash
-   git checkout -b fix/nombre-del-cambio
+   git checkout -b nombre-del-cambio
  ```
-3. Realiza tus cambios siguiendo buenas prácticas de desarrollo.
-
-4. Haz commit de tus cambios con un mensaje claro:
+4. Realiza tus cambios siguiendo buenas prácticas de desarrollo.
+5. Antes de realizar commit, asegúrate de que tu rama **develop** está actualizada con la del repositorio original
+ ```bash
+   git fetch upstream
+   git checkout develop
+   git merge upstream/develop
+   git checkout nombre-del-cambio
+   git rebase develop
+ ```
+6. Si aparecen conflictos al hacer ``` rebase ```, resuélvelos manualmente, luego continúa:
+ ```bash
+   git add archivo-resuelto
+   git rebase --continue
+ ```
+8. Haz commit de tus cambios en tu rama con un mensaje claro:
 ```bash
    git commit -m "Descripción breve del cambio realizado"
 ```
-5. Haz push a tu rama:
+8. Haz push a tu rama:
 ```bash
    git push origin fix/nombre-del-cambio
 ```
-6. Abre un Pull Request en GitHub y describe tu contribución.
+9. Abre un Pull Request en GitHub hacia la rama develop del repositorio original y describe tu contribución.
 
 ---
 ## 📝 Buenas prácticas
