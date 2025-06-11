@@ -1,5 +1,3 @@
-
-5.000 / 5.000
 # Código de Conducta del Pacto del Colaborador
 
 ## Nuestro Compromiso
