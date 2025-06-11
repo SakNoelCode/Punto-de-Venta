@@ -1,12 +1,4 @@
-------------
-
-![Img](https://github.com/SakNoelCode/Imagenes_Proyectos/blob/master/sistema-ventas-captura-2.png)
-
-  
-
 # Punto de Venta para una tienda
-
-  
 
 ## Dependencias
 
