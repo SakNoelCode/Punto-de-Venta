@@ -40,35 +40,9 @@
             </div>
         </div>
 
-        <!----Categoria--->
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-warning text-white mb-4">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-8">
-                            <i class="fa-solid fa-tag"></i><span class="m-1">Categorías</span>
-                        </div>
-                        <div class="col-4">
-                            <?php
-
-                            use App\Models\Categoria;
-
-                            $categorias = count(Categoria::all());
-                            ?>
-                            <p class="text-center fw-bold fs-4">{{$categorias}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="{{ route('categorias.index') }}">Ver más</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                </div>
-            </div>
-        </div>
-
         <!----Compra--->
         <div class="col-xl-3 col-md-6">
-            <div class="card bg-success text-white mb-4">
+            <div class="card bg-secondary text-white mb-4">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-8">
@@ -87,58 +61,6 @@
                 </div>
                 <div class="card-footer d-flex align-items-center justify-content-between">
                     <a class="small text-white stretched-link" href="{{ route('compras.index') }}">Ver más</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                </div>
-            </div>
-        </div>
-
-        <!----Marcas--->
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-danger text-white mb-4">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-8">
-                            <i class="fa-solid fa-bullhorn"></i><span class="m-1">Marcas</span>
-                        </div>
-                        <div class="col-4">
-                            <?php
-
-                            use App\Models\Marca;
-
-                            $marcas = count(Marca::all());
-                            ?>
-                            <p class="text-center fw-bold fs-4">{{$marcas}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="{{ route('marcas.index') }}">Ver más</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                </div>
-            </div>
-        </div>
-
-        <!----Presentaciones--->
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-danger text-white mb-4">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-8">
-                            <i class="fa-solid fa-box-archive"></i><span class="m-1">Presentaciones</span>
-                        </div>
-                        <div class="col-4">
-                            <?php
-
-                            use App\Models\Presentacione;
-
-                            $presentaciones = count(Presentacione::all());
-                            ?>
-                            <p class="text-center fw-bold fs-4">{{$presentaciones}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="{{ route('presentaciones.index') }}">Ver más</a>
                     <div class="small text-white"><i class="fas fa-angle-right"></i></div>
                 </div>
             </div>
@@ -170,35 +92,9 @@
             </div>
         </div>
 
-        <!----Proveedore--->
-        <div class="col-xl-3 col-md-6">
-            <div class="card bg-warning text-white mb-4">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-8">
-                            <i class="fa-solid fa-user-group"></i><span class="m-1">Proveedores</span>
-                        </div>
-                        <div class="col-4">
-                            <?php
-
-                            use App\Models\Proveedore;
-
-                            $proveedores = count(Proveedore::all());
-                            ?>
-                            <p class="text-center fw-bold fs-4">{{$proveedores}}</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer d-flex align-items-center justify-content-between">
-                    <a class="small text-white stretched-link" href="{{ route('proveedores.index') }}">Ver más</a>
-                    <div class="small text-white"><i class="fas fa-angle-right"></i></div>
-                </div>
-            </div>
-        </div>
-
         <!----Users--->
         <div class="col-xl-3 col-md-6">
-            <div class="card bg-primary text-white mb-4">
+            <div class="card bg-info text-white mb-4">
                 <div class="card-body">
                     <div class="row">
                         <div class="col-8">
@@ -228,10 +124,10 @@
         <div class="col-xl-12">
             <div class="card mb-4">
                 <div class="card-header">
-                    <i class="fas fa-chart-area me-1"></i>
-                    Ventas en los últimos 7 días
+                    <i class="fas fa-chart-bar me-1"></i>
+                    5 Productos con el stock más bajo
                 </div>
-                <div class="card-body"><canvas id="ventasChart" width="100%" height="30"></canvas></div>
+                <div class="card-body"><canvas id="productosChart" width="100%" height="30"></canvas></div>
             </div>
         </div>
     </div>
@@ -240,13 +136,14 @@
         <div class="col-xl-12">
             <div class="card mb-4">
                 <div class="card-header">
-                    <i class="fas fa-chart-bar me-1"></i>
-                    5 Productos con el stock más bajo
+                    <i class="fas fa-chart-area me-1"></i>
+                    Ventas en los últimos 7 días
                 </div>
-                <div class="card-body"><canvas id="productosChart" width="100%" height="30"></canvas></div>
+                <div class="card-body"><canvas id="ventasChart" width="100%" height="30"></canvas></div>
             </div>
         </div>
     </div>
+
 </div>
 @endsection
 

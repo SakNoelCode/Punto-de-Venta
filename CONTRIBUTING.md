@@ -7,21 +7,21 @@
 ## 🚀 Cómo empezar
 
 1. Haz un **fork** de este repositorio.
-   
-2. Crea una **nueva rama** con un nombre descriptivo:
-   ```bash
-   git checkout -b fix/nombre-del-cambio
 
+2. Crea una **nueva rama** con un nombre descriptivo:
+ ```bash
+   git checkout -b fix/nombre-del-cambio
+ ```
 3. Realiza tus cambios siguiendo buenas prácticas de desarrollo.
 
 4. Haz commit de tus cambios con un mensaje claro:
    ```bash
    git commit -m "Descripción breve del cambio realizado"
-   
+```
 5. Haz push a tu rama:
    ```bash
    git push origin fix/nombre-del-cambio
-
+```
 6. Abre un Pull Request en GitHub y describe tu contribución.
 
 ## 📝 Buenas prácticas
@@ -50,9 +50,7 @@ Si encuentras un error:
    - Posible implementación o ejemplos (opcional).
 
 ##🛡️ Código de Conducta
-Por favor, asegúrate de seguir nuestro Código de Conducta en todas tus interacciones con la comunidad.
+Por favor, asegúrate de seguir nuestro [Código de Conducta](https://github.com/SakNoelCode/Punto-de-Venta?tab=coc-ov-file "Código de Conducta") en todas tus interacciones con la comunidad.
 
 ##📫 Contacto
-Si tienes dudas, sugerencias o necesitas ayuda, puedes abrir un issue o escribirnos a:
-
-📧 arcangelrs21@g,ail.com
+Si tienes dudas, sugerencias o necesitas ayuda, puedes abrir un issue o escribirnos a: **📧 [arcangelrs21@gmail.com]**
